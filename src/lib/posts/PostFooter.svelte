@@ -21,13 +21,15 @@
     };
     const addcomment = (e) => {
         let id = e.path[1].id;
-
-        axios
-            .post(`${baseurl}/posts/comment/${id}/`, { comment }, config)
-            .then((res) => {
-                num_comments = num_comments + 1;
-                comment = '';
-            });
+        console.log(comment !== undefined);
+        if (comment.trim().length !== 0) {
+            axios
+                .post(`${baseurl}/posts/comment/${id}/`, { comment }, config)
+                .then((res) => {
+                    num_comments = num_comments + 1;
+                    comment = '';
+                });
+        }
     };
 </script>
 

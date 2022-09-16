@@ -1,6 +1,15 @@
 <script>
     import Fa from 'svelte-fa/src/fa.svelte';
-    import { faImage, faPager } from '@fortawesome/free-solid-svg-icons';
+    import {
+        faAdd,
+        faCross,
+        faEarth,
+        faGlasses,
+        faImage,
+        faMartiniGlass,
+        faNavicon,
+        faPager,
+    } from '@fortawesome/free-solid-svg-icons';
     import PostItem from './posts/PostItem.svelte';
     import ImageItem from './images/ImageItem.svelte';
     import { onMount } from 'svelte';
@@ -10,6 +19,7 @@
     import { location } from 'svelte-spa-router';
     import { postItems, postsLoaded } from './../stores/posts/posts';
     import Loader from './ui/Loader.svelte';
+    import Button from './ui/Button.svelte';
     let openTab = 1;
 
     function toggleTabs(tabNumber) {
@@ -69,6 +79,45 @@
             class="relative flex flex-col  break-words bg-white dark:bg-slate-800
              dark:text-white  dark:border-2 mb-6 shadow-lg rounded"
         >
+            {#if $location === '/'}
+                <div class="flex w-full mt-3 mx-auto">
+                    <div class="w-1/12 ml-4 mx-auto ">
+                        <button
+                            class=" text-white border-2  bg-rose-500 active:bg-rose-600  w-12 px-2 h-12  rounded-lg shadow 
+     outline-none focus:outline-none  mb-1 ease-linear transition-all duration-100"
+                        >
+                            <Fa
+                                icon="{faEarth}"
+                                style="display: inline; padding-right:2px;"
+                            />
+                        </button>
+                    </div>
+                    <div class="w-10/12 flex  mx-6">
+                        <div class="w-full">
+                            <form>
+                                <input class="w-full" />
+                                <button
+                                    class="  text-white border-2  bg-rose-500 active:bg-rose-600  w-12  px-2 h-12  rounded-lg shadow 
+     outline-none focus:outline-none  mb-1 ease-linear transition-all duration-100"
+                                >
+                                    Add Post
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="w-1/12 mr-4">
+                        <button
+                            class=" text-white border-2  bg-rose-500 active:bg-rose-600  w-12  px-2 h-12  rounded-lg shadow 
+     outline-none focus:outline-none mb-1 ease-linear transition-all duration-100"
+                        >
+                            <Fa
+                                icon="{faAdd}"
+                                style="display: inline; padding-right:2px;"
+                            />
+                        </button>
+                    </div>
+                </div>
+            {/if}
             <div class="px-4 py-5 flex-auto ">
                 <div
                     class="tab-content tab-space l
