@@ -21,11 +21,11 @@
                     JSON.stringify(res.data)
                 );
                 const token = jwt_decode(res.data.access);
-                console.log(`${baseurl}/accounts/settings/${token['pid']}/`);
+                // console.log(`${baseurl}/accounts/settings/${token['pid']}/`);
                 await axios(
                     `${baseurl}/accounts/settings/${token['pid']}/`
                 ).then(async (res) => {
-                    console.log(res);
+                    // console.log(res);
                     localStorage.setItem('color-theme', res.data['theme']);
                 });
                 window.location.reload();

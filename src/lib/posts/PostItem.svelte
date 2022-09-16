@@ -19,5 +19,6 @@
         num_comments="{post['num_comments']}"
         num_likes="{post['num_likes']}"
         is_liked="{post['is_liked']}"
+        allow_comments="{post['allow_comments']}"
     />
 </div>

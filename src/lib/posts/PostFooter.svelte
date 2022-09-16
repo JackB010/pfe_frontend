@@ -1,25 +1,16 @@
 <script>
     import {
-        faAlignLeft,
-        faArrowRight,
-        faArrowRightFromBracket,
-        faArrows,
-        faArrowsTurnRight,
-        faCarBurst,
         faComments,
-        faFolderClosed,
         faHeart,
-        faMessage,
         faPaperPlane,
-        faPlane,
-        faPlaneArrival,
-        faSeedling,
     } from '@fortawesome/free-solid-svg-icons';
     import axios from 'axios';
     import { config } from './../../stores/accounts/auth';
     import Fa from 'svelte-fa/src/fa.svelte';
     import { baseurl } from '../functions';
-    export let num_comments, num_likes, is_liked;
+
+    let comment = '';
+    export let num_comments, num_likes, is_liked, allow_comments;
     const makeLikeFunc = (e) => {
         let id = e.path[2].id;
         axios.post(`${baseurl}/posts/like/`, { id }, config).then((res) => {
@@ -27,6 +18,16 @@
             else num_likes = num_likes + 1;
             is_liked = !is_liked;
         });
+    };
+    const addcomment = (e) => {
+        let id = e.path[1].id;
+
+        axios
+            .post(`${baseurl}/posts/comment/${id}/`, { comment }, config)
+            .then((res) => {
+                num_comments = num_comments + 1;
+                comment = '';
+            });
     };
 </script>
 
@@ -48,10 +49,17 @@
         {num_comments} Commet{#if num_comments !== 1}s{/if}</button
     >
 </div>
-<form class="flex ">
-    <input
-        placeholder="Write your comment . . ."
-        class="placeholder:pl-2 placeholder:focus:pl-0"
-    />
-    <button><Fa icon="{faPaperPlane}" /></button>
-</form>
+{#if allow_comments}
+    <form class="flex w-full mx-auto " on:submit|preventDefault="{addcomment}">
+        <input
+            bind:value="{comment}"
+            placeholder="Write your comment . . ."
+            class="placeholder:pl-2  focus:outline-none  w-10/12 ml-3 my-2 py-1 border-4 text-gray-700 rounded-full pl-4 "
+        />
+        <button
+            type="submit"
+            class="w-1/12 ml-3  sm:ml-8 active:bg-none  focus:outline-none  "
+            ><Fa icon="{faPaperPlane}" /></button
+        >
+    </form>
+{/if}
