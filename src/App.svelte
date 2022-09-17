@@ -28,6 +28,7 @@
     import { chating_with, getChatContacts } from './stores/chats/chat';
     import HomeChat from './lib/chats/HomeChat.svelte';
     import ChatRoom from './lib/chats/ChatRoom.svelte';
+    import Post from './lib/posts/Post.svelte';
 
     onMount(() => {
         const pathname = window.location.pathname;
@@ -82,6 +83,7 @@
 
     const routes = new Map();
     routes.set('/', PostImage);
+    routes.set('/post/:id', Post);
     routes.set('/chat', HomeChat);
     routes.set('/chat/:username', ChatRoom);
     routes.set('/Page404', Page404);

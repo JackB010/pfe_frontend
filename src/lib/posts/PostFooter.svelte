@@ -36,9 +36,9 @@
 <div class="flex  p-1">
     <button
         on:click="{makeLikeFunc}"
-        class="w-1/2 p-1 mx-2 border-2 border-gray-600 dark:border-white rounded-full  hover:outline-none  shadow 
+        class="w-1/2 p-1 mx-2 border-2 dark:text-white border-gray-600 dark:border-white rounded-full  hover:outline-none  shadow 
      outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-100  {is_liked
-            ? 'text-rose-600 dark:text-white dark:bg-rose-500 dark:active:text-white'
+            ? 'text-rose-600  dark:bg-rose-500 dark:active:text-white'
             : ''}"
     >
         <Fa icon="{faHeart}" class="inline" />

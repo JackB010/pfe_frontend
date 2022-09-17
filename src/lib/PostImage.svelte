@@ -2,24 +2,20 @@
     import Fa from 'svelte-fa/src/fa.svelte';
     import {
         faAdd,
-        faCross,
         faEarth,
-        faGlasses,
         faImage,
-        faMartiniGlass,
-        faNavicon,
         faPager,
+        faSearch,
     } from '@fortawesome/free-solid-svg-icons';
     import PostItem from './posts/PostItem.svelte';
     import ImageItem from './images/ImageItem.svelte';
-    import { onMount } from 'svelte';
+    import { onMount, afterUpdate } from 'svelte';
     import { baseurl } from './functions';
     import axios from 'axios';
     import { config } from './../stores/accounts/auth';
     import { location } from 'svelte-spa-router';
     import { postItems, postsLoaded } from './../stores/posts/posts';
     import Loader from './ui/Loader.svelte';
-    import Button from './ui/Button.svelte';
     let openTab = 1;
 
     function toggleTabs(tabNumber) {
@@ -29,6 +25,7 @@
         if ($location === '/') {
             axios(`${baseurl}/posts/following/`, config).then((res) => {
                 postItems.set(res.data);
+                console.log(res.data);
                 postsLoaded.set(true);
             });
         }
@@ -80,10 +77,10 @@
              dark:text-white  dark:border-2 mb-6 shadow-lg rounded"
         >
             {#if $location === '/'}
-                <div class="flex w-full mt-3 mx-auto">
+                <div class="flex w-full mt-3 mx-auto my-auto">
                     <div class="w-1/12 ml-4 mx-auto ">
                         <button
-                            class=" text-white border-2  bg-rose-500 active:bg-rose-600  w-12 px-2 h-12  rounded-lg shadow 
+                            class=" text-white border-2 border-rose-600 dark:border-white bg-rose-500 active:bg-rose-600  w-12 px-2 h-12  rounded-lg shadow 
      outline-none focus:outline-none  mb-1 ease-linear transition-all duration-100"
                         >
                             <Fa
@@ -92,22 +89,26 @@
                             />
                         </button>
                     </div>
-                    <div class="w-10/12 flex  mx-6">
+                    <div class="w-10/12  mx-6">
                         <div class="w-full">
-                            <form>
-                                <input class="w-full" />
+                            <form class="w-full h-12 flex">
+                                <input
+                                    class="-mr-1 h-12 w-full border-y-2  border-l-2 rounded-l-lg border-rose-600 text-rose-700
+                                     text-lg pl-4 outline-none focus:outline-none"
+                                />
+
                                 <button
-                                    class="  text-white border-2  bg-rose-500 active:bg-rose-600  w-12  px-2 h-12  rounded-lg shadow 
-     outline-none focus:outline-none  mb-1 ease-linear transition-all duration-100"
+                                    class=" text-white border-y-2 border-rose-600 dark:border-white  border-r-2  bg-rose-500 active:bg-rose-600  px-2 h-12  rounded-r-lg shadow 
+                                    outline-none focus:outline-none  ease-linear transition-all duration-100"
                                 >
-                                    Add Post
+                                    <Fa icon="{faSearch}" />
                                 </button>
                             </form>
                         </div>
                     </div>
                     <div class="w-1/12 mr-4">
                         <button
-                            class=" text-white border-2  bg-rose-500 active:bg-rose-600  w-12  px-2 h-12  rounded-lg shadow 
+                            class=" text-white border-2 border-rose-600 dark:border-white bg-rose-500 active:bg-rose-600  w-12  px-2 h-12  rounded-lg shadow 
      outline-none focus:outline-none mb-1 ease-linear transition-all duration-100"
                         >
                             <Fa
