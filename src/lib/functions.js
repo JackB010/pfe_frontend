@@ -45,3 +45,21 @@ export const themeToggleBtn = () => {
         }
     }
 };
+
+
+
+
+export const dynamicSort = (property) => {
+    let sortOrder = 1;
+    if (property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+    }
+    return (a, b) => {
+        /* next line works with strings and numbers, 
+         * and you may want to customize it to your needs
+         */
+        let result = (a[property].length < b[property].length) ? -1 : (a[property].length > b[property].length) ? 1 : 0;
+        return result * sortOrder;
+    }
+}

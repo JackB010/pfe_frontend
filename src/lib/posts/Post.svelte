@@ -11,6 +11,7 @@
     import { baseurl } from '../functions';
     import axios from 'axios';
     import { config } from './../../stores/accounts/auth';
+    import CommentItem from './CommentItem.svelte';
     onMount(async () => {
         if (params.id) {
             await axios(`${baseurl}/posts/${params.id}/`, config).then(
@@ -27,7 +28,6 @@
             );
         }
     });
-
     export let params = {};
 </script>
 
@@ -47,18 +47,27 @@
                     <PostItem post="{$postItem}" />
                 </div>
             </div>
-            <div class="px-4 py-5 flex-auto ">
+            <div class="flex flex-wrap  mt-0 mx-4    ">
                 <div
-                    class="tab-content tab-space l
-                "
+                    class="relative w-full flex flex-col  break-words bg-white dark:bg-slate-800
+             dark:text-white  border-2 mb-6 shadow-lg rounded  "
                 >
-                    {#if $commentsLoaded}
-                        {#each $postcomments as comment}
-                            <p>{comment['comment']}</p>
-                        {/each}
-                    {:else}
-                        <Loader />
-                    {/if}
+                    <div class=" mx-auto mt-4 flex-auto w-full ">
+                        <div
+                            class="tab-content tab-space l
+                "
+                        >
+                            {#if $commentsLoaded}
+                                {#each $postcomments as comment}
+                                    <div class="mx-auto">
+                                        <CommentItem comment="{comment}" />
+                                    </div>
+                                {/each}
+                            {:else}
+                                <Loader />
+                            {/if}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

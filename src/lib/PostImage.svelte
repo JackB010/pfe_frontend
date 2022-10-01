@@ -13,23 +13,55 @@
     import { baseurl } from './functions';
     import axios from 'axios';
     import { config } from './../stores/accounts/auth';
-    import { location } from 'svelte-spa-router';
+    import { location, push, replace } from 'svelte-spa-router';
     import { postItems, postsLoaded } from './../stores/posts/posts';
     import Loader from './ui/Loader.svelte';
+    import { backurls } from './../stores/tools';
     let openTab = 1;
 
     function toggleTabs(tabNumber) {
+        postsLoaded.set(false);
         openTab = tabNumber;
-    }
-    onMount(() => {
-        if ($location === '/') {
+        if (tabNumber === 1) {
             axios(`${baseurl}/posts/following/`, config).then((res) => {
                 postItems.set(res.data);
-                console.log(res.data);
+                postsLoaded.set(true);
+            });
+        }
+    }
+    onMount(async () => {
+        if ($location === '/') {
+            await axios(`${baseurl}/posts/following/`, config).then((res) => {
+                postItems.set(res.data);
                 postsLoaded.set(true);
             });
         }
     });
+    let search = '';
+    const searchFunc = async () => {
+        if (openTab === 1) {
+            if (search.trim().length !== 0) {
+                postsLoaded.set(false);
+                await axios(
+                    `${baseurl}/posts/search/?search=${search}`,
+                    config
+                ).then((res) => {
+                    console.log(res.data);
+                    postItems.set(res.data);
+                    postsLoaded.set(true);
+                });
+            }
+        }
+    };
+    let showModal = false;
+
+    function toggleModal() {
+        showModal = !showModal;
+    }
+    const addItem = () => {
+        backurls.update((data) => [...data, '/']);
+        push('/post/add');
+    };
 </script>
 
 <!-- svelte-ignore a11y-missing-attribute -->
@@ -38,10 +70,12 @@
     class="flex flex-wrap lg:float-right xl:mr-16 mt-0 mx-2 md:w-7/12 lg:w-6/12  "
 >
     <div class="min-w-full w-ful ">
-        <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row w-full">
+        <ul
+            class="flex mb-0 list-none flex-wrap pt-3 md:pt-0 pb-4 flex-row w-full"
+        >
             <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
                 <a
-                    class="text-xs font-bold cursor-pointer uppercase px-5 py-3 shadow-lg rounded block leading-normal {openTab ===
+                    class="text-xs font-bold cursor-pointer uppercase px-5 py-3 shadow-md rounded block leading-normal {openTab ===
                     1
                         ? 'text-white bg-rose-600'
                         : 'text-rose-600 bg-white'}"
@@ -57,7 +91,7 @@
             </li>
             <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
                 <a
-                    class="text-xs font-bold cursor-pointer uppercase px-5 py-3 shadow-lg rounded block leading-normal {openTab ===
+                    class="text-xs font-bold cursor-pointer uppercase px-5 py-3 shadow-md rounded block leading-normal {openTab ===
                     2
                         ? 'text-white bg-rose-600'
                         : 'text-rose-600 bg-white'}"
@@ -77,45 +111,52 @@
              dark:text-white  dark:border-2 mb-6 shadow-lg rounded"
         >
             {#if $location === '/'}
-                <div class="flex w-full mt-3 mx-auto my-auto">
-                    <div class="w-1/12 ml-4 mx-auto ">
-                        <button
-                            class=" text-white border-2 border-rose-600 dark:border-white bg-rose-500 active:bg-rose-600  w-12 px-2 h-12  rounded-lg shadow 
+                <div class="flex mx-4">
+                    <div class="flex w-full mt-3  justify-center space-x-3 ">
+                        <div class="">
+                            <button
+                                class=" text-white border-2 border-rose-600 dark:border-white bg-rose-500 active:bg-rose-600  w-12 px-2 h-12  rounded-lg shadow 
      outline-none focus:outline-none  mb-1 ease-linear transition-all duration-100"
-                        >
-                            <Fa
-                                icon="{faEarth}"
-                                style="display: inline; padding-right:2px;"
-                            />
-                        </button>
-                    </div>
-                    <div class="w-10/12  mx-6">
-                        <div class="w-full">
-                            <form class="w-full h-12 flex">
-                                <input
-                                    class="-mr-1 h-12 w-full border-y-2  border-l-2 rounded-l-lg border-rose-600 text-rose-700
-                                     text-lg pl-4 outline-none focus:outline-none"
+                            >
+                                <Fa
+                                    icon="{faEarth}"
+                                    style="display: inline; padding-right:2px;"
                                 />
-
-                                <button
-                                    class=" text-white border-y-2 border-rose-600 dark:border-white  border-r-2  bg-rose-500 active:bg-rose-600  px-2 h-12  rounded-r-lg shadow 
-                                    outline-none focus:outline-none  ease-linear transition-all duration-100"
-                                >
-                                    <Fa icon="{faSearch}" />
-                                </button>
-                            </form>
+                            </button>
                         </div>
-                    </div>
-                    <div class="w-1/12 mr-4">
-                        <button
-                            class=" text-white border-2 border-rose-600 dark:border-white bg-rose-500 active:bg-rose-600  w-12  px-2 h-12  rounded-lg shadow 
+                        <div class="xs:w-9/12 w-9/12 ">
+                            <div class="w-full">
+                                <form
+                                    class="w-full h-12 flex"
+                                    on:submit|preventDefault="{searchFunc}"
+                                >
+                                    <input
+                                        bind:value="{search}"
+                                        class="-mr-1 h-12 w-full border-y-2  border-l-2 rounded-l-lg border-rose-600 text-rose-700
+                                     text-lg pl-4 outline-none focus:outline-none"
+                                    />
+
+                                    <button
+                                        class=" text-white border-y-2 border-rose-600 dark:border-white  border-r-2  bg-rose-500 active:bg-rose-600  px-2 h-12  rounded-r-lg shadow 
+                                    outline-none focus:outline-none  ease-linear transition-all duration-100"
+                                    >
+                                        <Fa icon="{faSearch}" />
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class=" text-white border-2 border-rose-600 dark:border-white bg-rose-500 active:bg-rose-600  w-12  px-2 h-12  rounded-lg shadow 
      outline-none focus:outline-none mb-1 ease-linear transition-all duration-100"
-                        >
-                            <Fa
-                                icon="{faAdd}"
-                                style="display: inline; padding-right:2px;"
-                            />
-                        </button>
+                                on:click="{addItem}"
+                            >
+                                <Fa
+                                    icon="{faAdd}"
+                                    style="display: inline; padding-right:2px;"
+                                />
+                            </button>
+                        </div>
                     </div>
                 </div>
             {/if}
@@ -134,6 +175,8 @@
                         {/if}
                     </div>
                     <div class="{openTab === 2 ? 'block' : 'hidden'}">
+                        <ImageItem />
+                        <ImageItem />
                         <ImageItem />
                     </div>
                 </div>

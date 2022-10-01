@@ -27,10 +27,14 @@
   "dependencies": {
     "@tailwindcss/line-clamp": "^0.4.0",
     "flowbite": "^1.5.3",
-    "moment": "^2.29.4",
     "jwt-decode": "^3.1.2",
+    "moment": "^2.29.4",
     "reconnecting-websocket": "^4.4.0",
+    "svelte-emoji-selector": "^1.0.1",
     "svelte-i18n": "^3.4.0",
-    "svelte-lazy-loader": "^1.0.0"
+    "svelte-lazy-image": "^0.5.1",
+    "svelte-lazy-loader": "^1.0.0",
+    "svelte-scrolling": "^1.2.2",
+    "svelte-tags-input": "^3.0.0"
   }
 }

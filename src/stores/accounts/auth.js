@@ -54,13 +54,13 @@ export const setLogedIn = async () => {
     })
 }
 
-export const setLogedOut = () => {
-    localStorage.removeItem("authTokens");
-    localStorage.removeItem("pid");
-    isLoggin.set(false);
-    userToken.set(null);
-    usershortinfo.set(null)
-    usersettingss.set({})
+export const setLogedOut = async () => {
+    await localStorage.removeItem("authTokens");
+    await localStorage.removeItem("pid");
+    await isLoggin.set(false);
+    await userToken.set(null);
+    await usershortinfo.set(null)
+    await usersettingss.set({})
     // userinfo.set(null)
     push("/");
 }

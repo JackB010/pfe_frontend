@@ -29,6 +29,7 @@
     import HomeChat from './lib/chats/HomeChat.svelte';
     import ChatRoom from './lib/chats/ChatRoom.svelte';
     import Post from './lib/posts/Post.svelte';
+    import AddPost from './lib/posts/AddPost.svelte';
 
     onMount(() => {
         const pathname = window.location.pathname;
@@ -38,7 +39,7 @@
 
         if (localStorage.getItem('authTokens')) setLogedIn();
         else setLogedOut();
-        if ($userToken) {
+        if ($isLoggin) {
             updateToken($userToken.refresh);
         }
         let intervaltime40 = 1000 * 60 * 40;
@@ -83,10 +84,11 @@
 
     const routes = new Map();
     routes.set('/', PostImage);
-    routes.set('/post/:id', Post);
     routes.set('/chat', HomeChat);
     routes.set('/chat/:username', ChatRoom);
-    routes.set('/Page404', Page404);
+    routes.set('/post/add', AddPost);
+    routes.set('/post/:id', Post);
+    // routes.set('/Page404', Page404);
     routes.set('*', Page404);
 
     const nonroutes = new Map();

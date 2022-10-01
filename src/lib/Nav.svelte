@@ -10,7 +10,6 @@
     import FaLayers from 'svelte-fa/src/fa-layers.svelte';
     import FaLayersText from 'svelte-fa/src/fa-layers-text.svelte';
     import Button from './ui/Button.svelte';
-    import aza from './../aza.jpg';
     import {
         usershortinfo,
         setLogedOut,
