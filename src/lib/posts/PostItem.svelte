@@ -1,5 +1,4 @@
 <script>
-    import { link } from 'svelte-spa-router';
     import PostContent from './PostContent.svelte';
     import PostFooter from './PostFooter.svelte';
     import PostHeader from './PostHeader.svelte';
@@ -15,9 +14,13 @@
         photo_icon="{post['profile']['photo_icon']}"
         created="{post.created}"
     />
-    <a href="{`/post/${post['id']}`}" use:link>
-        <PostContent content="{post['content']}" tags="{post['tags']}" />
-    </a>
+    <PostContent
+        content="{post['content']}"
+        tags="{post['tags']}"
+        images="{post['images']}"
+        id="{post['id']}"
+    />
+
     <PostFooter
         num_comments="{post['num_comments']}"
         num_likes="{post['num_likes']}"

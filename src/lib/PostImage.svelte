@@ -3,32 +3,18 @@
     import {
         faAdd,
         faEarth,
-        faImage,
-        faPager,
         faSearch,
     } from '@fortawesome/free-solid-svg-icons';
     import PostItem from './posts/PostItem.svelte';
-    import ImageItem from './images/ImageItem.svelte';
-    import { onMount, afterUpdate } from 'svelte';
+    import { onMount } from 'svelte';
     import { baseurl } from './functions';
     import axios from 'axios';
     import { config } from './../stores/accounts/auth';
-    import { location, push, replace } from 'svelte-spa-router';
+    import { location, push } from 'svelte-spa-router';
     import { postItems, postsLoaded } from './../stores/posts/posts';
     import Loader from './ui/Loader.svelte';
     import { backurls } from './../stores/tools';
-    let openTab = 1;
 
-    function toggleTabs(tabNumber) {
-        postsLoaded.set(false);
-        openTab = tabNumber;
-        if (tabNumber === 1) {
-            axios(`${baseurl}/posts/following/`, config).then((res) => {
-                postItems.set(res.data);
-                postsLoaded.set(true);
-            });
-        }
-    }
     onMount(async () => {
         if ($location === '/') {
             await axios(`${baseurl}/posts/following/`, config).then((res) => {
@@ -39,25 +25,18 @@
     });
     let search = '';
     const searchFunc = async () => {
-        if (openTab === 1) {
-            if (search.trim().length !== 0) {
-                postsLoaded.set(false);
-                await axios(
-                    `${baseurl}/posts/search/?search=${search}`,
-                    config
-                ).then((res) => {
-                    console.log(res.data);
-                    postItems.set(res.data);
-                    postsLoaded.set(true);
-                });
-            }
+        if (search.trim().length !== 0) {
+            postsLoaded.set(false);
+            await axios(
+                `${baseurl}/posts/search/?search=${search}`,
+                config
+            ).then((res) => {
+                console.log(res.data);
+                postItems.set(res.data);
+                postsLoaded.set(true);
+            });
         }
     };
-    let showModal = false;
-
-    function toggleModal() {
-        showModal = !showModal;
-    }
     const addItem = () => {
         backurls.update((data) => [...data, '/']);
         push('/post/add');
@@ -67,45 +46,9 @@
 <!-- svelte-ignore a11y-missing-attribute -->
 
 <div
-    class="flex flex-wrap lg:float-right xl:mr-16 mt-0 mx-2 md:w-7/12 lg:w-6/12  "
+    class="flex flex-wrap lg:float-right xl:mr-16 mt-4 md:mt-0  md:w-7/12 lg:w-6/12  "
 >
     <div class="min-w-full w-ful ">
-        <ul
-            class="flex mb-0 list-none flex-wrap pt-3 md:pt-0 pb-4 flex-row w-full"
-        >
-            <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                <a
-                    class="text-xs font-bold cursor-pointer uppercase px-5 py-3 shadow-md rounded block leading-normal {openTab ===
-                    1
-                        ? 'text-white bg-rose-600'
-                        : 'text-rose-600 bg-white'}"
-                    on:click="{() => toggleTabs(1)}"
-                >
-                    <Fa
-                        icon="{faPager}"
-                        style="display: inline; padding-right:2px;"
-                        scale="{1.4}"
-                    />
-                    Posts
-                </a>
-            </li>
-            <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                <a
-                    class="text-xs font-bold cursor-pointer uppercase px-5 py-3 shadow-md rounded block leading-normal {openTab ===
-                    2
-                        ? 'text-white bg-rose-600'
-                        : 'text-rose-600 bg-white'}"
-                    on:click="{() => toggleTabs(2)}"
-                >
-                    <Fa
-                        icon="{faImage}"
-                        style="display: inline; padding-right:2px;"
-                        scale="{1.4}"
-                    />
-                    Images
-                </a>
-            </li>
-        </ul>
         <div
             class="relative flex flex-col  break-words bg-white dark:bg-slate-800
              dark:text-white  dark:border-2 mb-6 shadow-lg rounded"
@@ -165,7 +108,7 @@
                     class="tab-content tab-space l
                 "
                 >
-                    <div class="{openTab === 1 ? 'block' : 'hidden'}">
+                    <div>
                         {#if $postsLoaded}
                             {#each $postItems as post}
                                 <PostItem post="{post}" />
@@ -173,11 +116,6 @@
                         {:else}
                             <Loader />
                         {/if}
-                    </div>
-                    <div class="{openTab === 2 ? 'block' : 'hidden'}">
-                        <ImageItem />
-                        <ImageItem />
-                        <ImageItem />
                     </div>
                 </div>
             </div>

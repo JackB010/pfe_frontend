@@ -24,7 +24,9 @@
     };
 </script>
 
-<div class="flex  flex-col  rounded-lg p-2 mb-2 mx-3 ">
+<div
+    class="flex  flex-col  rounded-lg dark:bg-inherit bg-slate-200 p-2 mb-4 mx-3 border-2 "
+>
     <div class="flex space-x-3 pt-2">
         <div class="flex my-auto space-x-3 w-10/12">
             <img
@@ -47,12 +49,11 @@
             <span class="font-bold cursor-pointer">...</span>
         </div>
     </div>
-    <div
-        class=" flex flex-wrap sm:flex-nowrap  border-b-2 w-10/12 mx-auto -mt-2 p-2 "
-    >
+    <div class=" flex flex-wrap sm:flex-nowrap w-10/12 mx-auto -mt-2 p-2 ">
         <div class=" w-full ml-4 sm:ml-0">
             <p class="text-sm">{comment['comment']}</p>
         </div>
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
         <div
             on:click="{likeComment}"
             class="cursor-pointer mt-1  sm:mt-0 w-2/12 ml-4 "

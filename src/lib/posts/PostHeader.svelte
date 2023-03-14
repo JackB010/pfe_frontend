@@ -6,12 +6,12 @@
         created = undefined;
 </script>
 
-<div class="flex p-1 space-x-2 w-full mb-2">
-    <div class="">
+<div class="flex p-0.5 space-x-2 w-full mb-2">
+    <div>
         <img
             src="{`http://127.0.0.1:1111${photo_icon}`}"
             alt="aza"
-            class="w-12 h-12 mt-1 ml-2  rounded-full "
+            class="w-12 h-12 mt-1 ml-2 object-fit rounded-full"
         />
     </div>
     <div

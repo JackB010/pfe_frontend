@@ -71,15 +71,19 @@
                 id="{account.id}"
             />
         {/each}
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <div class="md:mt-2 mx-auto h-10 mb-3">
+            <Button>See more</Button>
+        </div>
     </div>
 
     <div
         class="flex  bg-white gap-6  pt-6 pb-2  border-2  shadow-md   
-    md:float-right  md:ml-8  md:border-l-rose-500  md:space-y-3  md:flex-col dark:text-white  dark:bg-slate-800"
+    md:float-right  md:ml-8   md:border-l-rose-500  md:space-y-3  md:flex-col dark:text-white  dark:bg-slate-800"
     >
         <!-- <Card> -->
         <div
-            class="flex flex-1 md:pl-5 md:-mt-10 gap-7 sm:gap-0 sm:space-x-3  md:flex-col md:space-y-2"
+            class="flex flex-1 md:pl-5 md:-mt-8 md:-mb-4 gap-7 sm:gap-0 sm:space-x-3  md:flex-col md:space-y-2"
         >
             <br />
             <a href="/" use:link class="flex space-x-3">
@@ -142,6 +146,7 @@
             <!-- </Card> -->
         </div>
         <div class=" -mt-2 mr-3  md:mx-auto ">
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
             <div on:click="{setLogedOut}"><Button>Logout</Button></div>
         </div>
     </div>
