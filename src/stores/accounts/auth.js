@@ -6,7 +6,12 @@ import { writable } from "svelte/store";
 
 
 export let profileId = writable('');
-export let usershortinfo = writable({ username: null, photo_icon: null });
+export let usershortinfo = writable({
+    id: null,
+    username: null,
+    photo_icon: null,
+    ftype: null
+});
 export let userinfo = writable({
     bio: null,
     birth_day: null,
@@ -33,6 +38,18 @@ export let isLoggin = writable(false);
 export let loaded = writable(false);
 export const config = { headers: { "Content-Type": "application/json", Authorization: "" } }
 
+export const getProfileShortInfo = async (username) => {
+    let data = {
+        id: null,
+        username: null,
+        photo_icon: null,
+        ftype: null
+    }
+    await axios(`${baseurl}/accounts/search/?search=${username}`).then(res => {
+        data = res.data['results'][0];
+    })
+    return data;
+}
 
 export const setLogedIn = async () => {
     const access = JSON.parse(localStorage.getItem("authTokens"))['access']
@@ -46,9 +63,8 @@ export const setLogedIn = async () => {
         usersettingss.set(res.data)
         await localStorage.setItem('color-theme', res.data['theme'])
     })
-    await axios(`${baseurl}/accounts/search/?search=${token['pid']}`).then(res => {
-        usershortinfo.set(res.data['results'][0])
-    })
+    usershortinfo.set(await getProfileShortInfo(token['pid']));
+
     axios(`${baseurl}/accounts/profile/`, config).then(res => {
         userinfo.set(res.data)
     })

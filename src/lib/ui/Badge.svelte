@@ -21,6 +21,6 @@
 </script>
 
 <span
-    class="{colorClass} text-white justify-center inline-block cursor-pointer rounded-full px-2.5  py-0.5 text-xs sm:text-sm font-medium  "
+    class="{colorClass} text-white shadow justify-center inline-block cursor-pointer rounded-2xl px-2.5  py-0.5 text-xs sm:text-sm font-semibold  "
     ># <slot /></span
 >

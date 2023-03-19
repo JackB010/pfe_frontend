@@ -7,3 +7,4 @@ export let postItem = writable({})
 export let postsLoaded = writable(false)
 export let postLoaded = writable(false)
 export let commentsLoaded = writable(false)
+

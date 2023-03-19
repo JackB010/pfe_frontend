@@ -2,7 +2,11 @@
     import { afterUpdate, onMount } from 'svelte';
     import { push } from 'svelte-spa-router';
     import moment from 'moment';
-    import { config, usershortinfo } from './../../stores/accounts/auth';
+    import {
+        config,
+        getProfileShortInfo,
+        usershortinfo,
+    } from './../../stores/accounts/auth';
 
     import {
         chating_with,
@@ -10,29 +14,50 @@
         loadMessages,
         addMessage,
         deleteMessage,
-        nexturl,
+        images_chat,
     } from './../../stores/chats/chat';
     import axios from 'axios';
+    import Wapper from '../Wapper.svelte';
+    import FullInput from '../ui/FullInput.svelte';
+    import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
+    import Fa from 'svelte-fa/src/fa.svelte';
+    import { baseurl } from '../functions';
+    import { nexturl } from '../../stores/tools';
 
     onMount(async () => {
         let username = params['username'];
         loadMessages(username);
+        chating_with.set(await getProfileShortInfo(username));
     });
 
-    let messages;
+    let messages, userdata, element;
+    // images = [];
     $: fetched_messages.subscribe((data) => {
         messages = data;
     });
-
-    let message, username, element;
     chating_with.subscribe((data) => {
-        username = data;
+        userdata = data;
     });
-    const sendMessage = async () => {
-        if (message) {
-            await addMessage(message, username);
-        }
-        message = '';
+    const sendMessage = async (message) => {
+        loadmore = false;
+        let imgnum = $images_chat.length;
+
+        await addMessage(message, userdata.username);
+        // if (imgnum > 0) {
+        //     axios(`${baseurl}/chats/${userdata.username}/`, config).then(
+        //         async (res) => {
+        //             let data = res.data['results'].reverse();
+        //             await fetched_messages.set(data);
+        //         }
+        //     );
+        // }
+    };
+    const updateChat = (id) => {
+        axios.get(`${baseurl}/chats/get_message/${id}/`, config).then((res) => {
+            fetched_messages.update((messages) => {
+                return [...messages, res.data];
+            });
+        });
     };
 
     const deleteMessageHandler = async (e) => {
@@ -44,77 +69,270 @@
             }
         }
     };
-
-    const scrollToBottom = async (node) => {
-        node.scroll({ top: node.scrollHeight, behavior: 'smooth' });
-    };
-
-    $: if (element) {
-        scrollToBottom(element);
-    }
-
+    let loadmore = false;
     afterUpdate(() => {
-        scrollToBottom(element);
+        if (!loadmore) element.scrollTo(0, element.scrollHeight);
     });
+
     const getOldMessages = async () => {
-        await axios($nexturl, config).then((res) => {
-            messages = [...res.data['results'], ...messages];
-            fetched_messages.set(messages);
-            nexturl.set(res.data['next']);
-        });
-        messages = messages;
+        if ($nexturl) {
+            await axios($nexturl, config).then((res) => {
+                messages = [...res.data['results'], ...messages];
+                fetched_messages.set(messages);
+                nexturl.set(res.data['next']);
+            });
+            messages = messages;
+            loadmore = true;
+            element.scrollTo(element.scrollHeight, 0);
+        }
     };
     export let params = {};
 </script>
 
-<h1>hello from {$usershortinfo['username']} to {$chating_with}</h1>
-<div
-    bind:this="{element}"
-    class="text-black dark:text-white "
-    style="height:500px; overflow:auto;"
->
-    <button class="readMore" on:click="{getOldMessages}">read more</button>
-    {#if $fetched_messages === null}
-        {push('/chat')}
-    {:else}
-        {#each messages as msg}
-            {#if msg.sender === $usershortinfo['username']}
-                <div
-                    style="width: 40%;margin: 0 0 0 50%; border:2px; padding: 3px;"
-                >
-                    <h3>{msg.sender}</h3>
-                    <p>{msg.content}</p>
-                    <sub> {msg.seen} </sub>
+<Wapper>
+    <div class="flex flex-row bg-rose-600  h-full overflow-x-auto mb-4">
+        <div
+            class="ml-2 my-1 cursor-pointer  bg-white rounded-full text-rose-600 p-2 mx-auto font-bold "
+            on:keypress="{(e) => {}}"
+        >
+            <Fa icon="{faArrowLeftLong}" />
+        </div>
+        <div class=""></div>
+        <div class="flex flex-row my-auto justify-between mr-4 space-x-2">
+            <p>{$chating_with['username']}</p>
+            <img
+                class="h-8 w-8 rounded-full"
+                src="{$chating_with['photo_icon']}"
+                alt="{$chating_with['username']}_photo"
+            />
+        </div>
+    </div>
+    <div
+        bind:this="{element}"
+        class="text-black dark:text-white scroll-smooth mb-8  overflow-hidden h-[34rem]"
+        id="room"
+    >
+        {#if $fetched_messages === null}
+            {push('/chat')}
+        {:else}
+            {#if $nexturl}
+                <div class="w-full grid -mt-2">
                     <button
-                        style="float: right;"
-                        value="{msg.id}"
-                        on:click="{deleteMessageHandler}">del</button
+                        class="outline-none text-center text-gray-400  "
+                        on:click="{getOldMessages}"
+                        id="readMore">read more</button
                     >
-                    <span>{moment(msg.timestamp).fromNow()}</span>
-                </div>
-            {:else}
-                <div
-                    style="background-color:blue; color:white; width: 40%; margin: 0 0 0 5%;"
-                >
-                    <h3>{msg.sender}</h3>
-                    <p>{msg.content}</p>
-                    <span>{moment(msg.timestamp).fromNow()}</span>
                 </div>
             {/if}
-        {/each}
-    {/if}
-</div>
-<form on:submit|preventDefault="{sendMessage}">
-    <input bind:value="{message}" />
-    <input type="submit" value="Send" />
-</form>
+
+            {#each messages as msg, i}
+                <div class="grid grid-cols-12 text-black">
+                    {#if msg.sender === $usershortinfo['username']}
+                        <div class="col-start-6 col-end-13 p-2 rounded-sm">
+                            {#if msg.photos.length !== 0}
+                                <div
+                                    class="flex  justify-start flex-row-reverse  items-end "
+                                >
+                                    {#if msg.content !== ''}
+                                        <div
+                                            class="flex items-center justify-center h-8 w-8 rounded-full  flex-shrink-0"
+                                        >
+                                            <img
+                                                class="h-6 w-6 rounded-full border-1 mr-1"
+                                                src="{$usershortinfo[
+                                                    'photo_icon'
+                                                ]}"
+                                                alt="{$usershortinfo[
+                                                    'username'
+                                                ]}_photo"
+                                            />
+                                        </div>
+                                        <div class="grid">
+                                            <div>
+                                                {#each msg.photos as photo}
+                                                    <div class="py-1 px-4  ">
+                                                        <img
+                                                            class="w-52 h-64 border-2 border-slate-700 shadow-lg mb-2 rounded-md float-right"
+                                                            src="{photo.photo}"
+                                                            alt="{photo}"
+                                                        />
+                                                    </div>
+                                                {/each}
+                                            </div>
+
+                                            <div
+                                                class="relative  mx-auto text-sm bg-rose-600  text-white py-1 px-4   mr-4  shadow-lg rounded-md "
+                                            >
+                                                <p class="break-words max-w-xs">
+                                                    {msg.content}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    {:else}
+                                        <div
+                                            class="flex items-center justify-center h-8 w-8 rounded-full  flex-shrink-0"
+                                        >
+                                            <img
+                                                class="h-6 w-6 rounded-full border-1  mr-1"
+                                                src="{$usershortinfo[
+                                                    'photo_icon'
+                                                ]}"
+                                                alt="{$usershortinfo[
+                                                    'username'
+                                                ]}_photo"
+                                            />
+                                        </div>
+                                    {/if}
+                                </div>
+                            {:else}
+                                <div
+                                    class="flex  justify-start flex-row-reverse"
+                                >
+                                    <div
+                                        class="flex items-center justify-center h-8 w-8 rounded-full  flex-shrink-0"
+                                    >
+                                        <img
+                                            class="h-6 w-6 rounded-full border-1  mr-1"
+                                            src="{$usershortinfo['photo_icon']}"
+                                            alt="{$usershortinfo[
+                                                'username'
+                                            ]}_photo"
+                                        />
+                                    </div>
+
+                                    <div
+                                        class="relative   text-sm bg-rose-600  text-white py-1 px-4   mr-4  shadow-lg rounded-md  float-left "
+                                    >
+                                        <div class=" max-w-xs break-words">
+                                            {msg.content}
+                                        </div>
+                                    </div>
+                                </div>
+                            {/if}
+                        </div>
+
+                        <!-- <h3>{msg.sender}</h3>
+                            <p></p>
+                            <sub> {msg.seen} </sub>
+                            <button
+                                style="float: right;"
+                                value="{msg.id}"
+                                on:click="{deleteMessageHandler}">del</button
+                            >
+                            <span>{moment(msg.timestamp).fromNow()}</span>
+                         -->
+                    {:else}
+                        <div class="col-start-1 col-end-8 p-2 rounded-lg">
+                            <!-- <div class="flex flex-row items-center">
+                                <div
+                                    class="flex items-center justify-center h-8 w-8 rounded-full  flex-shrink-0"
+                                >
+                                    <img
+                                        class="h-6 w-6 rounded-full border-1"
+                                        src="{$chating_with['photo_icon']}"
+                                        alt="{$chating_with['username']}_photo"
+                                    />
+                                </div>
+                                <div
+                                    class="relative ml-3 text-sm bg-white text-rose-600  py-1 px-4 dark:shadow-gray-500 shadow-lg rounded-md"
+                                >
+                                    <div>{msg.content}</div>
+                                </div>
+                            </div>
+                        </div> -->
+                            <!-- <h3>{msg.sender}</h3>
+                        <p></p>
+                        <span>{moment(msg.timestamp).fromNow()}</span>
+                         -->
+                            {#if msg.photos.length !== 0}
+                                <div class="flex flex-row items-end ">
+                                    {#if msg.content !== ''}
+                                        <div
+                                            class="flex items-center justify-center h-8 w-8 rounded-full  flex-shrink-0"
+                                        >
+                                            <img
+                                                class="h-6 w-6 rounded-full border-1 "
+                                                src="{$chating_with[
+                                                    'photo_icon'
+                                                ]}"
+                                                alt="{$chating_with[
+                                                    'username'
+                                                ]}_photo"
+                                            />
+                                        </div>
+                                        <div class="grid ">
+                                            {#each msg.photos as photo}
+                                                <div class="py-1 px-4  ">
+                                                    <img
+                                                        class="w-52 h-64 border-2 border-slate-700 shadow-lg rounded-md float-left"
+                                                        src="{photo.photo}"
+                                                        alt="{photo}"
+                                                    />
+                                                </div>
+                                            {/each}
+                                            <div
+                                                class="relative   text-sm bg-rose-600  text-white py-1 px-4   ml-4  shadow-lg rounded-md  float-left"
+                                            >
+                                                <div
+                                                    class="max-w-xs break-words"
+                                                >
+                                                    {msg.content}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {:else}
+                                        <div
+                                            class="flex items-center justify-center h-8 w-8 rounded-full  flex-shrink-0"
+                                        >
+                                            <img
+                                                class="h-6 w-6 rounded-full border-1 "
+                                                src="{$chating_with[
+                                                    'photo_icon'
+                                                ]}"
+                                                alt="{$chating_with[
+                                                    'username'
+                                                ]}_photo"
+                                            />
+                                        </div>
+                                    {/if}
+                                </div>
+                            {:else}
+                                <div class="flex flex-row items-center">
+                                    <div
+                                        class="flex items-center justify-center h-8 w-8 rounded-full  flex-shrink-0"
+                                    >
+                                        <img
+                                            class="h-6 w-6 rounded-full border-1 "
+                                            src="{$chating_with['photo_icon']}"
+                                            alt="{$chating_with[
+                                                'username'
+                                            ]}_photo"
+                                        />
+                                    </div>
+
+                                    <div
+                                        class="relative ml-3 text-sm bg-rose-600 text-white py-1 px-4 shadow-lg rounded-md "
+                                    >
+                                        <div class="max-w-xs break-words">
+                                            {msg.content}
+                                        </div>
+                                    </div>
+                                </div>
+                            {/if}
+                        </div>
+                    {/if}
+                </div>
+            {/each}
+        {/if}
+    </div>
+    <FullInput
+        sendFunc="{sendMessage}"
+        placeholder="Write your message . . ."
+    />
+</Wapper>
 
 <style>
-    /* div {
-        border: 2px; */
-    /* } */
-    .readMore {
-        /* margin: 0 auto; */
-        transform: translate(300%, 10%);
+    #room:hover {
+        overflow-y: overlay;
     }
 </style>

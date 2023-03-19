@@ -10,8 +10,8 @@
     id="{post['id']}"
 >
     <PostHeader
-        username="{post['profile']['username']}"
-        photo_icon="{post['profile']['photo_icon']}"
+        profile="{post['profile']}"
+        owner="{post['by_owner']}"
         created="{post.created}"
     />
     <PostContent
@@ -26,5 +26,6 @@
         num_likes="{post['num_likes']}"
         is_liked="{post['is_liked']}"
         allow_comments="{post['allow_comments']}"
+        id="{post['id']}"
     />
 </div>

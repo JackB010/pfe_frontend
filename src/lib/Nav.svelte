@@ -25,14 +25,16 @@
     import { unread_notifications } from './../stores/accounts/notifications';
 
     let recommended = writable([{}]);
-    axios(`${baseurl}/accounts/recommended/`, config).then((res) => {
-        recommended.set(res.data);
-    });
+    axios(`${baseurl}/accounts/suggestedusers/user_user/3/`, config).then(
+        (res) => {
+            recommended.set(res.data);
+        }
+    );
 </script>
 
 <div
     class="flex md:justify-end md:max-w-xs dark:text-white bg-white 
-     dark:bg-slate-800 justify-center  mx-auto flex-col md:float-right md:space-y-6 mt-0"
+     dark:bg-slate-800 justify-center pr-1 mx-auto flex-col md:float-right md:space-y-6 mt-0"
 >
     <div
         class="hidden md:flex  bg-white  pt-2 dark:text-white  dark:bg-slate-800  border-2 shadow-md    md:ml-8  md:border-l-rose-500 md:flex-col"

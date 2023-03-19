@@ -1,11 +1,20 @@
 <script>
     import axios from 'axios';
+    import { push } from 'svelte-spa-router';
+    import { baseurl } from '../functions';
 
-    let username = '';
-    const loginFunc = async () => {
+    let username_email = '';
+    const show_error = (msg) => {
+        let error = document.querySelector('#login_error');
+        error.innerHTML = msg;
+        error.classList.remove('hidden');
+    };
+    const resetPassword = async () => {
         await axios
-            .post('/api/accounts/token/', { username })
-            .then((res) => {})
+            .post(`${baseurl}/accounts/reset_password/`, { username_email })
+            .then((res) => {
+                push('/reset/code/');
+            })
             .catch((err) => {});
     };
 
@@ -15,23 +24,24 @@
 <div class="w-full max-w-xl mx-auto mt-32 ">
     <form
         class="bg-white dark:text-white dark:bg-slate-800 border-2 shadow-gray-500 mx-3 shadow-md rounded px-8 pt-6 pb-8 mb-4"
-        on:submit="{loginFunc}"
+        on:submit|preventDefault="{resetPassword}"
     >
         <div class="mb-8">
             <label
                 class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
-                for="username"
+                for="username_email"
             >
-                Username or Email
+                username_email or Email
             </label>
             <input
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="username"
+                id="username_email"
                 type="text"
-                bind:value="{username}"
+                bind:value="{username_email}"
                 placeholder="Username or email"
                 required
             />
+            <p class="text-red-500 text-xs italic hidden" id="login_error"></p>
         </div>
         <div class="flex items-center justify-between flex-col ">
             <input

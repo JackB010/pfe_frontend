@@ -1,13 +1,14 @@
 <script>
-    import Fa from 'svelte-fa/src/fa.svelte';
-    import { baseurl, dynamicSort } from '../functions';
-    import { config } from './../../stores/accounts/auth';
+    import { baseurl } from '../functions';
+    import { config, usershortinfo } from './../../stores/accounts/auth';
     import axios from 'axios';
     import { push } from 'svelte-spa-router';
-    import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
     import { backurls } from './../../stores/tools';
-
-    // @ts-nocheck
+    import Tags from './Tags.svelte';
+    import AddByOwner from './AddByOwner.svelte';
+    import ShowTo from './ShowTo.svelte';
+    import ImagesInput from './ImagesInput.svelte';
+    import { postItem } from '../../stores/posts/posts';
 
     const items = [
         { value: 'everyone', label: 'Everyone' },
@@ -15,69 +16,36 @@
         { value: 'onlyme', label: 'Only me' },
     ];
     let content = '',
-        tag = '',
         show_post_to = items[0],
         allow_comments = true,
-        tags = [];
+        tags = [],
+        images;
 
-    // $: tags = [{ name: 'lol' }, { name: 'dool' }];
-    const handleKeydown = (event) => {
-        // prevent that a space is typed
-        if (event.code === 'Space' || event.code === 'Digit3')
-            event.preventDefault();
-        if (event.code === 'Tab') {
-            let intags = false;
-            for (let item of tags) {
-                if (item['name'] === tag) {
-                    intags = true;
-                }
-            }
-            if (!intags && tag.length > 0) {
-                tags.push({ name: tag });
-                tag = '';
-                tags.sort(dynamicSort('name'));
-                tags = tags;
-                event.target.focus();
-            }
-        }
-        console.log(event);
-    };
-    const handleInput = (event) => {
-        // remove spaces from pasted text
-        tag = tag.replaceAll(' ', '');
-    };
+    $: user = { id: '', photo_icon: '', username: '', ftype: '' };
 
-    const deleteTag = async (e) => {
-        let list_tags = [],
-            tag = e.target.id;
-        for (let i = 0; i < tags.length; i++) {
-            if (tag !== tags[i].name) list_tags.push(tags[i]);
-        }
-        tags = list_tags;
-    };
-    const createPost = () => {
-        console.log({
+    const createPost = async () => {
+        let data = {
+            user: user.id,
             content,
-            show_post_to,
+            show_post_to: show_post_to.value,
             tags,
             allow_comments,
             deleted: false,
-        });
-        axios
-            .post(
-                `${baseurl}/posts/`,
-                {
-                    content,
-                    show_post_to: show_post_to.value,
-                    tags,
-                    allow_comments,
-                    deleted: false,
-                },
-                config
-            )
-            .then((res) => {
-                push(`/post/${res.data.id}`);
+        };
+        let id = '';
+        await axios.post(`${baseurl}/posts/`, data, config).then((res) => {
+            id = res.data.id;
+            images.forEach((image) => {
+                let data = new FormData();
+                data.append('image', image, image.name);
+                data.append('user', id);
+                axios.post(`${baseurl}/posts/images/`, data, config);
             });
+            axios(`${baseurl}/posts/${res.data.id}/`, config).then((res) => {
+                postItem.set(res.data);
+            });
+        });
+        push(`/post/${id}`);
     };
     let url;
     const back = () => {
@@ -97,12 +65,23 @@
         class="relative w-full flex flex-col  break-words bg-white dark:bg-slate-800
              dark:text-white  border-2 mb-6 shadow-lg rounded  "
     >
-        <div
+        <!--  <div
             class="ml-6 mt-3 cursor-pointer  bg-white rounded-full text-rose-600 p-2 mx-auto font-bold "
             on:click="{back}"
+            on:keypress="{(e) => {}}"
         >
-            <Fa icon="{faArrowLeftLong}" />
-        </div>
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+            >
+                <path
+                    fill-rule="evenodd"
+                    d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z"
+                    clip-rule="evenodd"></path>
+            </svg>
+        </div> -->
         <div class=" mx-auto mt-4 flex-auto w-full ">
             <div
                 class="tab-content tab-space l
@@ -128,81 +107,32 @@
                             bind:value="{content}"
                             required></textarea>
                     </div>
-                    <div class="mb-4 flex w-full">
-                        <div class="flex w-full">
-                            <select
-                                value="{show_post_to}"
-                                class=" shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight  outline-none
-                            focus:outline-none border-rose-600 focus:border-rose-600"
-                            >
-                                {#each items as item}
-                                    <option
-                                        value="{item}"
-                                        class="shadow appearance-none border  checked:text-white rounded w-full  p-3 text-gray-900 leading-tight  outline-none
-                            focus:outline-none"
-                                    >
-                                        {item.label}
-                                    </option>
-                                {/each}</select
-                            >
-                        </div>
-                    </div>
-                    <div class="mb-4 text-rose-600 inline">
-                        <input
-                            bind:value="{tag}"
-                            on:keydown="{handleKeydown}"
-                            on:input="{handleInput}"
-                            class="flex max-w-min min-w-full {tags.length === 10
-                                ? 'cursor-not-allowed bg-gray-200 text-gray-400'
-                                : ''}   shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight  outline-none
-                            focus:outline-none border-rose-600 focus:border-rose-600"
-                        />
-
-                        <div class="w-full flex  flex-wrap text-white -ml-2 ">
-                            <div class=" space-x-2 space-y-2 flex flex-wrap ">
-                                <br />
-                                {#each tags as item}
-                                    <div class="flex  flex-wrap">
-                                        <span
-                                            class="bg-rose-500 space-y-1 active:bg-rose-600 pr-2 text-white justify-center inline-block cursor-pointer rounded-full px-2.5  py-0.5 text-xs sm:text-sm font-medium  "
-                                            ># {item.name}
-                                            <span
-                                                class="font-bold ml-0.5 pb-0.5 px-1.5 -mr-2 border-2 rounded-full hover:border-2 hover:bg-rose-500 "
-                                                on:click="{deleteTag}"
-                                                id="{item.name}"
-                                            >
-                                                x
-                                            </span>
-                                        </span>
-                                    </div>
-                                {/each}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mb-4 flex ">
-                        <div
-                            class="border-2 h-6  w-6 mr-4   rounded-full border-rose-600"
-                        >
+                    <ShowTo bind:show_post_to="{show_post_to}" />
+                    <Tags bind:tags="{tags}" />
+                    <AddByOwner bind:user="{user}" />
+                    <ImagesInput bind:images="{images}" />
+                    <div class="mb-4 flex flex-1 ml-1  space-y-0.5">
+                        <div class="rounded-full  h-fit w-fit">
                             <input
-                                bind:value="{allow_comments}"
+                                bind:checked="{allow_comments}"
                                 type="checkbox"
-                                class=" outline-2 mx-auto 
-                                 h-5 w-5 shadow-rose-600 -translate-y-1 rounded-full active:outline-none active:border-none border-none focus:outline-none focus:border-none text-rose-600"
+                                class="outline-none mx-auto focus:ring-rose-600 focus:outline-none 
+                                   focus:border-none w-4 h-4  rounded-full text-rose-600"
                             />
                         </div>
                         <label
-                            class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+                            class="block flex-1 text-gray-700 text-sm font-bold ml-4 dark:text-white"
                             for="allow_comments"
-                            >Allow comments
+                            ><span>Allow comments</span>
                         </label>
                     </div>
 
                     <div class="bg-rose-600 object-cover rounded-lg mb-6">
                         <input
                             type="submit"
+                            value="Create Post"
                             class="text-white w-full px-2 h-10  rounded-lg shadow bg-rose-600 dark:border-rose-600 border-2 
-     outline-none focus:outline-none "
+     outline-none focus:outline-none cursor-pointer"
                         />
                     </div>
                 </form>

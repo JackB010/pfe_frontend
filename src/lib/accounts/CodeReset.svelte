@@ -1,21 +1,31 @@
 <script>
     import axios from 'axios';
+    import { push } from 'svelte-spa-router';
+    import { baseurl } from '../functions';
 
     let code;
+    const show_error = (msg) => {
+        let error = document.querySelector('#error');
+        error.innerHTML = msg;
+        error.classList.remove('hidden');
+    };
     const loginFunc = async () => {
         await axios
-            .post('/api/accounts/token/', { code })
-            .then((res) => {})
-            .catch((err) => {});
+            .post(`${baseurl}/accounts/reset_password/code/`, { code })
+            .then((res) => {
+                push(`/reset/change/${res.data.rid}`);
+            })
+            .catch((err) => {
+                show_error('unmatched code !');
+            });
     };
-
     export const params = {};
 </script>
 
 <div class="w-full max-w-xl mx-auto mt-32 ">
     <form
         class="bg-white dark:text-white dark:bg-slate-800 border-2 shadow-gray-500 mx-3 shadow-md rounded px-8 pt-6 pb-8 mb-4"
-        on:submit="{loginFunc}"
+        on:submit|preventDefault="{loginFunc}"
     >
         <div class="mb-8">
             <label
@@ -34,6 +44,7 @@
                 placeholder="#######"
                 required
             />
+            <p class="text-red-500 text-xs italic hidden" id="error"></p>
         </div>
         <div class="flex items-center justify-between flex-col ">
             <input
