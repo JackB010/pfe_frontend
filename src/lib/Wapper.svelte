@@ -1,5 +1,4 @@
 
-
 <div
     class="flex flex-wrap md:float-right lg:mr-16 mt-4 md:mt-0  md:w-7/12 lg:w-[54%] "
 >

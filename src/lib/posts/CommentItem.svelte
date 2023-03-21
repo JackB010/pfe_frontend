@@ -54,8 +54,8 @@
                 />
             </div>
 
-            <div class=" flex-1">
-                <div class="flex flex-col items-start ">
+            <div class=" flex-1 items-start">
+                <div class="flex flex-col items-start -space-y-1 ">
                     <h2
                         class="text-md cursor-pointer font-semibold text-gray-900  dark:text-white -mt-0.5"
                     >
@@ -69,25 +69,25 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-2 px-3 ">
+            <div class=" px-3 ">
                 <span class="font-bold  cursor-pointer">...</span>
             </div>
         </div>
     </div>
 
-    <div class=" flex flex-1 flex-wrap sm:flex-nowrap  ml-20  -mt-1  ">
+    <div class=" flex flex-1 flex-wrap sm:flex-nowrap  ml-20    ">
         <div class=" w-full ">
             <p class="text-gray-900 dark:text-white  mb-2 font-mono text-sm">
                 {comment['comment']}
             </p>
         </div>
     </div>
-    <div class="flex  space-x-5 justify-start flex-1 w-10/12 mx-auto ">
-        <div class=" ">
+    <div class="flex  space-x-5 justify-start flex-1 w-10/12 mx-auto  ">
+        <div class=" items-center ">
             <div
                 on:click="{likeComment}"
                 on:keypress="{(e) => {}}"
-                class=" inline-block  mt-2  cursor-pointer active:text-rose-600
+                class=" inline-block  mt-2  cursor-pointer 
             "
             >
                 <div class="inline-block absolute ">
@@ -108,7 +108,7 @@
                     </svg>
                 </div>
                 <div class="inline-block">
-                    <span class="text-sm  ml-6">
+                    <span class="text-sm  ml-7">
                         <Number number="{comment['num_likes']}" /> Like{#if comment['num_likes'] !== 1}s{/if}
                     </span>
                 </div>
@@ -135,7 +135,7 @@
                     </svg>
                 </div>
 
-                <div class="inline-block   ml-6 ">
+                <div class="inline-block   ml-7 ">
                     <span class="text-sm ">
                         <Number number="{comment['num_replies']}" />
                         {#if comment['num_replies'] !== 1}Replies{:else}Reply{/if}

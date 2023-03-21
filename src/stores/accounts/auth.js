@@ -59,6 +59,7 @@ export const setLogedIn = async () => {
     profileId.set(token['pid'])
     localStorage.setItem("pid", token['pid'])
     config.headers.Authorization = `Bearer ${access}`
+    
     await axios(`${baseurl}/accounts/settings/`, config).then(async (res) => {
         usersettingss.set(res.data)
         await localStorage.setItem('color-theme', res.data['theme'])

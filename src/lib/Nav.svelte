@@ -21,8 +21,8 @@
     import axios from 'axios';
     import { baseurl } from './functions';
     import { writable } from 'svelte/store';
-    import { unread_messages } from './../stores/chats/chats';
-    import { unread_notifications } from './../stores/accounts/notifications';
+    import { unread_messages } from './../stores/chats/chat';
+    import { unread_notifications } from './../stores/notifications/notifications';
 
     let recommended = writable([{}]);
     axios(`${baseurl}/accounts/suggestedusers/user_user/3/`, config).then(

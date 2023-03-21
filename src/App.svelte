@@ -4,6 +4,7 @@
     import NavNoLogin from './lib/NavNoLogin.svelte';
     import { nonroutes, routes } from './routesHolder';
     import './style/app.css';
+
     import {
         config,
         isLoggin,
@@ -16,11 +17,13 @@
     import { onMount } from 'svelte';
     import { baseurl } from './lib/functions';
     import axios from 'axios';
-    import { unread_messages } from './stores/chats/chats';
-    import { unread_notifications } from './stores/accounts/notifications';
+    import { unread_messages } from './stores/chats/chat';
+    import { unread_notifications } from './stores/notifications/notifications';
     import { chating_with, getChatContacts } from './stores/chats/chat';
+    import moment from 'moment';
 
     onMount(() => {
+        moment.locale('fr');
         const pathname = window.location.pathname;
         if (!pathname.startsWith('/chat')) {
             chating_with.set('');

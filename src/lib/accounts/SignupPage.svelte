@@ -82,20 +82,38 @@
         class="bg-white dark:text-white dark:bg-slate-800 border-2  shadow-gray-500 mx-3 shadow-md rounded px-8 pt-6 pb-8 mb-4"
         on:submit|preventDefault="{signupFunc}"
     >
-        <div class="mb-4">
+        <div class="mb-4 relative">
             <label
                 class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                 for="username"
             >
                 Username
             </label>
+            <div class="absolute p-2 pointer-events-none">
+                <svg
+                    aria-hidden="true"
+                    class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M16.563 15.9c-.159-.052-1.164-.505-.536-2.414h-.009c1.637-1.686 2.888-4.399 2.888-7.07c0-4.107-2.731-6.26-5.905-6.26c-3.176 0-5.892 2.152-5.892 6.26c0 2.682 1.244 5.406 2.891 7.088c.642 1.684-.506 2.309-.746 2.397c-3.324 1.202-7.224 3.393-7.224 5.556v.811c0 2.947 5.714 3.617 11.002 3.617c5.296 0 10.938-.67 10.938-3.617v-.811c0-2.228-3.919-4.402-7.407-5.557z"
+                    ></path>
+                </svg>
+            </div>
             <input
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                class="shadow appearance-none border pl-10 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-rose-600 focus:border-rose-600"
                 id="username"
                 type="text"
-                autocomplete="username"
                 bind:value="{username}"
                 placeholder="Username"
+                autocomplete="username"
+                required
             />
         </div>
         <div class="mb-4">
@@ -105,13 +123,31 @@
             >
                 Email
             </label>
-            <input
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="email"
-                type="email"
-                bind:value="{email}"
-                placeholder="email"
-            />
+            <div class="relative mb-6">
+                <div
+                    class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+                >
+                    <svg
+                        class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                        ><path
+                            d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"
+                        ></path><path
+                            d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"
+                        ></path></svg
+                    >
+                </div>
+
+                <input
+                    class="shadow appearance-none border rounded w-full pl-10 py-2 pr-3 focus:ring-rose-600 focus:border-rose-600"
+                    id="email"
+                    type="email"
+                    bind:value="{email}"
+                    placeholder="email"
+                />
+            </div>
         </div>
 
         <div class="mb-4">

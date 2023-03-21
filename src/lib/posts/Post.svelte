@@ -60,7 +60,7 @@
                         >
                             {#if $commentsLoaded}
                                 {#each $postcomments as comment}
-                                    <div class="mx-auto">
+                                    <div class="mx-auto" id="{comment.id}">
                                         <CommentItem comment="{comment}" />
                                     </div>
                                 {/each}

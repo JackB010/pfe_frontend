@@ -50,11 +50,10 @@
                     {#each [images[index]] as img (index)}
                         <div>
                             <a href="{`/post/${id}`}" use:link>
-                                <img
-                                    src="{img.image}"
-                                    alt="aza"
-                                    class="object-cover w-full p-2 border dark:border-black rounded-md shadow-lg sm:h-[480px] h-[400px]  "
-                                />
+                                <div
+                                    style="background-image: url({img.image})"
+                                    class="object-cover  w-full p-2 duration-700 ease-in-out bg-cover bg-center border dark:border-black rounded-md shadow-lg sm:h-[480px] h-[400px]  "
+                                ></div>
                             </a>
                         </div>
                     {/each}
@@ -62,7 +61,7 @@
 
                     {#if index > 0}
                         <button
-                            class="absolute left-3 top-1/2 px-2.5 py-0.5 -translate-y-1/2 bg-black/50 hover:bg-black/70 border-b-2 border-t-2 border-rose-600
+                            class="absolute left-3 top-1/2  w-8 h-8 -translate-y-1/2 bg-black/50 hover:bg-black/70 border-2  border-rose-600
                  text-white hover:text-rose-500 cursor-pointer outline-none focus:outline-none rounded-full shadow-lg"
                             on:click="{previous}">❮</button
                         >
@@ -72,7 +71,7 @@
 
                     {#if index < images.length - 1}
                         <button
-                            class="absolute right-3 top-1/2 px-2.5 py-0.5 -translate-y-1/2 bg-black/30 hover:bg-black/50 border-b-2 border-t-2 border-rose-600
+                            class="absolute right-3 top-1/2  w-8 h-8 -translate-y-1/2 bg-black/30 hover:bg-black/50 border-2  border-rose-600
                  text-white hover:text-rose-500 cursor-pointer outline-none focus:outline-none  rounded-full  shadow-lg "
                             on:click="{next}">❯</button
                         >

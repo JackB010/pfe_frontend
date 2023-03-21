@@ -1,14 +1,17 @@
 <script>
+    // import 'emoji-picker-element';
     import Image from '../posts/Image.svelte';
     import { images_chat } from '../../stores/chats/chat';
-    let emoji_list = true;
-    let text = '';
+
     export let sendFunc;
     export let placeholder;
     export let images = [];
     export let outImages = [];
+
     let fileInput;
     let files;
+    let emoji_list = true;
+    let text = '';
 
     $: if (files) {
         for (const file of files) {
@@ -34,7 +37,6 @@
 
     const handelsend = async () => {
         images_chat.set(images);
-
         if (text.length !== 0) {
             sendFunc(text);
             text = '';
@@ -118,14 +120,14 @@
             <input
                 bind:value="{text}"
                 placeholder="{placeholder}"
-                class="placeholder:text-xs sm:placeholder:text-sm flex w-full outline-none focus:outline-none  border  focus:border-rose-600 pl-3 h-10 text-black {!placeholder.includes(
+                class="placeholder:text-xs sm:placeholder:text-sm flex w-full outline-none pr-10 focus:outline-none  border  focus:border-rose-600 pl-4 h-10 text-black {!placeholder.includes(
                     'message'
                 )
                     ? 'rounded-l-md'
                     : ''} "
             />
             <span
-                class="absolute flex items-center justify-center h-full w-12 right-0 top-0  text-gray-400 hover:text-gray-600"
+                class="absolute flex z-30 items-center justify-center h-full w-12 right-0 top-0  text-gray-400 hover:text-gray-600"
             >
                 <svg
                     class="w-6 h-6 cursor-pointer"

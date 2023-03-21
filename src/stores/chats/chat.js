@@ -6,28 +6,7 @@ import axios from "axios";
 import { baseurl } from "../../lib/functions";
 import { nexturl } from "../tools";
 
-
-// imgs.forEach((image) => {
-//     let data = new FormData();
-//     data.append('photo', image, image.name);
-//     data.append('user', id);
-//     axios
-//         .post(`${baseurl}/chats/images/`, data, config)
-//         .then((res) => {
-//             fetched_messages.update((messages) => {
-//                 let msgs = messages.map((msg) => {
-//                     if (msg.id === id) {
-//                         msg.photos.push({
-//                             photo: res.data['photo'],
-//                         });
-//                     }
-//                     return msg;
-//                 });
-//                 return msgs;
-//             });
-//         });
-// });
-
+export let unread_messages = writable(0)
 export let contact_list = writable([{}]);
 export let images_chat = writable([{}]);
 export let fetched_messages = writable([]);

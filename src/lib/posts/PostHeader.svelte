@@ -23,11 +23,10 @@
 <div class="flex p-0.5 space-x-2 w-full mb-2">
     <div class="flex items-start px-4 py-2 w-full">
         <div class="w-16">
-            <img
-                src="{image}"
-                alt="{username}_icon"
-                class="w-12 h-12 rounded-full cursor-pointer object-cover mr-4 shadow"
-            />
+            <div
+                style="background-image: url({image})"
+                class="w-12 h-12 bg-cover bg-center rounded-full cursor-pointer object-cover mr-4 shadow"
+            ></div>
         </div>
 
         <div class="w-10/12">

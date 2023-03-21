@@ -60,7 +60,7 @@
             <div class="absolute p-2 pointer-events-none">
                 <svg
                     aria-hidden="true"
-                    class="w-5 h-5 text-gray-700"
+                    class="w-5 h-5 text-gray-500 dark:text-gray-400"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -94,7 +94,7 @@
             <div class="absolute p-2 pointer-events-none">
                 <svg
                     aria-hidden="true"
-                    class="w-5 h-5 text-gray-700"
+                    class="w-5 h-5 text-gray-500 dark:text-gray-400"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -122,7 +122,7 @@
                 <div class="absolute right-2 top-9  z-300 cursor-pointer">
                     <svg
                         aria-hidden="true"
-                        class="w-5 h-5 text-gray-700 cursor-pointer z-30"
+                        class="w-5 h-5 text-gray-500 dark:text-gray-400 cursor-pointer z-30"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -158,7 +158,7 @@
                 <div class="absolute right-2 top-9  z-300 cursor-pointer">
                     <svg
                         aria-hidden="true"
-                        class="w-5 h-5 text-gray-700 cursor-pointer z-30"
+                        class="w-5 h-5 text-gray-500 dark:text-gray-400 cursor-pointer z-30"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"

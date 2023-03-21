@@ -7,7 +7,6 @@
     } from './../../stores/chats/chat';
     import { push } from 'svelte-spa-router';
     import { onMount } from 'svelte';
-    import { location } from 'svelte-spa-router';
     import Loader from '../ui/Loader.svelte';
     import moment from 'moment';
     import Wapper from '../Wapper.svelte';
@@ -81,7 +80,7 @@
 
             {#if $contact_list.length !== 0}
                 <ul
-                    class="flex flex-col mt-4 space-y-2 overflow-y-auto h-[34rem]"
+                    class="flex flex-col mt-4 space-y-1 overflow-y-auto h-[34rem]"
                 >
                     {#each $contact_list as contact}
                         <li
@@ -160,6 +159,9 @@
                                     </p>
                                 {/if}
                             </div>
+                            <p>
+                                .{moment(contact['last_seen']).fromNow()}
+                            </p>
                         </li>
                     {/each}
                 </ul>
