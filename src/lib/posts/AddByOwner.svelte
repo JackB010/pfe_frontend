@@ -8,9 +8,9 @@
     $: isActive = false;
     $: isSelected = false;
     let pages = [];
-    onMount(async () => {
-        usershortinfo.subscribe(async (data) => {
-            await axios(`${baseurl}/accounts/profile/user/pages/`, config).then(
+    onMount(() => {
+        usershortinfo.subscribe((data) => {
+            axios(`${baseurl}/accounts/profile/user/pages/`, config).then(
                 (res) => {
                     pages = [data, ...res.data];
                 }
@@ -19,6 +19,11 @@
 
         pages = pages;
     });
+    const select_user = (index) => {
+        user = pages[index];
+        isActive = false;
+        isSelected = true;
+    };
 </script>
 
 <div class="flex flex-col">
@@ -71,16 +76,7 @@
             {#each pages as page, index}
                 <span
                     on:click="{() => {
-                        if (index === 0) {
-                            user = {
-                                id: '',
-                                photo_icon: pages[0].photo_icon,
-                                username: pages[0].username,
-                                ftype: pages[0].ftype,
-                            };
-                        } else user = pages[index];
-                        isActive = false;
-                        isSelected = true;
+                        select_user(index);
                     }}"
                     on:keypress="{() => {}}"
                 >
@@ -88,6 +84,7 @@
                         src="{page.photo_icon}"
                         username="{page.username}"
                         type="{page.ftype}"
+                        count_followed_by="{page.count_followed_by}"
                     />
                 </span>
             {/each}
@@ -103,6 +100,7 @@
             src="{user.photo_icon}"
             username="{user.username}"
             type="{user.ftype}"
+            count_followed_by="{user.count_followed_by}"
         />
     </div>
 </div>

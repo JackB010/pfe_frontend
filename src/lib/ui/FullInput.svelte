@@ -37,7 +37,7 @@
 
     const handelsend = async () => {
         images_chat.set(images);
-        if (text.length !== 0) {
+        if (text.length !== 0 || images.length != 0) {
             sendFunc(text);
             text = '';
             images = [];

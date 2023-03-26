@@ -97,18 +97,12 @@ export const loadMessages = async (username) => {
                     'command': 'fetch_messages',
                     "to": username
                 }))
-                // rws.send(JSON.stringify({
-                //     'command': 'fetch_messages',
-                //     "to": user.username
-                // }))
             }
             if (data["type"] === "delete_message") {
                 fetched_messages.update((messages) => {
-                    for (let i = 0; i < messages.length; i++) {
-                        if (messages[i].id == data["message"].id) {
-                            messages[i] = data["message"];
-                        }
-                    }
+                    messages = messages.filter((msg) => {
+                        return msg.id !== data["message"].id;
+                    });
                     return messages
                 })
             }

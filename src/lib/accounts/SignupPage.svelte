@@ -16,34 +16,32 @@
         if (event.code === 'Tab') {
             let incategories = false;
             for (let item of categories) {
-                if (item['name'] === categorie) {
+                if (item === categorie) {
                     incategories = true;
                 }
             }
+            if (incategories) {
+                show_error('categorie already exists');
+            }
             if (!incategories && categorie.length > 0) {
-                categories.push({ name: categorie });
+                categories.push(categorie);
                 categorie = '';
-                categories.sort(dynamicSort('name'));
+                categories.sort();
                 categories = categories;
                 event.target.focus();
             }
         }
     };
     const deleteCategorie = async (event) => {
-        console.log(event);
-        console.log(event.key);
-        if (event.key === 'Tab') {
-            let list_categories = [],
-                categorie = event.target.id;
-            for (let i = 0; i < categories.length; i++) {
-                if (categorie !== categories[i].name)
-                    list_categories.push(categories[i]);
-            }
-            categories = list_categories;
+        let list_categories = [],
+            cat = event.target.id;
+        for (let i = 0; i < categories.length; i++) {
+            if (cat !== categories[i]) list_categories.push(categories[i]);
         }
+        categories = list_categories;
     };
     const show_error = (msg) => {
-        let error = document.querySelector('#login_error');
+        let error = document.querySelector('#error');
         error.innerHTML = msg;
         error.classList.remove('hidden');
     };
@@ -53,6 +51,7 @@
                 show_error('Password most have at least 8 caracters.');
                 return;
             }
+            
             await axios
                 .post(`${baseurl}/pages/register/`, {
                     username,
@@ -63,7 +62,6 @@
                     password1,
                 })
                 .then((res) => {
-                    console.log(res.data);
                     push('/');
                 })
                 .catch((err) => {
@@ -141,7 +139,7 @@
                 </div>
 
                 <input
-                    class="shadow appearance-none border rounded w-full pl-10 py-2 pr-3 focus:ring-rose-600 focus:border-rose-600"
+                    class="shadow appearance-none border text-black rounded w-full pl-10 py-2 pr-3 focus:ring-rose-600 focus:border-rose-600"
                     id="email"
                     type="email"
                     bind:value="{email}"
@@ -166,84 +164,95 @@
                 bind:value="{password}"
                 placeholder="password"
             />
-            <div class="mb-4">
-                <label
-                    class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
-                    for="password1"
-                >
-                    Password Conform
-                </label>
-                <input
-                    class="shadow appearance-none border  rounded w-full 
+        </div>
+        <div class="mb-4">
+            <label
+                class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+                for="password1"
+            >
+                Password Conform
+            </label>
+            <input
+                class="shadow appearance-none border  rounded w-full 
                 py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                    id="password1"
-                    type="password"
-                    autocomplete="new-password"
-                    bind:value="{password1}"
-                    placeholder="password conform"
-                />
-                <p
-                    class="text-red-500 text-xs italic hidden"
-                    id="login_error"
-                ></p>
-            </div>
-            <div class="mb-4">
-                <label
-                    class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
-                    for="about"
-                >
-                    About
-                </label>
-                <input
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="about"
-                    type="text"
-                    bind:value="{about}"
-                    placeholder="what is this page about?"
-                />
-            </div>
-            <div class="mb-6">
-                <label
-                    class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
-                    for="categories"
-                >
-                    Categories
-                </label>
-                <input
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="categories"
-                    type="text"
-                    on:keydown="{handleKeydown}"
-                    bind:value="{categorie}"
-                    placeholder="categories"
-                />
-                {#each categories as item}
-                    <div class="flex  flex-wrap">
-                        <span
-                            class="bg-rose-500 space-y-1 active:bg-rose-600 pr-2 text-white justify-center inline-block cursor-pointer rounded-full px-2.5  py-0.5 text-xs sm:text-sm font-medium  "
-                            ># {item.name}
+                id="password1"
+                type="password"
+                autocomplete="new-password"
+                bind:value="{password1}"
+                placeholder="password conform"
+            />
+        </div>
+        <div class="mb-4">
+            <label
+                class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+                for="about"
+            >
+                About
+            </label>
+            <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="about"
+                type="text"
+                bind:value="{about}"
+                placeholder="what is this page about?"
+            />
+        </div>
+        <div class="mb-6">
+            <label
+                class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+                for="categories"
+            >
+                Categories
+            </label>
+            <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="categories"
+                type="text"
+                on:keydown="{handleKeydown}"
+                bind:value="{categorie}"
+                placeholder="categories"
+            />
+            <div class="w-full flex  flex-wrap text-white -ml-2 ">
+                <div class=" space-x-2 space-y-2 flex flex-wrap ">
+                    <br />
+                    {#each categories as item}
+                        <div class="flex  flex-wrap">
                             <span
-                                class="font-bold ml-0.5 pb-0.5 px-1.5 -mr-2 border-2 rounded-full hover:border-2 hover:bg-rose-500 "
-                                on:click="{deleteCategorie}"
-                                on:keypress="{(e) => {}}"
-                                id="{item.name}"
+                                class="dark:bg-rose-600  w-fit shadow-md text-rose-600 dark:text-white text-sm sm:text-sm p-1.5 font-semibold  flex-1 flex-row flex"
                             >
-                                x
+                                <span class="pr-2 ">{item}</span>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-5 w-5 rotate-45 border rounded-full  dark:bg-white  cursor-pointer text-white bg-rose-600 dark:text-rose-600"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    on:click="{deleteCategorie}"
+                                    on:keypress="{() => {}}"
+                                    id="{item}"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                </svg>
                             </span>
-                        </span>
-                    </div>
-                {/each}
+                        </div>
+                    {/each}
+                </div>
             </div>
+            <p class="text-red-500 text-xs italic hidden mt-2" id="error"></p>
+        </div>
 
-            <div class="flex items-center justify-between flex-col ">
-                <input
-                    class="bg-rose-500 text-rose-500 text-lg dark:text-white active:text-white border-2 border-rose-600  w-full active:bg-rose-600  px-2 h-10 
+        <div class="flex items-center justify-between flex-col ">
+            <input
+                class="bg-rose-500 text-rose-500 text-lg dark:text-white active:text-white border-2 border-rose-600  w-full active:bg-rose-600  px-2 h-10 
                 rounded-lg shadow outline-none focus:outline-none mr-1 mb-4 ease-linear transition-all duration-100"
-                    type="submit"
-                    value="Sign Up"
-                />
-                <a href="/reset" use:link> <Text>Forgot Password?</Text></a>
-            </div>
+                type="submit"
+                value="Sign Up"
+            />
+            <a href="/reset" use:link> <Text>Forgot Password?</Text></a>
         </div>
     </form>
     <p class="text-center text-gray-500 text-xs dark:text-white">

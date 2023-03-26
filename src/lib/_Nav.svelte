@@ -15,21 +15,27 @@
         setLogedOut,
         userinfo,
         config,
-    } from './../stores/accounts/auth';
+    } from '../stores/accounts/auth';
     import { link } from 'svelte-spa-router';
     import Recommended from './accounts/Recommended.svelte';
     import axios from 'axios';
     import { baseurl } from './functions';
     import { writable } from 'svelte/store';
-    import { unread_messages } from './../stores/chats/chat';
-    import { unread_notifications } from './../stores/notifications/notifications';
+    import { unread_messages } from '../stores/chats/chat';
+    import { unread_notifications } from '../stores/notifications/notifications';
 
     let recommended = writable([{}]);
-    axios(`${baseurl}/accounts/suggestedusers/user_user/3/`, config).then(
-        (res) => {
-            recommended.set(res.data);
+    {
+        let suggestedUrl = '';
+        if ($usershortinfo.ftype === 'profile') {
+            suggestedUrl = '/accounts/suggestedusers/user_user/3/';
+        } else {
+            suggestedUrl = '/pages/suggestedpages/3/';
         }
-    );
+        axios(`${baseurl}${suggestedUrl}`, config).then((res) => {
+            recommended.set(res.data);
+        });
+    }
 </script>
 
 <div
@@ -42,23 +48,24 @@
         <div>
             <a href="/profile" use:link class="flex space-x-3">
                 <div class="flex space-x-3 ml-6">
-                    <img
-                        src="{$usershortinfo.photo_icon}"
-                        alt="{$usershortinfo.username} photo icon"
-                        class="rounded-full w-14 h-14"
-                    />
+                    <div
+                        style="background-image: url({$usershortinfo.photo_icon})"
+                        class="{$usershortinfo.ftype === 'profile'
+                            ? 'rounded-full'
+                            : 'rounded-lg'} w-14 h-14 border bg-cover bg-center "
+                    ></div>
                     <div class="pt-4">
                         <Text>{$usershortinfo.username}</Text>
                     </div>
                 </div>
             </a>
-            {#if $userinfo.bio === null || $userinfo.bio === ''}
+            {#if $userinfo['bio'] === null || $userinfo['bio'] === ''}
                 <div class="flex space-x-4 my-5 justify-center">
                     <Button>Add a bio</Button>
                 </div>
             {:else}
                 <div class="py-3 px-4 text-justify">
-                    <Text>{$userinfo.bio}</Text>
+                    <Text>{$userinfo['bio']}</Text>
                 </div>
             {/if}
         </div>
@@ -71,6 +78,7 @@
                 icon="{account.photo_icon}"
                 username="{account.username}"
                 id="{account.id}"
+                ftype="{account.ftype}"
             />
         {/each}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -133,11 +141,12 @@
             <div class="flex  justify-center  md:hidden  ">
                 <a href="/profile" use:link class="flex space-x-3">
                     <div>
-                        <img
-                            src="{$usershortinfo.photo_icon}"
-                            alt="{$usershortinfo.username} photo icon"
-                            class="h-8 w-8 -mt-1 rounded-full"
-                        />
+                        <div
+                            style="background-image: url({$usershortinfo.photo_icon})"
+                            class="{$usershortinfo.ftype === 'profile'
+                                ? 'rounded-full'
+                                : 'rounded-lg'} h-8 w-8 -mt-1 border bg-cover bg-center "
+                        ></div>
                     </div>
                     <div class="hidden sm:inline">
                         <Text>Profile</Text>

@@ -11,7 +11,6 @@
         password = '';
     $: isShow = false;
     const loginFunc = async (e) => {
-        console.log(password);
         await axios
             .post(`${baseurl}/accounts/token/`, {
                 username,
@@ -25,9 +24,10 @@
                 const token = jwt_decode(res.data.access);
                 // console.log(`${baseurl}/accounts/settings/${token['pid']}/`);
                 await axios(
-                    `${baseurl}/accounts/settings/${token['pid']}/`
+                    `${baseurl}/${
+                        token['ftype'] === 'profile' ? 'accounts' : 'pages'
+                    }/settings/${token['pid']}/`
                 ).then(async (res) => {
-                    // console.log(res);
                     localStorage.setItem('color-theme', res.data['theme']);
                 });
                 window.location.reload();

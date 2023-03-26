@@ -13,6 +13,7 @@
     import axios from 'axios';
     import CommentItem from './CommentItem.svelte';
     import NoThing from '../ui/NoThing.svelte';
+    import Wapper from '../Wapper.svelte';
     onMount(async () => {
         if (params.id) {
             await axios(`${baseurl}/posts/${params.id}/`, config).then(
@@ -33,52 +34,59 @@
 </script>
 
 {#if $postLoaded}
-    <div
+    <!-- <div
         class="flex flex-wrap lg:float-right xl:mr-16 mt-0 mx-2 md:w-7/12 lg:w-6/12  "
     >
         <div
             class="relative w-full flex flex-col  break-words bg-white dark:bg-slate-800
              dark:text-white  dark:border-2 mb-6 shadow-lg rounded mt-6 md:mt-0"
         >
-            <div class="px-4 py-5 flex-auto ">
-                <div
-                    class="tab-content tab-space l
+         
+            <div class="px-4 py-5 flex-auto "> -->
+    <Wapper>
+        <!-- <div
+            class="tab-content tab-space l
                 "
-                >
-                    <PostItem post="{$postItem}" />
-                </div>
-            </div>
-            <div class="flex flex-wrap  mt-0 mx-4    ">
-                <div
-                    class="relative w-full flex flex-col  break-words bg-white dark:bg-slate-800
+        > -->
+        <PostItem post="{$postItem}" />
+        <!-- </div> -->
+    </Wapper>
+    <!-- </div> -->
+    <!-- <div class="flex flex-wrap  mt-0 mx-4    ">
+        <div
+            class="relative w-full flex flex-col  break-words bg-white dark:bg-slate-800
              dark:text-white  border-2 mb-6 shadow-lg rounded  "
-                >
-                    <div class=" mx-auto mt-4 flex-auto w-full ">
-                        <div
-                            class="tab-content tab-space l
+        > -->
+    <Wapper>
+        <div class=" mx-auto mt-4 flex-auto w-full ">
+            <div
+                class="tab-content tab-space l
                 "
-                        >
-                            {#if $commentsLoaded}
-                                {#each $postcomments as comment}
-                                    <div class="mx-auto" id="{comment.id}">
-                                        <CommentItem comment="{comment}" />
-                                    </div>
-                                {/each}
-                                {#if $postcomments.length === 0}
-                                    <NoThing
-                                        message="No Comments To See"
-                                        dSVG="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
-                                    />
-                                {/if}
-                            {:else}
-                                <Loader />
-                            {/if}
+            >
+                {#if $commentsLoaded}
+                    {#each $postcomments as comment}
+                        <div class="mx-auto" id="{comment.id}">
+                            <CommentItem comment="{comment}" />
                         </div>
-                    </div>
-                </div>
+                    {/each}
+                    {#if $postcomments.length === 0}
+                        <NoThing
+                            message="No Comments To See"
+                            dSVG="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+                        />
+                    {/if}
+                {:else}
+                    <Loader />
+                {/if}
             </div>
         </div>
-    </div>
+    </Wapper>
+
+    <!-- </div>
+    </div> -->
+
+    <!-- </div>
+    </div> -->
 {:else}
     <Loader />
 {/if}

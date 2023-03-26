@@ -10,42 +10,44 @@ export let usershortinfo = writable({
     id: null,
     username: null,
     photo_icon: null,
-    ftype: null
+    ftype: null,
+    count_followed_by: 0,
 });
-export let userinfo = writable({
-    bio: null,
-    birth_day: null,
-    count_followed_by: null,
-    count_following: null,
-    id: null,
-    is_following: null,
-    photo: null,
-    photo_icon: null,
-    user: {
-        date_joined: null,
-        email: null,
-        first_name: null,
-        id: null,
-        is_active: null,
-        last_login: null,
-        last_name: null,
-        username: null,
-    }
-});
+export let userinfo = writable({});
+// bio: null,
+// birth_day: null,
+// count_followed_by: null,
+// count_following: null,
+// id: null,
+// is_following: null,
+// photo: null,
+// photo_icon: null,
+// user: {
+//     date_joined: null,
+//     email: null,
+//     first_name: null,
+//     id: null,
+//     is_active: null,
+//     last_login: null,
+//     last_name: null,
+//     username: null,
+// }
+// });
 export let usersettingss = writable({});
 export let userToken = writable({ refresh: undefined, access: undefined });
 export let isLoggin = writable(false);
 export let loaded = writable(false);
 export const config = { headers: { "Content-Type": "application/json", Authorization: "" } }
 
-export const getProfileShortInfo = async (username) => {
+export const getProfileShortInfo = async (username, ftype) => {
     let data = {
         id: null,
         username: null,
         photo_icon: null,
-        ftype: null
+        ftype: null,
+        count_followed_by: 0,
     }
-    await axios(`${baseurl}/accounts/search/?search=${username}`).then(res => {
+    await axios(`${baseurl}/${ftype === "profile" ? 'accounts' : 'pages'}/search/?search=${username}`).then(res => {
         data = res.data['results'][0];
     })
     return data;
@@ -59,14 +61,23 @@ export const setLogedIn = async () => {
     profileId.set(token['pid'])
     localStorage.setItem("pid", token['pid'])
     config.headers.Authorization = `Bearer ${access}`
-    
-    await axios(`${baseurl}/accounts/settings/`, config).then(async (res) => {
+    let settingsUrl = '', userUrl = '';
+    if (token['ftype'] === 'profile') {
+        settingsUrl = '/accounts/settings/';
+        userUrl = '/accounts/profile/';
+    }
+    else {
+        settingsUrl = '/pages/settings/';
+        userUrl = '/pages/page/';
+    }
+
+    await axios(`${baseurl}${settingsUrl}`, config).then(async (res) => {
         usersettingss.set(res.data)
         await localStorage.setItem('color-theme', res.data['theme'])
     })
-    usershortinfo.set(await getProfileShortInfo(token['pid']));
+    usershortinfo.set(await getProfileShortInfo(token['pid'], token['ftype']));
 
-    axios(`${baseurl}/accounts/profile/`, config).then(res => {
+    axios(`${baseurl}${userUrl}`, config).then(res => {
         userinfo.set(res.data)
     })
 }

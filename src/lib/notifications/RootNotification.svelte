@@ -1,6 +1,6 @@
 <script>
     import { push } from 'svelte-spa-router';
-    import { onMount } from 'svelte';
+    import { afterUpdate, onMount } from 'svelte';
     import Loader from '../ui/Loader.svelte';
     import moment from 'moment';
     import Wapper from '../Wapper.svelte';
@@ -8,15 +8,15 @@
     import {
         notificationsLoaded,
         notificationsList,
+        unread_notifications,
     } from '../../stores/notifications/notifications';
-    import { nexturl } from '../../stores/tools';
+    import { nexturlNotifications } from '../../stores/tools';
     import { config } from '../../stores/accounts/auth';
     import axios from 'axios';
     import { baseurl } from '../functions';
-
     onMount(async () => {
         await axios(`${baseurl}/notifications/`, config).then((res) => {
-            nexturl.set(res.data['next']);
+            nexturlNotifications.set(res.data['next']);
             notificationsList.set(res.data['results']);
             notificationsLoaded.set(true);
         });
@@ -35,20 +35,29 @@
     //     }
     // };
 
+    $: {
+        if ($unread_notifications) {
+            axios(`${baseurl}/notifications/`, config).then((res) => {
+                nexturlNotifications.set(res.data['next']);
+                notificationsList.set(res.data['results']);
+                notificationsLoaded.set(true);
+            });
+        }
+    }
     let y = 0,
         yy = 0;
 
     $: {
         if (yy - 50 === y - 50) {
-            if ($nexturl) {
-                axios($nexturl, config).then(async (res) => {
+            if ($nexturlNotifications) {
+                axios($nexturlNotifications, config).then(async (res) => {
                     let data = [];
-                    notificationsList.subscribe((posts) => {
-                        data = posts;
+                    notificationsList.subscribe((notifications) => {
+                        data = notifications;
                     });
                     data = [...data, ...res.data['results']];
                     await notificationsList.set(data);
-                    nexturl.set(res.data['next']);
+                    nexturlNotifications.set(res.data['next']);
                 });
             }
         }
@@ -66,7 +75,11 @@
         axios(
             `${baseurl}/notifications/make/read/${id != null ? id + '/' : ''}`,
             config
-        );
+        ).then((res) => {
+            if (id !== null)
+                unread_notifications.set($unread_notifications - 1);
+            else unread_notifications.set(0);
+        });
         if (id === null) {
             notificationsList.update((notifications) =>
                 notifications.map((notification) => {
@@ -105,29 +118,25 @@
         if (notification['seen'] === false) makeread(notification['id']);
         if (
             notification['action'] === notificationChoices.comment_liked ||
-            notification['action'] === notificationChoices.commented ||
             notification['action'] === notificationChoices.replied
         ) {
             push(`/post/${notification['comment'][2]}/`);
         } else if (notification['action'] === notificationChoices.reply_liked) {
             push(`/post/${notification['reply'][2]}/`);
-        } else if (notification['action'] === notificationChoices.liked) {
+        } else if (
+            notification['action'] === notificationChoices.liked ||
+            notification['action'] === notificationChoices.commented
+        ) {
             push(`/post/${notification['post'][1]}/`);
         } else if (notification['action'] === notificationChoices.event) {
             push(`/profile/${notification['event']['id']}/`);
         } else if (notification['action'] === notificationChoices.followed) {
-            if (notification['created_by']['ftype'] === 'profile') {
-                push(`/profile/${notification['created_by']['id']}/`);
-            }
-            push(`/page/${notification['created_by']['id']}/`);
+            push(
+                `/${notification['created_by']['ftype']}/${notification['created_by']['username']}/`
+            );
         }
     };
-    // const getLink=(notification)=>{
-
-    // }
 </script>
-
-<!-- <svelte:window bind:scrollY="{y}" /> -->
 
 {#if $notificationsLoaded}
     <Wapper>

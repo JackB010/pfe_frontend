@@ -1,6 +1,7 @@
 <script>
     import Router from 'svelte-spa-router';
-    import Nav from './lib/Nav.svelte';
+    // import Nav from './lib/_Nav.svelte';
+    import TryNav from './lib/TryNav.svelte';
     import NavNoLogin from './lib/NavNoLogin.svelte';
     import { nonroutes, routes } from './routesHolder';
     import './style/app.css';
@@ -78,7 +79,8 @@
 <main class=" lg:container mx-auto ">
     {#if $isLoggin}
         <div class="md:mt-5">
-            <Nav />
+            <!-- <Nav /> -->
+            <TryNav />
             <Router routes="{routes}" />
         </div>
     {:else}

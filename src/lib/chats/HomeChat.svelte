@@ -122,46 +122,54 @@
                                     />
                                 </span>
                             </div>
-                            <div
-                                class="flex flex-col ml-4 text-black dark:text-white"
-                            >
-                                <h3
-                                    class="font-bold cursor-pointer"
-                                    on:click="{getChatRoom}"
-                                    on:keypress="{() => {}}"
-                                    id="{contact['profile']['username']}"
+                            <div class=" flex  items-center ">
+                                <div
+                                    class="flex flex-col ml-4 text-black dark:text-white  w-1/2"
                                 >
-                                    {contact['profile']['username']}
-                                </h3>
-                                {#if contact['last_message']}
-                                    <p class="w-52 line-clamp-1 text-sm">
-                                        {#if contact['last_message']['photos']}
-                                            <svg
-                                                class="w-5 h-5"
-                                                fill="currentColor"
-                                                viewBox="0 0 20 20"
-                                                style="display: inline; padding-right:2px;"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                ><path
-                                                    fill-rule="evenodd"
-                                                    d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                                                    clip-rule="evenodd"
-                                                ></path></svg
-                                            >
-                                        {/if}
-                                        {contact['last_message']['content']}
+                                    <h3
+                                        class="font-bold cursor-pointer"
+                                        on:click="{getChatRoom}"
+                                        on:keypress="{() => {}}"
+                                        id="{contact['profile']['username']}"
+                                    >
+                                        {contact['profile']['username']}
+                                    </h3>
+                                    {#if contact['last_message']}
+                                        <p class="w-52 line-clamp-1 text-sm">
+                                            {#if contact['last_message']['photos']}
+                                                <svg
+                                                    class="w-5 h-5"
+                                                    fill="currentColor"
+                                                    viewBox="0 0 20 20"
+                                                    style="display: inline; padding-right:2px;"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    ><path
+                                                        fill-rule="evenodd"
+                                                        d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                                                        clip-rule="evenodd"
+                                                    ></path></svg
+                                                >
+                                            {/if}
+                                            {contact['last_message']['content']}
+                                        </p>
+                                    {:else}
+                                        <p>
+                                            you can now chat with {contact[
+                                                'profile'
+                                            ]['username']}
+                                        </p>
+                                    {/if}
+                                </div>
+                                <div class=" justify-start w-1/2">
+                                    <p
+                                        class="font-semibold dark:text-gray-300   text-gray-700 text-[0.67rem] "
+                                    >
+                                        .{moment(
+                                            contact['last_seen']
+                                        ).fromNow()}
                                     </p>
-                                {:else}
-                                    <p>
-                                        you can now chat with {contact[
-                                            'profile'
-                                        ]['username']}
-                                    </p>
-                                {/if}
+                                </div>
                             </div>
-                            <p>
-                                .{moment(contact['last_seen']).fromNow()}
-                            </p>
                         </li>
                     {/each}
                 </ul>

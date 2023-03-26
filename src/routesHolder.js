@@ -12,6 +12,8 @@ import ChangePassword from './lib/accounts/ChangePassword.svelte';
 import Login from './lib/accounts/Login.svelte';
 import Page404 from './lib/Page404.svelte';
 import RootNotification from './lib/notifications/RootNotification.svelte';
+import Profile from './lib/profiles/Profile.svelte';
+import AddFriends from './lib/accounts/AddFriends.svelte';
 
 export const routes = new Map();
 routes.set('/', PostList);
@@ -20,6 +22,10 @@ routes.set('/notifications', RootNotification);
 routes.set('/chat/:username', ChatRoom);
 routes.set('/post/add', AddPost);
 routes.set('/post/:id', Post);
+// routes.set('/profile', Profile)
+// routes.set('/profile', Profile)
+routes.set('/friends', AddFriends)
+routes.set('/profile/:username', Profile)
 // routes.set('/Page404', Page404);
 routes.set('*', Page404);
 

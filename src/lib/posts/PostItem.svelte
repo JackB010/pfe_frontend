@@ -1,4 +1,6 @@
 <script>
+    import { location } from 'svelte-spa-router';
+
     import PostContent from './PostContent.svelte';
     import PostFooter from './PostFooter.svelte';
     import PostHeader from './PostHeader.svelte';
@@ -6,7 +8,11 @@
 </script>
 
 <div
-    class="felx border-2 flex-col bg-white dark:bg-slate-600 rounded-lg mb-4"
+    class="felx  flex-col pb-1 bg-white dark:bg-slate-600 rounded-lg {$location.startsWith(
+        '/post'
+    )
+        ? 'm-3'
+        : ''}"
     id="{post['id']}"
 >
     <PostHeader
