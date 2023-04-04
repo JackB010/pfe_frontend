@@ -4,17 +4,15 @@
     import { config, usershortinfo } from '../../stores/accounts/auth';
     import { baseurl } from '../functions';
     import Number from '../Number.svelte';
+    import { fly } from 'svelte/transition';
     export let user;
 
     const followUser = (username, ftype) => {
-        let url = '';
-        if (ftype === 'profile') {
-            if (ftype === $usershortinfo.ftype) url = 'user_user';
-            else url = 'user_page';
-        } else url = 'page_page';
+        let userftype = $usershortinfo.ftype === 'profile' ? 'user' : 'page';
+        ftype = ftype === 'profile' ? 'user' : 'page';
         axios
             .post(
-                `${baseurl}/accounts/follow/${url}/`,
+                `${baseurl}/accounts/follow/${userftype}_${ftype}/`,
                 {
                     username,
                 },
@@ -28,7 +26,10 @@
     };
 </script>
 
-<div class="flex items-center relative my-1 ">
+<div
+    class="flex items-center relative my-1 border border-black/20 rounded-lg ml-1 "
+    in:fly="{{ y: 40, duration: 2 * 200 }}"
+>
     <div
         class="w-full px-4 py-2 dark:border-0 dark:shadow-lg border  rounded-lg flex items-start  cursor-pointer"
     >
@@ -54,20 +55,22 @@
             </p>
         </div>
     </div>
-    {#if $usershortinfo.ftype === 'profile' || (user.ftype === 'page' && $usershortinfo.ftype === 'page')}
-        <div class=" absolute right-2">
-            <span
-                id="{user.username}"
-                on:click="{() => {
-                    followUser(user.username, user.ftype);
-                }}"
-                on:keypress="{() => {}}"
-                class="  {user.is_following
-                    ? 'text-rose-600 ring-1 ring-rose-600 dark:text-white '
-                    : 'bg-rose-600 text-white '}  cursor-pointer sm:mr-3
+    {#if user.id !== $usershortinfo.id}
+        {#if $usershortinfo.ftype === 'profile' || (user.ftype === 'page' && $usershortinfo.ftype === 'page')}
+            <div class=" absolute right-2">
+                <span
+                    id="{user.username}"
+                    on:click="{() => {
+                        followUser(user.username, user.ftype);
+                    }}"
+                    on:keypress="{() => {}}"
+                    class="  {user.is_following
+                        ? 'text-rose-600 ring-1 ring-rose-600 dark:text-white '
+                        : 'bg-rose-600 text-white '}  cursor-pointer sm:mr-3
                                        px-4 h-fit w-fit py-1 rounded-md shadow-md justify-center"
-                >{user.is_following ? 'Unfollow' : 'Follow'}</span
-            >
-        </div>
+                    >{user.is_following ? 'Unfollow' : 'Follow'}</span
+                >
+            </div>
+        {/if}
     {/if}
 </div>

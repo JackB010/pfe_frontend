@@ -4,28 +4,27 @@
     import { config, usershortinfo } from '../../stores/accounts/auth';
     import axios from 'axios';
     import { baseurl } from '../functions';
-    import { params, push } from 'svelte-spa-router';
+    import { push } from 'svelte-spa-router';
     import UserFollow from '../accounts/UserFollow.svelte';
-    import { onMount } from 'svelte';
-    import moment from 'moment';
+
     export let userdata = {};
     $: is_owner = userdata['user'].username === $usershortinfo['username'];
-    let pages = [],
-        isActive = false;
-    onMount(() => {
-        axios(
-            `${baseurl}/accounts/profile/user/pages/${userdata['user'].username}/`,
-            config
-        ).then((res) => {
-            pages = [...res.data];
+    let is_owner_profile = false;
+    $: {
+        userdata['owners_list'].forEach((element) => {
+            if ($usershortinfo['username'] === element['username'])
+                is_owner_profile = true;
         });
-    });
-
+    }
+    let isActive = false;
     const followUser = () => {
-        if (!is_owner)
+        if (!is_owner) {
+            let userftype =
+                $usershortinfo.ftype === 'profile' ? 'user' : 'page';
+            // ftype = ftype === 'profile' ? 'user' : 'page';
             axios
                 .post(
-                    `${baseurl}/accounts/follow/user_user/`,
+                    `${baseurl}/accounts/follow/${userftype}_page/`,
                     {
                         username: userdata['user'].username,
                     },
@@ -38,15 +37,16 @@
                         userdata['count_followed_by'] +
                         (userdata['is_following'] ? 1 : -1);
                 });
+        }
     };
 </script>
 
 <Wapper>
-    <div class="  mx-auto w-[94%] p-4">
+    <div class="  mx-auto w-11/12 p-4">
         <div class="flex flex-row items-center ">
             <div
                 style="background-image: url({userdata['photo']})"
-                class="sm:w-32 sm:h-32 w-24 h-24 bg-cover   bg-center rounded-full border-4 object-cover shadow"
+                class="sm:w-32 sm:h-32 w-24 h-24 bg-cover   bg-center rounded-lg border-4 object-cover shadow"
             ></div>
             <div class="flex-1">
                 <div
@@ -55,7 +55,7 @@
                     <span class="text-sm text-gray-700 dark:text-white "
                         ><span class="font-bold"
                             ><Number
-                                number="{userdata['count_following_profile']}"
+                                number="{userdata['count_following']}"
                             /></span
                         > Following</span
                     >
@@ -78,7 +78,7 @@
                         on:click="{followUser}"
                         on:keypress="{() => {}}"
                         class="{is_owner
-                            ? 'cursor-not-allowed bg-gray-200 text-black'
+                            ? 'cursor-not-allowed'
                             : 'cursor-pointer'} {userdata['is_following'] &&
                         !is_owner
                             ? 'border-rose-600 text-rose-600'
@@ -92,7 +92,7 @@
                         }}"
                         on:keypress="{(e) => {}}"
                         class="cursor-pointer {is_owner
-                            ? 'cursor-not-allowed bg-gray-200 text-black'
+                            ? 'cursor-not-allowed'
                             : 'cursor-pointer'} bg-rose-600 border-2 text-white px-2 py-1  rounded-lg w-fit h-fit"
                         >Message</span
                     >
@@ -107,10 +107,10 @@
                                 aria-hidden="true"
                                 on:click="{() => {
                                     push(
-                                        `/profile/${userdata['user'].username}/settings`
+                                        `/${$usershortinfo.ftype}/${$usershortinfo.username}/settings`
                                     );
                                 }}"
-                                on:keypress="{(e) => {}}"
+                                on:keypress="{() => {}}"
                             >
                                 <path
                                     stroke-linecap="round"
@@ -128,35 +128,32 @@
                 </div>
             </div>
         </div>
-
         <div class=" pr-1 pl-4 mt-3">
-            <div class="text-gray-400 text-xs">
-                <span
-                    >joined <span>
-                        {moment(userdata['user'].date_joined).fromNow()}
-                    </span></span
-                >
-            </div>
-
             <div class="font-medium text-2xl    mt-1 text-rose-600">
                 {userdata['user'].username}
             </div>
 
             {#if userdata['user'].first_name !== '' || userdata['user'].last_name !== ''}
-                <div class="mb-2 text-sm font-normal">
+                <div class="mb-2 text-sm font-normal text-rose-400">
                     {userdata['user'].first_name}
                     {userdata['user'].last_name}
                 </div>
             {/if}
+            <div class=" my-2 font-light text-sm  text-gray-600">
+                <p>
+                    <span class="text-rose-600">about:</span>
+                    {userdata['about']}
+                </p>
+            </div>
             <div class=" my-2 font-light text-sm ">
                 <p>
-                    <span class="text-rose-600">bio: </span>
+                    <span class="text-rose-600">bio:</span>
                     {userdata['bio']}
                 </p>
             </div>
             <div>
                 <span class=" pt-2 text-xs sm:text-base"
-                    >Owned pages {userdata['num_total_pages']}
+                    >Owned pages {userdata['owners_list'].length}
                     <span class="ml-auto">
                         <svg
                             class="w-4 h-4 inline transition-transform transform {isActive
@@ -179,14 +176,14 @@
                         </svg>
                     </span></span
                 >
-                {#if isActive && pages.length > 0}
+                {#if isActive && userdata['owners_list'].length > 0}
                     <div
                         class="{isActive
                             ? 'shadow-lg dark:border rounded-lg  mt-2 p-1'
                             : ''}"
                     >
-                        {#each pages as page}
-                            <UserFollow user="{page}" />
+                        {#each userdata['owners_list'] as user}
+                            <UserFollow user="{user}" />
                         {/each}
                     </div>
                 {/if}
@@ -209,7 +206,7 @@
                     >
                     total likes {userdata['num_total_likes']}
                 </div>
-                {#if is_owner}
+                {#if is_owner || is_owner_profile}
                     <div
                         class="mt-2 text-xs sm:text-base cursor-pointer w-fit"
                         on:click="{() => {
@@ -238,6 +235,23 @@
                         total saved {userdata['num_total_saved']}
                     </div>
                 {/if}
+                <div>
+                    <div
+                        class="  flex flex-row flex-wrap mb-3 space-x-1 mt-3  "
+                    >
+                        {#each userdata['categories'] as categorie}
+                            <span
+                                on:click="{() => {
+                                    push(`/page/categorie/${categorie}`);
+                                }}"
+                                on:keypress="{() => {}}"
+                                class="dark:bg-rose-600 cursor-pointer shadow-md mb-2 text-rose-600 dark:text-white text-sm sm:text-sm p-1.5 font-semibold w-fit"
+                            >
+                                <span class="py-1">{categorie}</span>
+                            </span>
+                        {/each}
+                    </div>
+                </div>
             </div>
             <div class="flex p-4 mt-4">
                 <div class="w-fit mx-auto text-center text-xs sm:text-base">
@@ -252,7 +266,7 @@
                 >
                     <span class="font-bold "
                         ><Number
-                            number="{userdata['count_following_profile']}"
+                            number="{userdata['count_followed_by']}"
                         /></span
                     > Following Pages
                 </div>

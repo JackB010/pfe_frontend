@@ -4,6 +4,7 @@
         contact_list,
         getChatContacts,
         messagesLoaded,
+        nexturlContact,
     } from './../../stores/chats/chat';
     import { push } from 'svelte-spa-router';
     import { onMount } from 'svelte';
@@ -11,29 +12,55 @@
     import moment from 'moment';
     import Wapper from '../Wapper.svelte';
     import NoThing from '../ui/NoThing.svelte';
+    import axios from 'axios';
+    import { baseurl } from '../functions';
+    import { config } from '../../stores/accounts/auth';
+    import SearchSection from '../ui/SearchSection.svelte';
 
     const getChatRoom = async (e) => {
         await push(`/chat/${e.target.id}`);
     };
 
     onMount(async () => {
+        contact_list.set([]);
         await getChatContacts();
         messagesLoaded.set(true);
         closeSocket();
     });
 
-    const onlineIcon = (on) => {
-        if (on) return 'rgb(0, 200, 0)';
-        else return 'red';
+    const searchFunc = async (search) => {
+        if (search.trim().length !== 0) {
+            await axios(`${baseurl}/chats/?search=${search}`, config).then(
+                (res) => {
+                    contact_list.set(res.data['results']);
+                    nexturlContact.set(res.data['next']);
+                }
+            );
+        }
     };
+    let yy = -1,
+        y = 0;
+    $: {
+        if (yy - 50 === y - 50) {
+            if ($nexturlContact) {
+                axios($nexturlContact, config).then(async (res) => {
+                    let data = [];
+                    contact_list.subscribe((notifications) => {
+                        data = notifications;
+                    });
+                    data = [...data, ...res.data['results']];
+                    await contact_list.set(data);
+                    nexturlContact.set(res.data['next']);
+                });
+                yy = yy - 40;
+            }
+        }
+    }
 </script>
 
 {#if $messagesLoaded}
     <Wapper>
-        <div
-            class=" mt-3 mx-auto w-full min-h-[34rem] overflow-hidden px-2 dark:text-black"
-            id="chatHome"
-        >
+        <div class=" mt-3 mx-auto w-full min-h-[34rem]  px-2 dark:text-black">
             <h2 class="flex flex-row items-center justify-between mt-2  ">
                 <span class="font-bold text-xl dark:text-white text-gray-900"
                     >Messages</span
@@ -54,41 +81,65 @@
                     </svg>
                 </span>
             </h2>
-            <div class="flex flex-col relative mt-4">
+            <!-- <div class="flex flex-1   ">
                 <div
-                    class="absolute flex items-center justify-center h-10 w-10 left-0 top-1"
+                    class="flex w-full flex-1 mt-2 px-1 justify-center items-center  "
                 >
-                    <svg
-                        class="h-6 w-6 text-gray-600"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                    >
-                        <path
-                            fill-rule="evenodd"
-                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                </div>
-                <div>
-                    <input
-                        class="pl-10   w-full border-y-2  border-2 rounded-lg focus:border-rose-600 focus:ring-rose-600 border-rose-600 text-rose-700
-                                     text-lg outline-none focus:outline-none"
-                        type="text"
-                    />
-                </div>
-            </div>
+                    <div class=" flex-1 items-center">
+                        <form
+                            class="w-full h-12 flex "
+                            on:submit|preventDefault="{searchFunc}"
+                        >
+                            <input
+                                bind:value="{search}"
+                                class="-mr-1 h-12 w-full border-y-2  border-l-2 rounded-l-lg border-rose-600 text-rose-700
+                                     text-lg pl-4 outline-none focus:outline-none"
+                            />
 
+                            <button
+                                class=" text-white border-y-2 border-rose-600 dark:border-white  border-r-2  bg-rose-600 active:bg-rose-600  px-2 h-12  rounded-r-lg shadow 
+                                    outline-none focus:outline-none  ease-linear transition-all duration-100"
+                            >
+                                <svg
+                                    class="w-7 h-7"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                    ></path>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div> -->
+            <div class="mt-2">
+                <SearchSection searchFunc="{searchFunc}" />
+            </div>
             {#if $contact_list.length !== 0}
                 <ul
-                    class="flex flex-col mt-4 space-y-1 overflow-y-auto h-[34rem]"
+                    class="flex flex-col mt-4  space-y-1.5 overflow-hidden h-[34rem] hover:hover:pr-3"
+                    bind:clientHeight="{y}"
+                    on:scroll="{(e) => {
+                        yy = e.target['scrollHeight'];
+                        y = e.target['scrollTop'] + e.target['clientHeight'];
+                    }}"
+                    id="chatHome"
                 >
                     {#each $contact_list as contact}
                         <li
-                            class="flex flex-row rounded-lg items-center relative {contact[
+                            class="flex flex-row ml-1 rounded-md items-center  relative {contact[
                                 'unread_messages'
                             ] != 0
                                 ? 'dark:bg-slate-500 dark:hover:bg-slate-600 bg-rose-200 hover:bg-rose-300 '
-                                : 'dark:bg-gray-700 bg-gray-100'} p-2 rounded"
+                                : 'dark:bg-gray-700 bg-gray-100'} p-2"
                         >
                             {#if contact['unread_messages'] != 0}
                                 <div

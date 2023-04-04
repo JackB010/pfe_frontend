@@ -20,34 +20,32 @@
     import FullInput from '../ui/FullInput.svelte';
     import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
     import Fa from 'svelte-fa/src/fa.svelte';
-    import { baseurl } from '../functions';
     import { nexturl } from '../../stores/tools';
-
+    let messages, userdata, element;
     onMount(async () => {
         let username = params['username'];
         loadMessages(username);
         chating_with.set(await getProfileShortInfo(username, 'profile'));
     });
-
-    let messages, userdata, element;
-    // images = [];
-    $: fetched_messages.subscribe((data) => {
+    fetched_messages.subscribe((data) => {
         messages = data;
     });
     chating_with.subscribe((data) => {
         userdata = data;
     });
-    const sendMessage = async (message) => {
-        loadmore = false;
 
-        await addMessage(message, userdata.username);
+    // images = [];
+
+    const sendMessage = (message) => {
+        loadmore = false;
+        addMessage(message, userdata.username);
     };
 
     const ShowInfo = (id) => {
         let elm_d = document.getElementById(`delete_${id}`);
         let elm_i = document.getElementById(`info_${id}`);
         elm_i.classList.toggle('hidden');
-        elm_d.classList.toggle('hidden');
+        if (elm_d) elm_d.classList.toggle('hidden');
     };
     const deleteMessageHandler = (e) => {
         let id = e.target.id;
@@ -119,6 +117,21 @@
             {/if}
 
             {#each messages as msg, i}
+                {#if i > 0}
+                    {#if moment(msg.timestamp).format('D') !== moment(messages[i - 1].timestamp).format('D')}
+                        <div
+                            class="text-rose-600 dark:text-white font-semibold text-xs text-center mt-6 mb-2"
+                        >
+                            {moment(messages[i - 1].timestamp).format('D MMMM')}
+                        </div>
+                    {/if}
+                {:else}
+                    <div
+                        class="text-rose-600 dark:text-white font-semibold  text-center text-xs mb-2 "
+                    >
+                        {moment(msg.timestamp).format('D MMMM ')}
+                    </div>
+                {/if}
                 <div class="grid grid-cols-12 text-black ">
                     {#if msg.sender === $usershortinfo['username']}
                         <div class="col-start-6 col-end-13 p-2 rounded-sm ">
@@ -293,6 +306,10 @@
                             {#if msg.photos.length !== 0}
                                 <div class="flex flex-row items-end ">
                                     <div
+                                        on:click="{() => {
+                                            ShowInfo(msg.id);
+                                        }}"
+                                        on:keypress="{() => {}}"
                                         class="flex items-center justify-center h-8 w-8 rounded-full  flex-shrink-0"
                                     >
                                         <div
@@ -308,7 +325,13 @@
                                             class="w-7 h-7 bg-cover bg-center  cursor-pointer object-cover rounded-full border-1  shadow"
                                         ></div>
                                     </div>
-                                    <div class="grid ">
+                                    <div
+                                        class="grid "
+                                        on:click="{() => {
+                                            ShowInfo(msg.id);
+                                        }}"
+                                        on:keypress="{() => {}}"
+                                    >
                                         {#each msg.photos as photo}
                                             <div class="py-1 px-4  ">
                                                 <div
@@ -330,11 +353,23 @@
                                                     {msg.content}
                                                 </div>
                                             </div>
+                                            <div class="">
+                                                <span
+                                                    id="{`info_${msg.id}`}"
+                                                    class="text-gray-700 hidden w-full dark:text-white mt-1 text-xs float-left "
+                                                >
+                                                    <span
+                                                        >{moment(
+                                                            msg.timestamp
+                                                        ).fromNow()}</span
+                                                    >
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             {:else}
-                                <div class="flex flex-row items-center">
+                                <div class="flex flex-row items-start">
                                     <div
                                         class="flex items-center justify-center h-8 w-8 rounded-full  flex-shrink-0"
                                     >
@@ -351,12 +386,29 @@
                                             class="w-7 h-7 bg-cover bg-center  cursor-pointer object-cover rounded-full border-1  shadow"
                                         ></div>
                                     </div>
-
-                                    <div
-                                        class="relative ml-3 text-sm bg-rose-600 text-white py-1 px-4 shadow-lg rounded-md "
-                                    >
-                                        <div class="max-w-xs break-words">
-                                            {msg.content}
+                                    <div>
+                                        <div
+                                            on:click="{(e) => {
+                                                ShowInfo(msg.id);
+                                            }}"
+                                            on:keypress="{() => {}}"
+                                            class="relative  text-sm bg-rose-600 w-fit text-white py-1 px-4 ml-3 shadow-lg rounded-md mb-1 float-left"
+                                        >
+                                            <div class="max-w-xs break-words">
+                                                {msg.content}
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <span
+                                                class="text-gray-700 hidden dark:text-white text-xs float-left ml-4"
+                                                id="{`info_${msg.id}`}"
+                                            >
+                                                <span
+                                                    >{moment(
+                                                        msg.timestamp
+                                                    ).fromNow()}</span
+                                                >
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

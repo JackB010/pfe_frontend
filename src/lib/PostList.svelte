@@ -1,9 +1,9 @@
 <script>
-    import { afterUpdate, onMount } from 'svelte';
+    import { onMount } from 'svelte';
     import { baseurl } from './functions';
     import axios from 'axios';
-    import { config } from '../stores/accounts/auth';
-    import { location, push } from 'svelte-spa-router';
+    import { config, userinfo, usershortinfo } from '../stores/accounts/auth';
+    import { location } from 'svelte-spa-router';
     import { postItems, postsLoaded } from '../stores/posts/posts';
     import Loader from './ui/Loader.svelte';
     import {
@@ -26,23 +26,25 @@
                 postItems.set(res.data['results']);
                 postsLoaded.set(true);
             });
-            axios(`${baseurl}/events/`, config).then((res) => {
-                eventList.set(res.data);
+            axios(`${baseurl}/events/?done=true`, config).then((res) => {
+                eventList.set(res.data['results']);
                 is_loaded = true;
             });
         }
     });
 </script>
 
-{#if $showEventList && $eventList.length !== 0}
-    <ShortEventList is_loaded="{is_loaded}" />
-{/if}
-{#if $showRecommended && $recommended.length !== 0}
-    <Recommended />
-{/if}
+<div class="mx-1">
+    {#if ($showEventList && $eventList.length !== 0) || $usershortinfo['ftype'] === 'page' || userinfo['num_total_pages'] !== 0}
+        <ShortEventList is_loaded="{is_loaded}" />
+    {/if}
+    {#if $showRecommended && $recommended.length !== 0}
+        <Recommended />
+    {/if}
+</div>
 <Wapper>
     {#if $location === '/'}
-        <PostsHeader profile="{false}" />
+        <PostsHeader />
     {/if}
     <div class="px-4 py-5 flex-auto ">
         <div

@@ -12,13 +12,16 @@ export let images_chat = writable([{}]);
 export let fetched_messages = writable([]);
 export let chating_with = writable({});
 export let unread_num = writable(0);
+export let nexturlContact = writable('');
+
 export let messagesLoaded = writable(false);
 export let chatIntervalID = undefined
 export let rws;
 
 export const getChatContacts = async () => {
     await axios(`${baseurl}/chats/`, config).then((res) => {
-        contact_list.set(res.data);
+        contact_list.set(res.data['results']);
+        nexturlContact.set(res.data['next']);
     });
 }
 export const loadMessages = async (username) => {
@@ -48,95 +51,102 @@ export const loadMessages = async (username) => {
             // fetched_messages.set(data["message"])
         }
         if (data["type"] === "send_message") {
-
             data = data["message"]
-
-            if (data["type"] === "new_message") {
-                fetched_messages.update((messages) => {
-                    return [...messages, data["message"]]
-                })
-                let imgs = [], id = data["message"]["id"];
-                images_chat.subscribe(data => { imgs = data })
-                console.log(imgs)
-                if (imgs.length > 0) {
-                    imgs.forEach((image) => {
-                        let data = new FormData();
-                        data.append('photo', image, image.name);
-                        data.append('user', id);
-                        axios
-                            .post(`${baseurl}/chats/images/`, data, config)
-                            .then((res) => {
-                                fetched_messages.update((messages) => {
-                                    let msgs = messages.map((msg) => {
-                                        if (msg.id === id) {
-                                            msg.photos.push({
-                                                photo: res.data['photo'],
-                                            });
-                                        }
-                                        return msg;
-                                    });
-                                    return msgs;
+            // console.log(data)
+            // if (data["type"] === "new_message") {
+            //     fetched_messages.update((messages) => {
+            //         return [...messages, data["message"]]
+            //     })
+            // }
+        }
+        if (data["type"] === "new_message") {
+            fetched_messages.update((messages) => {
+                return [...messages, data["message"]]
+            })
+            let imgs = [], id = data["message"]["id"];
+            images_chat.subscribe(data => { imgs = data })
+            if (imgs.length > 0) {
+                imgs.forEach((image) => {
+                    let data = new FormData();
+                    data.append('photo', image, image.name);
+                    data.append('user', id);
+                    axios
+                        .post(`${baseurl}/chats/images/`, data, config)
+                        .then((res) => {
+                            fetched_messages.update((messages) => {
+                                let msgs = messages.map((msg) => {
+                                    if (msg.id === id) {
+                                        msg.photos.push({
+                                            photo: res.data['photo'],
+                                        });
+                                    }
+                                    return msg;
                                 });
+                                return msgs;
                             });
-                    });
-                }
-                let user = {};
-                usershortinfo.subscribe(data => {
-                    user = data
-                })
-                const hash = window.location.hash;
+                        });
+                });
+            }
+            let user = {};
+            usershortinfo.subscribe(data => {
+                user = data
+            })
+            const hash = window.location.hash;
 
-                if (data["message"]["sender"] !== user.username && hash.startsWith(`#/chat/${data["message"]["sender"]}`)) {
-                    rws.send(JSON.stringify({
-                        'command': 'make_message_seen',
-                        "id": data["message"]["id"]
-                    }))
-                }
-                images_chat.set([])
+            if (data["message"]["sender"] !== user.username && hash.startsWith(`#/chat/${data["message"]["sender"]}`)) {
                 rws.send(JSON.stringify({
-                    'command': 'fetch_messages',
-                    "to": username
+                    'command': 'make_message_seen',
+                    "id": data["message"]["id"]
                 }))
             }
-            if (data["type"] === "delete_message") {
-                fetched_messages.update((messages) => {
-                    messages = messages.filter((msg) => {
-                        return msg.id !== data["message"].id;
-                    });
-                    return messages
-                })
-            }
-            if (data['type'] === "make_message_seen") {
-                let id = data["message"]["id"];
-                console.log(id)
-                fetched_messages.update((messages) => {
-                    for (let i = 0; i < messages.length; i++) {
-                        if (messages[i].id == id) {
-                            messages[i].seen = true;
-                        }
-                    }
-                    return messages
-                })
-            }
-            if ((data['type'] === "make_messages_seen")) {
-                let messages = [{}];
-                fetched_messages.subscribe(data => { messages = data })
-                let user;
-                usershortinfo.subscribe(data => {
-                    user = data
-                })
+            images_chat.set([])
 
-                messages.forEach(element => {
-                    if (user === data["message"])
-                        element.seen = true;
-                });
-                fetched_messages.set(messages)
-            }
+            rws.send(JSON.stringify({
+                'command': 'fetch_messages',
+                "to": username
+            }))
+
+
         }
+        if (data["type"] === "delete_message") {
+            fetched_messages.update((messages) => {
+                messages = messages.filter((msg) => {
+                    return msg.id !== data["message"].id;
+                });
+                return messages
+            })
+        }
+        if (data['type'] === "make_message_seen") {
+            let id = data["message"]["id"];
+            console.log(id)
+            fetched_messages.update((messages) => {
+                for (let i = 0; i < messages.length; i++) {
+                    if (messages[i].id == id) {
+                        messages[i].seen = true;
+                    }
+                }
+                return messages
+            })
+        }
+        if ((data['type'] === "make_messages_seen")) {
+            let messages = [{}];
+            fetched_messages.subscribe(data => { messages = data })
+            let user;
+            usershortinfo.subscribe(data => {
+                user = data
+            })
 
+            messages.forEach(element => {
+                if (user === data["message"])
+                    element.seen = true;
+            });
+            fetched_messages.set(messages)
+        }
     }
 
 }
+
+
 export const closeSocket = () => {
     if (rws instanceof WebSocket)
         rws.close()
@@ -149,6 +159,7 @@ export const addMessage = async (message, username) => {
         'command': 'new_message',
         "to": username
     }))
+
 }
 
 export const deleteMessage = async (id) => {

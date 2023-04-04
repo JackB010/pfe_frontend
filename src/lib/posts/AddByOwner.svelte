@@ -5,22 +5,37 @@
     import User from '../accounts/User.svelte';
     import { baseurl } from '../functions';
     export let user;
+    export let add_user = true;
     $: isActive = false;
     $: isSelected = false;
+    $: {
+        if (user.username !== '') {
+            isSelected = true;
+        }
+    }
     let pages = [];
     onMount(() => {
-        usershortinfo.subscribe((data) => {
+        if (add_user) {
+            usershortinfo.subscribe((data) => {
+                axios(`${baseurl}/accounts/profile/user/pages/`, config).then(
+                    (res) => {
+                        pages = [data, ...res.data];
+                    }
+                );
+            });
+        } else {
             axios(`${baseurl}/accounts/profile/user/pages/`, config).then(
                 (res) => {
-                    pages = [data, ...res.data];
+                    pages = [...res.data];
                 }
             );
-        });
+        }
 
         pages = pages;
     });
     const select_user = (index) => {
         user = pages[index];
+        user.id = user.id;
         isActive = false;
         isSelected = true;
     };

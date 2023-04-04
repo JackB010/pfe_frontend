@@ -6,11 +6,16 @@
     import { postcomments } from './../../stores/posts/posts';
     import Number from '../Number.svelte';
     import FullInput from '../ui/FullInput.svelte';
+    export let num_total_likes = -1;
 
     export let num_comments, num_likes, is_liked, allow_comments, id;
 
     const makeLikeFunc = (e) => {
         axios.post(`${baseurl}/posts/like/`, { id }, config).then((res) => {
+            if (num_total_likes != -1) {
+                if (is_liked) num_total_likes = num_total_likes - 1;
+                else num_total_likes = num_total_likes + 1;
+            }
             if (is_liked) num_likes = num_likes - 1;
             else num_likes = num_likes + 1;
             is_liked = !is_liked;

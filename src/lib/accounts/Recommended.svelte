@@ -5,26 +5,29 @@
     import axios from 'axios';
     import { recommended, showRecommended } from '../../stores/tools';
     import Number from '../Number.svelte';
+    import { link } from 'svelte-spa-router';
 
     let is_loaded = false;
     $: {
         let suggestedUrl = '';
-        if ($usershortinfo.ftype === 'page') {
-            suggestedUrl = '/accounts/suggestedusers/user_user/14/';
+        if ($usershortinfo.ftype === 'profile') {
+            suggestedUrl = '/accounts/suggestedusers/user_user/';
         } else {
-            suggestedUrl = '/pages/suggestedpages/14/';
+            suggestedUrl = '/pages/suggestedpages/';
         }
         if ($usershortinfo.ftype !== null) {
             axios(`${baseurl}${suggestedUrl}`, config).then((res) => {
-                recommended.set(res.data);
+                recommended.set(res.data['results']);
                 is_loaded = true;
             });
         }
     }
-    const followUser = (username) => {
+    const followUser = (username, ftype) => {
+        let userftype = $usershortinfo.ftype === 'profile' ? 'user' : 'page';
+        ftype = ftype === 'profile' ? 'user' : 'page';
         axios
             .post(
-                `${baseurl}/accounts/follow/user_user/`,
+                `${baseurl}/accounts/follow/${userftype}_${ftype}/`,
                 {
                     username,
                 },
@@ -78,32 +81,43 @@
                     </svg>
                 </div>
             </div>
-            <div class="flex flex-row items-center mx-3 my-1   overflow-x-auto">
-                {#each $recommended as account}
+            <div
+                class="flex flex-row items-center mx-3 my-1   overflow-hidden "
+                id="homesuggestion"
+            >
+                {#each $recommended as user}
                     <div
                         class="h-full relative  flex flex-col items-center m-2 px-8   dark:ring-1 ring-rose-600 shadow-md rounded-md"
                     >
-                        <div
-                            style="background-image: url({account.photo_icon})"
-                            class="w-14 h-14 bg-cover bg-center  cursor-pointer object-cover {account.ftype ===
-                            'profile'
-                                ? 'rounded-full'
-                                : 'rounded-lg'} border-1 mt-2 mx-1 shadow"
-                        ></div>
-                        <div class="text-semibold mt-1">{account.username}</div>
+                        <a
+                            href="{`/${user.ftype}/${user.username}`}"
+                            use:link
+                            class="text-center"
+                        >
+                            <div
+                                style="background-image: url({user.photo_icon})"
+                                class="w-14 h-14 bg-cover bg-center  cursor-pointer object-cover {user.ftype ===
+                                'profile'
+                                    ? 'rounded-full'
+                                    : 'rounded-lg'} border-1 mt-2 mx-1 shadow"
+                            ></div>
+                            <div class="text-semibold mt-1">
+                                {user.username}
+                            </div>
+                        </a>
                         <div
                             class="text-xs text-gray-700 dark:text-gray-300 mb-2"
                         >
-                            <Number number="{account.count_followed_by}" /><span
+                            <Number number="{user.count_followed_by}" /><span
                                 class="ml-1">Followers</span
                             >
                         </div>
                         <div class="relative w-full h-10  mb-3">
                             <div class="  z-50 mx-auto  mt-5 justify-center  ">
                                 <span
-                                    id="{account.username}"
+                                    id="{user.username}"
                                     on:click="{() => {
-                                        followUser(account.username);
+                                        followUser(user.username, user.ftype);
                                     }}"
                                     on:keypress="{() => {}}"
                                     class="cursor-pointer 
@@ -119,3 +133,10 @@
         </div>
     </Wapper>
 {/if}
+
+<style>
+    #homesuggestion:hover {
+        overflow-x: overlay;
+        z-index: 12;
+    }
+</style>

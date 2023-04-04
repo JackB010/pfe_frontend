@@ -1,6 +1,7 @@
 <script>
     import { push } from 'svelte-spa-router';
     import { afterUpdate, onMount } from 'svelte';
+    import { fly } from 'svelte/transition';
     import Loader from '../ui/Loader.svelte';
     import moment from 'moment';
     import Wapper from '../Wapper.svelte';
@@ -14,26 +15,27 @@
     import { config } from '../../stores/accounts/auth';
     import axios from 'axios';
     import { baseurl } from '../functions';
+    import SearchSection from '../ui/SearchSection.svelte';
+
     onMount(async () => {
+        moment.locale('fr');
         await axios(`${baseurl}/notifications/`, config).then((res) => {
             nexturlNotifications.set(res.data['next']);
             notificationsList.set(res.data['results']);
             notificationsLoaded.set(true);
         });
     });
-    //    let search = '';
-    // const searchFunc = async () => {
-    //     if (search.trim().length !== 0) {
-    //         postsLoaded.set(false);
-    //         await axios(
-    //             `${baseurl}/posts/search/?search=${search}`,
-    //             config
-    //         ).then((res) => {
-    //             postItems.set(res.data);
-    //             postsLoaded.set(true);
-    //         });
-    //     }
-    // };
+    const searchFunc = async (search) => {
+        if (search.trim().length !== 0) {
+            await axios(
+                `${baseurl}/notifications/?search=${search}`,
+                config
+            ).then((res) => {
+                nexturlNotifications.set(res.data['next']);
+                notificationsList.set(res.data['results']);
+            });
+        }
+    };
 
     $: {
         if ($unread_notifications) {
@@ -59,6 +61,7 @@
                     await notificationsList.set(data);
                     nexturlNotifications.set(res.data['next']);
                 });
+                yy = yy - 40;
             }
         }
     }
@@ -144,7 +147,7 @@
             class=" mt-3 mx-auto w-full min-h-[34rem] overflow-hidden px-2 dark:text-black "
             id="chatHome"
         >
-            <div class="flex flex-col relative mt-4 ">
+            <!-- <div class="flex flex-col relative mt-4 ">
                 <div
                     class="absolute flex items-center justify-center h-10 w-10 left-0 top-1"
                 >
@@ -166,9 +169,50 @@
                         type="text"
                     />
                 </div>
-            </div>
+            </div> -->
+            <!-- <div class="flex ">
+                <div
+                    class="flex w-full mt-2 px-1 justify-center items-center  "
+                >
+                    <div class=" flex-1 items-center">
+                        <form
+                            class="w-full h-12 flex "
+                            on:submit|preventDefault="{searchFunc}"
+                        >
+                            <input
+                                bind:value="{search}"
+                                class="-mr-1 h-12 w-full border-y-2  border-l-2 rounded-l-lg border-rose-600 text-rose-700
+                                     text-lg pl-4 outline-none focus:outline-none"
+                            />
+
+                            <button
+                                class=" text-white border-y-2 border-rose-600 dark:border-white  border-r-2  bg-rose-600 active:bg-rose-600  px-2 h-12  rounded-r-lg shadow 
+                                    outline-none focus:outline-none  ease-linear transition-all duration-100"
+                            >
+                                <svg
+                                    class="w-7 h-7"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                    ></path>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div> -->
+            <SearchSection searchFunc="{searchFunc}" />
+
             <div
-                class="flex-1 text-white bg-rose-600 text-center p-1 mt-2 mx-1 cursor-pointer rounded-lg"
+                class="flex-1 text-white bg-rose-600 text-center  p-1 mt-2 ml-1 cursor-pointer rounded-lg"
                 on:click="{() => makeread(null)}"
                 on:keypress="{() => {}}"
             >
@@ -178,20 +222,22 @@
             </div>
             {#if $notificationsList.length !== 0}
                 <ul
-                    class="flex flex-col mt-4 space-y-1 overflow-y-auto h-[34rem]"
+                    class="flex flex-col mt-4 space-y-1.5 ml-1 overflow-hidden h-[34rem] hover:hover:pr-3"
                     bind:clientHeight="{y}"
                     on:scroll="{(e) => {
                         yy = e.target['scrollHeight'];
                         y = e.target['scrollTop'] + e.target['clientHeight'];
                     }}"
+                    id="homenotification"
                 >
-                    {#each $notificationsList as notification}
+                    {#each $notificationsList as notification, i}
                         <li
-                            class="flex flex-row rounded-lg shadow-lg  items-center relative cursor-pointer {!notification[
+                            in:fly="{{ y: 50, duration: (i % 10) * 200 }}"
+                            class="flex flex-row rounded-md shadow-md   items-center relative cursor-pointer {!notification[
                                 'seen'
                             ]
                                 ? 'dark:bg-slate-500 dark:hover:bg-slate-600 bg-rose-200 hover:bg-rose-300 '
-                                : 'dark:bg-gray-700 bg-gray-100'} p-2 rounded"
+                                : 'dark:bg-gray-700 bg-gray-100'} py-4 px-2"
                             on:click="{() => getLink(notification)}"
                             on:keypress="{() => {}}"
                         >
@@ -216,10 +262,10 @@
                                 </span>
                             </div>
                             <div
-                                class="flex flex-col ml-4 text-black dark:text-white"
+                                class="flex flex-col ml-4 text-black space-y-1 dark:text-white"
                             >
                                 <span
-                                    class="flex flex-row flex-1 space-x-2 items-center"
+                                    class="flex flex-row flex-1 space-x-2  items-center"
                                 >
                                     <span>
                                         <h3
@@ -244,7 +290,6 @@
                                 <p
                                     class="dark:text-gray-300 text-gray-700 text-xs "
                                 >
-                                    {moment.locale('fr')}
                                     {moment(notification['created']).fromNow()}
                                 </p>
                             </div>
@@ -266,7 +311,8 @@
 {/if}
 
 <style>
-    #chatHome:hover {
+    #homenotification:hover {
         overflow-y: overlay;
+        z-index: 12;
     }
 </style>

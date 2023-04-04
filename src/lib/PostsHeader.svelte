@@ -1,18 +1,19 @@
 <script>
     import axios from 'axios';
-    import { push } from 'svelte-spa-router';
+    import { push, location } from 'svelte-spa-router';
     import { config } from '../stores/accounts/auth';
     import { postItems, postsLoaded } from '../stores/posts/posts';
-    import { backurls, nexturl } from '../stores/tools';
+    import { nexturl } from '../stores/tools';
     import { baseurl } from './functions';
-    export let profile = true;
-    let search = '';
-    const searchFunc = async () => {
-        postsLoaded.set(false);
+    import SearchSection from './ui/SearchSection.svelte';
+    export let profile = '';
+
+    const searchFunc = async (search) => {
+        // postsLoaded.set(false);
         await axios(
-            `${baseurl}/posts/search/${
-                profile ? 'user/' : ''
-            }?search=${search}`,
+            `${baseurl}/posts/?search=${search}${
+                profile ? `&user=${profile}` : ''
+            }`,
             config
         ).then((res) => {
             nexturl.set(res.data['next']);
@@ -21,15 +22,14 @@
         });
     };
     const addItem = () => {
-        backurls.update((data) => [...data, '/']);
         push('/post/add');
     };
 </script>
 
 <div class="flex mx-4">
-    <div class="flex w-full mt-2 px-1 justify-center items-center space-x-3 ">
+    <div class="flex w-full  px-1 justify-center items-end space-x-3 my-6">
         <div
-            class="h-12 w-12 rounded-lg flex items-center cursor-pointer  border-2 border-rose-600 dark:border-white text-white bg-rose-600 hove:bg-rose-600 "
+            class="h-12 w-12 rounded-lg flex  items-center cursor-pointer border-2 border-rose-600 dark:border-white text-white bg-rose-600 hove:bg-rose-600 "
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +47,7 @@
                     d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
             </svg>
         </div>
-        <div class=" flex-1 ">
+        <!-- <div class=" flex-1 ">
             <form
                 class="w-full h-12 flex"
                 on:submit|preventDefault="{searchFunc}"
@@ -79,6 +79,9 @@
                     </svg>
                 </button>
             </form>
+        </div> -->
+        <div class=" flex-1  ">
+            <SearchSection searchFunc="{searchFunc}" />
         </div>
     </div>
 </div>

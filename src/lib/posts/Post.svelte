@@ -14,6 +14,7 @@
     import CommentItem from './CommentItem.svelte';
     import NoThing from '../ui/NoThing.svelte';
     import Wapper from '../Wapper.svelte';
+    import BackSection from '../ui/BackSection.svelte';
     onMount(async () => {
         if (params.id) {
             await axios(`${baseurl}/posts/${params.id}/`, config).then(
@@ -34,6 +35,7 @@
 </script>
 
 {#if $postLoaded}
+    <BackSection name="Post by {$postItem['profile']['username']}" />
     <!-- <div
         class="flex flex-wrap lg:float-right xl:mr-16 mt-0 mx-2 md:w-7/12 lg:w-6/12  "
     >
@@ -64,7 +66,7 @@
                 "
             >
                 {#if $commentsLoaded}
-                    {#each $postcomments as comment}
+                    {#each $postcomments as comment, i (comment.id)}
                         <div class="mx-auto" id="{comment.id}">
                             <CommentItem comment="{comment}" />
                         </div>

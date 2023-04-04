@@ -2,6 +2,7 @@
     import { link } from 'svelte-spa-router';
     import Badge from '../ui/Badge.svelte';
     import { location } from 'svelte-spa-router';
+    import User from '../accounts/User.svelte';
 
     export let content, tags, images, id;
     let index = 0;
@@ -83,7 +84,11 @@
 
     <div class=" space-y-2 space-x-1 ml-4 my-2 ">
         {#each tags as tag}
-            <Badge>{tag['name']}</Badge>
+            <Badge
+                ><a href="{`/posts/tag/${tag['name']}`}" use:link
+                    >{tag['name']}</a
+                ></Badge
+            >
         {/each}
     </div>
 </div>

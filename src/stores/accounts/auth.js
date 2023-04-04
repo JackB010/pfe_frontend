@@ -34,9 +34,12 @@ export let userinfo = writable({});
 // }
 // });
 export let usersettingss = writable({});
+export let userUrl = writable('');
 export let userToken = writable({ refresh: undefined, access: undefined });
 export let isLoggin = writable(false);
 export let loaded = writable(false);
+export let selectedByNav = writable(false);
+export let num_total_pages = writable(0);
 export const config = { headers: { "Content-Type": "application/json", Authorization: "" } }
 
 export const getProfileShortInfo = async (username, ftype) => {
@@ -61,25 +64,29 @@ export const setLogedIn = async () => {
     profileId.set(token['pid'])
     localStorage.setItem("pid", token['pid'])
     config.headers.Authorization = `Bearer ${access}`
-    let settingsUrl = '', userUrl = '';
+    let settingsUrl = '';
     if (token['ftype'] === 'profile') {
         settingsUrl = '/accounts/settings/';
-        userUrl = '/accounts/profile/';
+        userUrl.set('/accounts/profile/');
     }
     else {
         settingsUrl = '/pages/settings/';
-        userUrl = '/pages/page/';
+        userUrl.set('/pages/page/');
     }
 
     await axios(`${baseurl}${settingsUrl}`, config).then(async (res) => {
         usersettingss.set(res.data)
         await localStorage.setItem('color-theme', res.data['theme'])
     })
+    let url = '';
+    userUrl.subscribe(data => { url = data })
+    await axios(`${baseurl}${url}`, config).then(res => {
+        userinfo.set(res.data)
+        num_total_pages.set(res.data["num_total_pages"])
+    })
     usershortinfo.set(await getProfileShortInfo(token['pid'], token['ftype']));
 
-    axios(`${baseurl}${userUrl}`, config).then(res => {
-        userinfo.set(res.data)
-    })
+
 }
 
 export const setLogedOut = async () => {

@@ -11,7 +11,7 @@
     let fileInput;
     let files;
     let emoji_list = true;
-    let text = '';
+    export let text = '';
 
     $: if (files) {
         for (const file of files) {

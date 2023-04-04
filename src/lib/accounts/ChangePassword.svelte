@@ -2,6 +2,7 @@
     import axios from 'axios';
     import { onMount } from 'svelte';
     import { push } from 'svelte-spa-router';
+    import { config } from '../../stores/accounts/auth';
     import { baseurl } from '../functions';
     // let id;
     onMount(async () => {
@@ -31,7 +32,8 @@
                     {
                         password,
                         password_confirm,
-                    }
+                    },
+                    config
                 )
                 .then((res) => {
                     push('/');

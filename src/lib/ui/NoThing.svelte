@@ -3,7 +3,7 @@
     export let dSVG;
 </script>
 
-<div class="h-[30rem] border-gray-300 shadow shadow-gray-400 border ">
+<div class="h-[30rem] border-gray-300 shadow shadow-gray-400 border mb-4">
     <div class="h-10/12 mt-36 ">
         <div class="w-56 mx-auto text-gray-300">
             <svg

@@ -5,6 +5,8 @@
     import PostFooter from './PostFooter.svelte';
     import PostHeader from './PostHeader.svelte';
     export let post = {};
+    export let num_total_likes = -1;
+    export let num_total_saved = -1;
 </script>
 
 <div
@@ -19,6 +21,9 @@
         profile="{post['profile']}"
         owner="{post['by_owner']}"
         created="{post.created}"
+        is_saved="{post['is_saved']}"
+        id="{post['id']}"
+        bind:num_total_saved="{num_total_saved}"
     />
     <PostContent
         content="{post['content']}"
@@ -33,5 +38,6 @@
         is_liked="{post['is_liked']}"
         allow_comments="{post['allow_comments']}"
         id="{post['id']}"
+        bind:num_total_likes="{num_total_likes}"
     />
 </div>

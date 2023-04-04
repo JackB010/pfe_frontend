@@ -1,65 +1,95 @@
 <script>
     import axios from 'axios';
     import { config, usershortinfo } from '../../stores/accounts/auth';
-    import { recommended } from '../../stores/tools';
+    import { nextUrlFriends, recommended } from '../../stores/tools';
     import { baseurl } from '../functions';
     import Wapper from '../Wapper.svelte';
     import Number from '../Number.svelte';
     import Loader from '../ui/Loader.svelte';
     import UserFollow from './UserFollow.svelte';
+    import BackSection from '../ui/BackSection.svelte';
+    import { onMount } from 'svelte';
+    import SearchSection from '../ui/SearchSection.svelte';
     let is_loaded = false,
-        num = 10,
         y = 0,
-        yy = 0,
-        holdData = 0,
+        yy = -1,
         ftype = $usershortinfo.ftype,
         is_Selected = false;
+    let suggestedUrl = '';
+
     $: {
         ftype = $usershortinfo.ftype;
-        let suggestedUrl = '';
         if (ftype === 'profile') {
             if (!is_Selected) {
-                suggestedUrl = `/accounts/suggestedusers/user_user/${num}/`;
+                suggestedUrl = '/accounts/suggestedusers/user_user/';
             } else {
-                suggestedUrl = `/accounts/suggestedusers/user_page/${num}/`;
+                suggestedUrl = '/accounts/suggestedusers/user_page/';
             }
         }
         if (ftype === 'page') {
-            suggestedUrl = `/pages/suggestedpages/${num}/`;
+            suggestedUrl = '/pages/suggestedpages/';
         }
+    }
+    $: {
         if (ftype !== null) {
             if ($usershortinfo.ftype !== null) {
                 axios(`${baseurl}${suggestedUrl}`, config).then((res) => {
-                    recommended.set(res.data);
+                    recommended.set(res.data['results']);
+                    nextUrlFriends.set(res.data['next']);
                     is_loaded = true;
                 });
             }
         }
     }
+    onMount(() => {
+        nextUrlFriends.set('');
+        recommended.set([]);
+    });
 
     $: {
-        if (yy === y) {
-            if (holdData !== $recommended.length) {
-                num = num + 10;
-                holdData = $recommended.length;
+        if (yy - 50 === y - 50) {
+            if ($nextUrlFriends) {
+                axios($nextUrlFriends, config).then(async (res) => {
+                    await recommended.update((data) => [
+                        ...data,
+                        ...res.data['results'],
+                    ]);
+                    nextUrlFriends.set(res.data['next']);
+                    yy = yy - 100;
+                });
             }
         }
     }
+    const searchFunc = (search) => {
+        let url = '';
+        if (!is_Selected && $usershortinfo.ftype == 'profile')
+            url = '/accounts/search/';
+        else url = '/pages/search/';
+        if (search.trim().length !== 0) {
+            axios(`${baseurl}${url}?search=${search}`, config).then((res) => {
+                recommended.set(res.data['results']);
+                nextUrlFriends.set(res.data['next']);
+            });
+        }
+    };
 </script>
 
-<svelte:window bind:scrollY="{y}" />
-
 {#if is_loaded}
+    <BackSection
+        name="{!is_Selected && $usershortinfo.ftype == 'profile'
+            ? 'Profiles'
+            : 'Pages'}"
+    />
     <Wapper>
         <div
-            class="  mx-auto w-full  min-h-[34rem] overflow-hidden px-2 dark:text-black "
+            class="mt-3 mx-auto w-full min-h-[34rem]  overflow-hidden px-2 dark:text-black  "
         >
             {#if ftype == 'profile'}
-                <div class="flex flex-row space-x-3 mt-2 ">
+                <div class="flex flex-row space-x-4 mx-1 mt-2 ">
                     <div
-                        class="flex-1  text-lg font-semibold  text-center py-1 rounded-lg cursor-pointer shadow-md {!is_Selected
-                            ? 'text-rose-600 dark:border-2 border-white '
-                            : 'bg-rose-600 text-white '}
+                        class="flex-1  text-lg font-semibold border-2 text-center py-1 rounded-lg cursor-pointer shadow-md {!is_Selected
+                            ? 'text-rose-600  border-white '
+                            : 'bg-rose-600 text-white  border-transparent'}
                             "
                         on:click="{() => {
                             is_Selected = false;
@@ -69,9 +99,9 @@
                         Profiles
                     </div>
                     <div
-                        class="flex-1  text-lg font-semibold  text-center py-2 rounded-lg cursor-pointer shadow-md {is_Selected
-                            ? 'text-rose-600 dark:border-2 border-white '
-                            : 'bg-rose-600 text-white '}
+                        class="flex-1  text-lg font-semibold border-2 text-center py-2 rounded-lg cursor-pointer shadow-md {is_Selected
+                            ? 'text-rose-600  border-white '
+                            : 'bg-rose-600 text-white border-transparent'}
                            "
                         on:click="{() => {
                             is_Selected = true;
@@ -83,30 +113,10 @@
                 </div>
             {/if}
             <div class="flex flex-col relative mt-4 ">
-                <div
-                    class="absolute flex items-center justify-center h-10 w-10 left-0 top-1"
-                >
-                    <svg
-                        class="h-6 w-6 text-gray-600"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                    >
-                        <path
-                            fill-rule="evenodd"
-                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                </div>
-                <div>
-                    <input
-                        class="pl-10   w-full border-y-2  border-2 rounded-lg focus:border-rose-600 focus:ring-rose-600 border-rose-600 text-rose-700
-                                     text-lg outline-none focus:outline-none"
-                        type="text"
-                    />
-                </div>
+                <SearchSection searchFunc="{searchFunc}" />
             </div>
             <div
-                class="px-2 mt-4  overflow-hidden "
+                class="flex flex-col mt-4  space-y-1.5 overflow-hidden h-[34rem] hover:pr-3 "
                 bind:clientHeight="{y}"
                 on:scroll="{(e) => {
                     yy = e.target['scrollHeight'];
@@ -118,8 +128,8 @@
                     <UserFollow user="{user}" />
                 {/each}
             </div>
-        </div></Wapper
-    >
+        </div>
+    </Wapper>
 {:else}
     <Loader />
 {/if}
