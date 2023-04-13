@@ -72,7 +72,7 @@
     {/if}
     <ProfileHeader userdata="{userdata}" />
     <Wapper>
-        <div>
+        <div class="border rounded mb-2">
             {#if $postsLoaded}
                 <PostsHeader profile="{params.username}" />
                 <div class="px-4 mt-3">

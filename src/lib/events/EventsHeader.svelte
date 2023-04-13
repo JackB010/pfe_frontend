@@ -34,7 +34,7 @@
 </script>
 
 <div class="flex mx-4">
-    <div class="flex w-full mt-2 px-1 justify-center items-end space-x-3 my-6 ">
+    <div class="flex w-full mt-4 px-1 justify-center items-end space-x-3 my-6 ">
         {#if $usershortinfo.ftype === 'page' || $num_total_pages !== 0}
             <div
                 class="h-12 w-12 rounded-lg flex items-center cursor-pointer  border-2 border-rose-600 dark:border-white text-white bg-rose-600 hove:bg-rose-600 "

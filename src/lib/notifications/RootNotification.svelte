@@ -144,7 +144,7 @@
 {#if $notificationsLoaded}
     <Wapper>
         <div
-            class=" mt-3 mx-auto w-full min-h-[34rem] overflow-hidden px-2 dark:text-black "
+            class=" border mx-auto w-full h-screen mb-2 overflow-hidden px-2 dark:text-black "
             id="chatHome"
         >
             <!-- <div class="flex flex-col relative mt-4 ">

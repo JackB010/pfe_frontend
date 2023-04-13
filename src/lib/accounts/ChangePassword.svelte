@@ -4,6 +4,8 @@
     import { push } from 'svelte-spa-router';
     import { config } from '../../stores/accounts/auth';
     import { baseurl } from '../functions';
+    import BackSection from '../ui/BackSection.svelte';
+    import Wapper from '../Wapper.svelte';
     // let id;
     onMount(async () => {
         let id = params['id'];
@@ -49,54 +51,65 @@
     export let params = {};
 </script>
 
-<div class="w-full max-w-xl mx-auto mt-28 ">
-    <form
-        class="bg-white dark:text-white dark:bg-slate-800 border-2  shadow-gray-500 mx-3 shadow-md rounded px-8 pt-6 pb-8 mb-4"
-        on:submit|preventDefault="{loginFunc}"
-    >
-        <div class="mb-4">
-            <label
-                class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
-                for="password"
-            >
-                Password
-            </label>
-            <input
-                class="shadow appearance-none border  rounded w-full 
-                py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                id="password"
-                type="password"
-                bind:value="{password}"
-                placeholder="password"
-            />
-            <div class="mb-6">
+<BackSection name="{'Change Password'}" />
+<Wapper>
+    <div class="">
+        <form
+            class="bg-white dark:text-white mt-20 dark:bg-slate-800 ring-2   mx-3  rounded px-8 pt-6 pb-8 mb-4"
+            on:submit|preventDefault="{loginFunc}"
+        >
+            <div class="mb-4">
                 <label
                     class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
-                    for="password_confirm"
+                    for="password"
                 >
-                    Password Conform
+                    Password
                 </label>
                 <input
                     class="shadow appearance-none border  rounded w-full 
                 py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                    id="password_confirm"
+                    id="password"
                     type="password"
-                    bind:value="{password_confirm}"
-                    placeholder="password conform"
+                    bind:value="{password}"
+                    placeholder="password"
                 />
-                <p class="text-red-500 text-xs italic hidden" id="error"></p>
+                <div class="mb-6">
+                    <label
+                        class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+                        for="password_confirm"
+                    >
+                        Password Conform
+                    </label>
+                    <input
+                        class="shadow appearance-none border  rounded w-full 
+                py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                        id="password_confirm"
+                        type="password"
+                        bind:value="{password_confirm}"
+                        placeholder="password conform"
+                    />
+                    <p
+                        class="text-red-500 text-xs italic hidden"
+                        id="error"
+                    ></p>
+                </div>
+                <div class="flex items-center justify-between flex-col ">
+                    <div
+                        class=" text-gray-100 text-lg text-center border-rose-600 
+                 w-full bg-rose-600 dark:bg-rose-600  h-10 
+                rounded mb-6 "
+                    >
+                        <button
+                            type="submit"
+                            class="outline-none  w-full h-full  space-x-2"
+                            >Change Password
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="flex items-center justify-between flex-col ">
-                <input
-                    class="bg-rose-500 text-rose-500 text-lg dark:text-white active:text-white border-2 border-rose-600  w-full active:bg-rose-600  px-2 h-10 
-                rounded-lg shadow outline-none focus:outline-none mr-1 mb-4 ease-linear transition-all duration-100"
-                    type="submit"
-                    value="Sign Up"
-                />
-            </div>
-        </div>
-    </form>
-    <p class="text-center text-gray-500 text-xs dark:text-white">
-        &copy;{new Date().getUTCFullYear()} Acme Corp. All rights reserved.
-    </p>
-</div>
+        </form>
+        <p class="text-center text-gray-500 text-xs dark:text-white">
+            &copy;{new Date().getUTCFullYear()} Acme Corp. All rights reserved.
+        </p>
+    </div>
+</Wapper>

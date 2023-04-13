@@ -2,7 +2,7 @@
     <div class="min-w-full w-ful">
         <div
             class="relative flex flex-col  break-words bg-white dark:bg-slate-800
-             dark:text-white  dark:border-2 mb-6 shadow-md rounded"
+             dark:text-white   rounded"
         >
             <slot />
         </div>

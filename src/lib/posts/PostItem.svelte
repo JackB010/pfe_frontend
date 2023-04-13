@@ -9,12 +9,9 @@
     export let num_total_saved = -1;
 </script>
 
+<!-- dark:bg-slate-600 -->
 <div
-    class="felx  flex-col pb-1 bg-white dark:bg-slate-600 rounded-lg {$location.startsWith(
-        '/post'
-    )
-        ? 'm-3'
-        : ''}"
+    class="felx  flex-col pb-1 border bg-inherit my-3   rounded "
     id="{post['id']}"
 >
     <PostHeader

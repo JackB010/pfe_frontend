@@ -10,7 +10,7 @@
 </script>
 
 <!-- <Wapper> -->
-<div class=" mx-auto">
+<div class=" mx-auto ">
     <div><Settings /></div>
     <div><SettingsProfile /></div>
     <div><SettingsUser /></div>

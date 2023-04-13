@@ -29,14 +29,12 @@
     });
 
     const searchFunc = async (search) => {
-        if (search.trim().length !== 0) {
-            await axios(`${baseurl}/chats/?search=${search}`, config).then(
-                (res) => {
-                    contact_list.set(res.data['results']);
-                    nexturlContact.set(res.data['next']);
-                }
-            );
-        }
+        await axios(`${baseurl}/chats/?search=${search}`, config).then(
+            (res) => {
+                contact_list.set(res.data['results']);
+                nexturlContact.set(res.data['next']);
+            }
+        );
     };
     let yy = -1,
         y = 0;
@@ -60,7 +58,9 @@
 
 {#if $messagesLoaded}
     <Wapper>
-        <div class=" mt-3 mx-auto w-full min-h-[34rem]  px-2 dark:text-black">
+        <div
+            class=" border rounded  mx-auto w-full h-screen mb-2  px-2 dark:text-black"
+        >
             <h2 class="flex flex-row items-center justify-between mt-2  ">
                 <span class="font-bold text-xl dark:text-white text-gray-900"
                     >Messages</span

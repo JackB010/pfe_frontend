@@ -51,7 +51,7 @@
 </script>
 
 <div
-    class="flex  flex-col mt-3   dark:bg-inherit bg-slate-100 p-2 mb-4 mx-3   "
+    class="flex  flex-col mt-3 border rounded   dark:bg-inherit bg-slate-100 p-2 mb-4 mx-4 sm:mx-8   "
     id="{reply['id']}"
 >
     <div class="">

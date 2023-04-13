@@ -43,20 +43,22 @@
     {/if}
 </div>
 <Wapper>
-    {#if $location === '/'}
-        <PostsHeader />
-    {/if}
-    <div class="px-4 py-5 flex-auto ">
-        <div
-            class="tab-content tab-space l
+    <div class=" border rounded mb-2">
+        {#if $location === '/'}
+            <PostsHeader />
+        {/if}
+        <div class="px-4  flex-auto  ">
+            <div
+                class="tab-content tab-space 
                 "
-        >
-            <div>
-                {#if $postsLoaded}
-                    <Posts />
-                {:else}
-                    <Loader />
-                {/if}
+            >
+                <div>
+                    {#if $postsLoaded}
+                        <Posts />
+                    {:else}
+                        <Loader />
+                    {/if}
+                </div>
             </div>
         </div>
     </div>

@@ -14,12 +14,12 @@
             >
                 <input
                     bind:value="{search}"
-                    class="h-12 flex-1 border-2 rounded-l-lg border-rose-600 text-rose-700
+                    class="h-12 flex-1 border-2 rounded-l border-rose-600 text-rose-700
                                      text-lg pl-4 outline-none focus:outline-none"
                 />
 
                 <button
-                    class=" text-white border-y-2 border-rose-600  border-r-2  bg-rose-600 active:bg-rose-600  px-2 h-12  rounded-r-lg shadow 
+                    class=" text-white border-y-2 border-rose-600  border-r-2  bg-rose-600 active:bg-rose-600  px-2 h-12  rounded-r shadow 
                                     outline-none focus:outline-none  ease-linear transition-all duration-100"
                 >
                     <svg

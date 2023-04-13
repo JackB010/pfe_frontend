@@ -155,7 +155,8 @@
 
 {#if is_loaded}
     <Wapper>
-        <!-- <div
+        <div class="border rounded shadow">
+            <!-- <div
         class="ml-6 mt-3 cursor-pointer  bg-white rounded-full text-rose-600 p-2 mx-auto font-bold "
         on:click="{$}"
         on:keypress="{(e) => {}}"
@@ -172,71 +173,71 @@
                 clip-rule="evenodd"></path>
         </svg>
     </div> -->
-        <div class=" mx-auto mt-4 flex-auto w-full ">
-            <div
-                class="tab-content tab-space l
+            <div class=" mx-auto  mt-4 flex-auto w-full ">
+                <div
+                    class="tab-content tab-space l
                 "
-            >
-                <form
-                    class="w-11/12 flex  flex-col mx-auto"
-                    on:submit|preventDefault="{params.id
-                        ? updatePost
-                        : createPost}"
                 >
-                    <div class="mb-2">
-                        <label
-                            class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
-                            for="content"
-                        >
-                            Content
-                        </label>
-                        <textarea
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight  outline-none
-                            focus:outline-none border-rose-600 focus:border-rose-600"
-                            id="content"
-                            placeholder="Write what you think ..."
-                            autocomplete="content"
-                            bind:value="{content}"
-                            required></textarea>
-                    </div>
-                    {#if $usershortinfo.ftype === 'profile'}
-                        <ShowTo bind:show_post_to="{show_post_to}" />
-                    {/if}
-                    <Tags bind:tags="{tags}" />
-                    {#if $usershortinfo.ftype === 'profile'}
-                        <AddByOwner bind:user="{user}" />
-                    {/if}
-                    <ImagesInput bind:images="{images}" />
-                    <div
-                        class="mb-4 flex flex-1  flex-row ml-1 items-center h-5 "
+                    <form
+                        class="w-11/12 flex  flex-col mx-auto"
+                        on:submit|preventDefault="{params.id
+                            ? updatePost
+                            : createPost}"
                     >
-                        <input
-                            bind:checked="{allow_comments}"
-                            type="checkbox"
-                            class="outline-none cursor-pointer focus:ring-0 active:ring-0 focus:outline-none 
+                        <div class="mb-2">
+                            <label
+                                class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+                                for="content"
+                            >
+                                Content
+                            </label>
+                            <textarea
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight  outline-none
+                            focus:outline-none border-rose-600 focus:border-rose-600"
+                                id="content"
+                                placeholder="Write what you think ..."
+                                autocomplete="content"
+                                bind:value="{content}"
+                                required></textarea>
+                        </div>
+                        {#if $usershortinfo.ftype === 'profile'}
+                            <ShowTo bind:show_post_to="{show_post_to}" />
+                        {/if}
+                        <Tags bind:tags="{tags}" />
+                        {#if $usershortinfo.ftype === 'profile'}
+                            <AddByOwner bind:user="{user}" />
+                        {/if}
+                        <ImagesInput bind:images="{images}" />
+                        <div
+                            class="mb-4 flex flex-1  flex-row ml-1 items-center h-5 "
+                        >
+                            <input
+                                bind:checked="{allow_comments}"
+                                type="checkbox"
+                                class="outline-none cursor-pointer focus:ring-0 active:ring-0 focus:outline-none 
                                    focus:border-none w-5 h-5  rounded-full text-rose-600"
-                        />
+                            />
 
-                        <label
-                            class=" text-gray-700 text-sm font-bold ml-4 dark:text-white"
-                            for="allow_comments"
-                            ><span>Allow comments</span>
-                        </label>
-                    </div>
+                            <label
+                                class=" text-gray-700 text-sm font-bold ml-4 dark:text-white"
+                                for="allow_comments"
+                                ><span>Allow comments</span>
+                            </label>
+                        </div>
 
-                    <div class="bg-rose-600 object-cover rounded-lg mb-6">
-                        <input
-                            type="submit"
-                            value="{params.id ? 'Update' : 'Create'} Post"
-                            class="text-white w-full px-2 h-10  rounded-lg shadow bg-rose-600 dark:border-rose-600 border-2 
-     outline-none focus:outline-none cursor-pointer"
-                        />
-                    </div>
-                </form>
+                        <div class="bg-rose-600 object-cover rounded-lg mb-6">
+                            <input
+                                type="submit"
+                                value="{params.id ? 'Update' : 'Create'} Post"
+                                class="text-white w-full px-2 h-10  rounded shadow bg-rose-600 dark:border-rose-600 outline-none focus:outline-none cursor-pointer"
+                            />
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
-        <!-- </div>
+            <!-- </div>
 </div> -->
+        </div>
     </Wapper>
 {:else}
     <Loader />

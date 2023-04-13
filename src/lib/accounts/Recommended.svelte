@@ -54,7 +54,7 @@
 
 {#if is_loaded}
     <Wapper>
-        <div class="h-fit w-full ">
+        <div class="h-fit w-full border mb-2 rounded">
             <div class="flex flex-row items-center mt-2  mx-4">
                 <div
                     class="font-bold text-xl flex-1 dark:text-white text-gray-900"
@@ -87,7 +87,7 @@
             >
                 {#each $recommended as user}
                     <div
-                        class="h-full relative  flex flex-col items-center m-2 px-8   dark:ring-1 ring-rose-600 shadow-md rounded-md"
+                        class="h-full relative  flex flex-col items-center m-2 px-8   dark:ring-1 ring-rose-600 shadow rounded"
                     >
                         <a
                             href="{`/${user.ftype}/${user.username}`}"
@@ -122,7 +122,7 @@
                                     on:keypress="{() => {}}"
                                     class="cursor-pointer 
                                      bg-rose-600 text-white absolute -left-2 bottom-0
-                                       px-4 h-fit w-fit py-1 rounded-md shadow-md justify-center"
+                                       px-4 h-fit w-fit py-1 rounded shadow justify-center"
                                     >Follow</span
                                 >
                             </div>

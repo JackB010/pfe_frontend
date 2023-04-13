@@ -74,16 +74,16 @@
     {/if}
     <PageHeader userdata="{userdata}" />
     <Wapper>
-        <div>
+        <div class="border mb-2 ">
             <div
                 class="   mt-3 mx-auto w-full min-h-[34rem] overflow-hidden px-2   "
             >
                 {#if userdata['is_following']}
-                    <div class="flex flex-row space-x-3 mt-2 ">
+                    <div class="flex flex-row items-center justify-evenly   ">
                         <div
-                            class="flex-1  text-lg font-semibold border-2 text-center py-1 rounded-lg cursor-pointer shadow-md {!is_Selected
-                                ? 'text-rose-600  border-white '
-                                : 'bg-rose-600 text-white border-transparent'}
+                            class=" w-5/12 text-xl font-normal  text-center py-1.5 transition-all  duration-75   cursor-pointer {!is_Selected
+                                ? 'border-b-rose-600 border-b-2 dark:text-white  text-rose-600 '
+                                : ''}
                             "
                             on:click="{() => {
                                 is_Selected = false;
@@ -93,9 +93,9 @@
                             Posts
                         </div>
                         <div
-                            class="flex-1  text-lg font-semibold border-2  text-center py-2 rounded-lg cursor-pointer shadow-md {is_Selected
-                                ? 'text-rose-600  border-white '
-                                : 'bg-rose-600 text-white border-transparent'}
+                            class=" w-5/12 text-xl  font-normal transition-all duration-75  text-center py-1.5  cursor-pointer  {is_Selected
+                                ? 'border-b-rose-600 border-b-2 dark:text-white  text-rose-600'
+                                : ' '}
                            "
                             on:click="{() => {
                                 is_Selected = true;

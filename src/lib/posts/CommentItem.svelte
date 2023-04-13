@@ -70,7 +70,7 @@
 </script>
 
 <div
-    class="flex  flex-col  rounded-lg dark:bg-inherit bg-gray-100 p-2 mb-4 mx-3 border-2 "
+    class="flex  flex-col  rounded dark:bg-inherit  p-2 mb-4 mx-3 border "
     id="{comment['id']}"
 >
     <div class="flex  space-x-2 w-full mb-2">

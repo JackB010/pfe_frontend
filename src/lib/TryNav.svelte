@@ -249,7 +249,7 @@
                             }}"
                         >
                             <div
-                                class=" absolute top-9 right-2 z-50 w-56 py-1 mb-4 h-fit rounded-md shadow-lg min-w-max  ring-1 ring-black ring-opacity-25 dark:bg-dark  focus:outline-none bg-white dark:bg-slate-900 dark:text-white"
+                                class=" absolute top-9 right-2 z-50 w-56 py-1 mb-4 h-fit rounded shadow-lg min-w-max  ring-1 ring-black ring-opacity-25 dark:bg-dark  focus:outline-none bg-white dark:bg-slate-900 dark:text-white"
                             >
                                 <span
                                     on:click="{() => {

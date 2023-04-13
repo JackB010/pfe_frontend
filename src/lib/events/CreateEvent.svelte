@@ -88,68 +88,70 @@
 
 <BackSection name="Create Event" />
 <Wapper>
-    <div class=" mx-auto mt-4 flex-auto w-full ">
-        <div
-            class="tab-content tab-space l
+    <div class="border rounded shadow">
+        <div class=" mx-auto mt-4 flex-auto w-full ">
+            <div
+                class="tab-content tab-space l
                 "
-        >
-            <form
-                class="w-11/12 flex  flex-col mx-auto"
-                on:submit|preventDefault="{params.id
-                    ? updateEvent
-                    : createEvent}"
             >
-                <div class="mb-2">
-                    <label
-                        class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
-                        for="content"
-                    >
-                        Content
-                    </label>
-                    <textarea
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight  outline-none
+                <form
+                    class="w-11/12 flex  flex-col mx-auto"
+                    on:submit|preventDefault="{params.id
+                        ? updateEvent
+                        : createEvent}"
+                >
+                    <div class="mb-2">
+                        <label
+                            class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+                            for="content"
+                        >
+                            Content
+                        </label>
+                        <textarea
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight  outline-none
                             focus:outline-none border-rose-600 focus:border-rose-600"
-                        id="content"
-                        placeholder="Write what your event about ..."
-                        autocomplete="content"
-                        bind:value="{content}"
-                        required></textarea>
-                </div>
-                <div class="mb-4">
-                    <label
-                        class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
-                        for="content"
-                    >
-                        Date
-                    </label>
-                    <input
-                        type="datetime-local"
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight  outline-none
+                            id="content"
+                            placeholder="Write what your event about ..."
+                            autocomplete="content"
+                            bind:value="{content}"
+                            required></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label
+                            class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+                            for="content"
+                        >
+                            Date
+                        </label>
+                        <input
+                            type="datetime-local"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight  outline-none
                             focus:outline-none border-rose-600 focus:border-rose-600"
-                        id="content"
-                        placeholder="Write what your event about ..."
-                        autocomplete="content"
-                        bind:value="{action_date}"
-                        required
-                    />
-                </div>
-                {#if $usershortinfo.ftype === 'profile'}
-                    <AddByOwner bind:user="{user}" add_user="{false}" />
-                    <p
-                        class="text-red-500 text-xs italic hidden mb-2 -mt-2"
-                        id="error"
-                    ></p>
-                {/if}
+                            id="content"
+                            placeholder="Write what your event about ..."
+                            autocomplete="content"
+                            bind:value="{action_date}"
+                            required
+                        />
+                    </div>
+                    {#if $usershortinfo.ftype === 'profile'}
+                        <AddByOwner bind:user="{user}" add_user="{false}" />
+                        <p
+                            class="text-red-500 text-xs italic hidden mb-2 -mt-2"
+                            id="error"
+                        ></p>
+                    {/if}
 
-                <div class="bg-rose-600 object-cover rounded-lg mb-6">
-                    <input
-                        type="submit"
-                        value="Create Post"
-                        class="text-white w-full px-2 h-10  rounded-lg shadow bg-rose-600 dark:border-rose-600 border-2 
+                    <div class="bg-rose-600 object-cover rounded-lg mb-6">
+                        <input
+                            type="submit"
+                            value="Create Post"
+                            class="text-white w-full px-2 h-10  rounded shadow bg-rose-600 dark:border-rose-600 
      outline-none focus:outline-none cursor-pointer"
-                    />
-                </div>
-            </form>
+                        />
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </Wapper>

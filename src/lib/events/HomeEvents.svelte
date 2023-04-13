@@ -5,6 +5,8 @@
 </script>
 
 <Wapper>
-    <EventsHeader />
-    <PageEvents />
+    <div class="border rounded shadow mb-3">
+        <EventsHeader />
+        <PageEvents />
+    </div>
 </Wapper>

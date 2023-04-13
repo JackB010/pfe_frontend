@@ -3,11 +3,12 @@
     import { themeToggleBtn, theme } from './functions';
     import { link } from 'svelte-spa-router';
     import { location } from 'svelte-spa-router';
+    import Wapper from './Wapper.svelte';
 </script>
 
-<div class="flex md:justify-end max-w-xl justify-center mx-auto flex-col">
+<Wapper>
     <div
-        class=" flex  bg-white dark:text-white dark:bg-slate-800  mx-3 pt-3 pb-1 border-2 justify-end first-line:shadow-md  "
+        class=" flex  bg-white dark:text-white dark:bg-slate-800 border-2 dark:border-0  pt-3 pb-1  justify-end   "
     >
         <div class="flex-1 ml-3">
             <p>Logo</p>
@@ -55,4 +56,4 @@
             </button>
         </div>
     </div>
-</div>
+</Wapper>

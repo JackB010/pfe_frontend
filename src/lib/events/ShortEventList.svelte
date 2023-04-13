@@ -15,7 +15,7 @@
 {#if is_loaded}
     <Wapper>
         <span
-            class="flex items-center p-2  border border-rose-600 dark:text-white transition-colors rounded-md dark:text-light w-full text-rose-600  dark:bg-rose-600"
+            class="flex items-center p-2 mb-2 w-full border border-600 dark:text-white transition-colors rounded dark:text-light  text-rose-600  dark:bg-rose-600"
         >
             <span>
                 {#if $usershortinfo.ftype === 'page' || $num_total_pages !== 0}
@@ -84,7 +84,10 @@
             {/if}
         </span>
         {#if isActive}
-            <div class="h-96 w-full mb-3 overflow-hidden" id="homeevents">
+            <div
+                class="h-96 w-full border rounded mb-3 overflow-hidden"
+                id="homeevents"
+            >
                 <div
                     class="flex flex-row items-center mt-2 mb-5 w-11/12 mx-auto"
                 >

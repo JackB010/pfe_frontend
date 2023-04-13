@@ -51,7 +51,7 @@
 {#if is_loaded}
     <Wapper>
         <div
-            class="   mt-3 mx-auto w-full min-h-[34rem] overflow-hidden px-2 dark:text-black  "
+            class=" border rounded mb-2  mt-3 mx-auto w-full min-h-[34rem] overflow-hidden px-2 dark:text-black  "
         >
             <div class="flex flex-col items-center space-y-2 space-x-2">
                 <div
