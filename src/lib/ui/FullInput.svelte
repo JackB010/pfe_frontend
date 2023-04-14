@@ -2,6 +2,7 @@
     // import 'emoji-picker-element';
     import Image from '../posts/Image.svelte';
     import { images_chat } from '../../stores/chats/chat';
+    import { isLoggin } from '../../stores/accounts/auth';
 
     export let sendFunc;
     export let placeholder;
@@ -48,7 +49,7 @@
     };
 </script>
 
-<div class=" h-fit w-full flex flex-col">
+<div class=" h-fit w-full flex flex-col ">
     <div
         class="ml-7  h-fit w-11/12 flex flex-1 mx-auto overflow-y-auto  flex-row pl-2 pr-2 space-x-1 -mb-3"
     >
@@ -95,7 +96,7 @@
 <form class="flex w-full mx-auto mb-3 " on:submit|preventDefault="{handelsend}">
     {#if placeholder.includes('message')}
         <span
-            class="flex items-center border cursor-pointer w-14 ml-4 rounded-l-md justify-center bg-white text-gray-400 hover:text-gray-600 "
+            class="flex items-center border  cursor-pointer w-14 ml-4 rounded-l-md justify-center bg-white text-gray-400 hover:text-gray-600 "
         >
             <svg
                 class="w-5 h-5"
@@ -120,14 +121,19 @@
             <input
                 bind:value="{text}"
                 placeholder="{placeholder}"
-                class="placeholder:text-xs sm:placeholder:text-sm flex w-full outline-none pr-10 focus:outline-none  border  focus:border-rose-600 pl-4 h-10 text-black {!placeholder.includes(
+                class="placeholder:text-xs
+                {isLoggin
+                    ? ' pointer-events-none cursor-not-allowed  '
+                    : ''}  sm:placeholder:text-sm flex w-full outline-none pr-10 focus:outline-none  border  focus:border-rose-600 pl-4 h-10 text-black {!placeholder.includes(
                     'message'
                 )
                     ? 'rounded-l-md'
                     : ''} "
             />
             <span
-                class="absolute flex z-30 items-center justify-center h-full w-12 right-0 top-0  text-gray-400 hover:text-gray-600"
+                class="absolute flex z-30 {isLoggin
+                    ? ' pointer-events-none cursor-not-allowed '
+                    : ''} items-center justify-center h-full w-12 right-0 top-0  text-gray-400 hover:text-gray-600"
             >
                 <svg
                     class="w-6 h-6 cursor-pointer"
@@ -165,15 +171,18 @@
             bind:this="{fileInput}"
             type="file"
             id="multi-upload-input "
-            class=" w-full hidden "
+            class=" w-full hidden  "
             accept="image/png, image/jpeg"
             multiple
         />
         <button
             type="submit"
-            class="w-14 h-full mr-4 rounded-r-md active:bg-none border focus:outline-none"
+            class="w-14 h-full {isLoggin
+                ? ' pointer-events-none cursor-not-allowed '
+                : ''}  mr-4 rounded-r-md active:bg-none border focus:outline-none"
             ><svg
-                class="w-5 h-5 transform rotate-45 mx-auto -mt-px text-gray-400 hover:text-gray-600 "
+                class="w-5 h-5 transform rotate-45 mx-auto -mt-px text-gray-400
+                 hover:text-gray-600 "
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

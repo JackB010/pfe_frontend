@@ -2,7 +2,11 @@
     import axios from 'axios';
     import moment from 'moment';
     import { link, push } from 'svelte-spa-router';
-    import { config, usershortinfo } from '../../stores/accounts/auth';
+    import {
+        config,
+        isLoggin,
+        usershortinfo,
+    } from '../../stores/accounts/auth';
     import { baseurl } from '../functions';
     import { fade, fly } from 'svelte/transition';
     import { postItems } from '../../stores/posts/posts';
@@ -12,16 +16,19 @@
         id = undefined,
         is_saved = undefined,
         num_total_saved = -1;
+    let is_delete = false,
+        is_active = false,
+        is_owner = false;
     $: username = profile['username'];
     $: image = profile['photo_icon'];
     $: ftype = profile['ftype'];
     $: changed = false;
     $: isActive = false;
-    $: is_owner =
-        $usershortinfo.username === profile['username'] ||
-        $usershortinfo.username === owner['username'];
-    let is_delete = false,
-        is_active = false;
+    $: if (!isLoggin) {
+        is_owner =
+            $usershortinfo.username === profile['username'] ||
+            $usershortinfo.username === owner['username'];
+    }
 
     const infoChange = () => {
         if (changed) {
@@ -126,7 +133,7 @@
                     </div>
                 </div>
                 <div
-                    class="relative {isActive ? '' : 'hidden'} "
+                    class="relative {isActive && !isLoggin ? '' : 'hidden'} "
                     on:mouseleave="{(e) => {
                         isActive = false;
                     }}"
@@ -138,7 +145,7 @@
                             <span
                                 on:click="{() => {
                                     isActive = false;
-                                    
+
                                     push(`/post/${id}/edit`);
                                 }}"
                                 on:keypress="{() => {}}"

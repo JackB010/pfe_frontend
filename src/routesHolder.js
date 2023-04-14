@@ -47,7 +47,9 @@ routes.set('/profile/:username/settings/change', ChangePassword)
 
 routes.set('/profile/:username', Profile)
 routes.set('/page/:username', Page)
+routes.set('/Page404', Page404);
 routes.set('*', Page404);
+
 
 export const nonroutes = new Map();
 
@@ -59,4 +61,5 @@ nonroutes.set('/reset', ResetPassword);
 nonroutes.set('/reset/code', CodeReset);
 nonroutes.set('/reset/change/:id', ChangePassword);
 nonroutes.set('/Page404', Page404);
+nonroutes.set('/page/:username', Page)
 nonroutes.set('*', Page404);

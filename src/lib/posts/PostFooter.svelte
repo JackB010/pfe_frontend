@@ -1,6 +1,6 @@
 <script>
     import axios from 'axios';
-    import { config } from './../../stores/accounts/auth';
+    import { config, isLoggin } from './../../stores/accounts/auth';
     import { baseurl } from '../functions';
     import { location } from 'svelte-spa-router';
     import { postcomments } from './../../stores/posts/posts';
@@ -41,7 +41,9 @@
         <div
             on:click="{makeLikeFunc}"
             on:keypress="{(e) => {}}"
-            class="  inline-block  mt-2 ml-3 cursor-pointer active:text-rose-600 
+            class="  inline-block  mt-2 ml-3  {isLoggin
+                ? 'cursor-not-allowed text-gray-400'
+                : ''} cursor-pointer active:text-rose-600 
             "
         >
             <div class="inline-block w-fit h-fit  absolute">
@@ -69,7 +71,11 @@
         </div>
     </div>
 
-    <div class="mt-2   items-center  flex-1 ">
+    <div
+        class="mt-2   items-center  flex-1 {isLoggin
+            ? 'cursor-not-allowed text-gray-400'
+            : ''} "
+    >
         <div
             class=" inline-block  mt-2 absolute {allow_comments
                 ? ''

@@ -20,7 +20,7 @@
 </div> -->
 <Wapper>
     <div
-        class="w-full h-screen mb-2 flex flex-col items-center justify-center border rounded"
+        class="w-full h-screen mt-2 mb-2 flex flex-col items-center justify-center border rounded"
     >
         <svg
             class="w-1/2 md:1/3 lg:w-1/4 text-rose-600"

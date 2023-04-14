@@ -1,21 +1,33 @@
 <script>
     import Wapper from '../Wapper.svelte';
     import Number from '../Number.svelte';
-    import { config, usershortinfo } from '../../stores/accounts/auth';
+    import {
+        config,
+        isLoggin,
+        usershortinfo,
+    } from '../../stores/accounts/auth';
     import axios from 'axios';
     import { baseurl } from '../functions';
     import { push } from 'svelte-spa-router';
     import UserFollow from '../accounts/UserFollow.svelte';
 
     export let userdata = {};
-    $: is_owner = userdata['user'].username === $usershortinfo['username'];
     let selected = false;
-    let is_owner_profile = false;
+    let is_owner_profile = false,
+        is_owner = false;
     $: {
-        userdata['owners_list'].forEach((element) => {
-            if ($usershortinfo['username'] === element['username'])
-                is_owner_profile = true;
-        });
+        if (!isLoggin) {
+            is_owner = userdata['user'].username === $usershortinfo['username'];
+        }
+    }
+
+    $: {
+        if (!isLoggin) {
+            userdata['owners_list'].forEach((element) => {
+                if ($usershortinfo['username'] === element['username'])
+                    is_owner_profile = true;
+            });
+        }
     }
     let isActive = false;
     const followUser = () => {
@@ -124,7 +136,7 @@
                             on:keypress="{() => {}}"
                             class="
                               px-4 h-fit w-fit py-1 rounded shadow font-medium justify-center 
-                                {is_owner
+                                {is_owner || isLoggin
                                 ? 'cursor-not-allowed bg-gray-200 text-black'
                                 : 'cursor-pointer'}
                                 {userdata['is_following'] && !is_owner
@@ -140,7 +152,8 @@
                                     push(`/chat/${userdata['user'].username}`);
                             }}"
                             on:keypress="{(e) => {}}"
-                            class="px-4 h-fit w-fit py-1 rounded shadow justify-center bg-rose-600 font-medium text-white {is_owner
+                            class="px-4 h-fit w-fit py-1 rounded shadow justify-center bg-rose-600 font-medium text-white {is_owner ||
+                            isLoggin
                                 ? 'cursor-not-allowed bg-gray-200 text-black'
                                 : 'cursor-pointer'}  ">Message</span
                         >
@@ -206,27 +219,29 @@
                             class="bg-rose-600 text-white px-2 py-0.5 rounded-full"
                             >{userdata['owners_list'].length}</span
                         >
-                        <span class="ml-auto">
-                            <svg
-                                class="w-4 h-4 text-rose-600 inline transition-transform transform {isActive
-                                    ? ''
-                                    : 'rotate-180'}"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                on:click="{() => {
-                                    isActive = !isActive;
-                                }}"
-                                on:keypress="{() => {}}"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2.5"
-                                    d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </span>
+                        {#if !isLoggin}
+                            <span class="ml-auto">
+                                <svg
+                                    class="w-4 h-4 text-rose-600 inline transition-transform transform {isActive
+                                        ? ''
+                                        : 'rotate-180'}"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    on:click="{() => {
+                                        isActive = !isActive;
+                                    }}"
+                                    on:keypress="{() => {}}"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2.5"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </span>
+                        {/if}
                         {#if is_owner}
                             <span
                                 class="text-xl ml-1 cursor-pointer text-rose-600 "

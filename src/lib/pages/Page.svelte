@@ -3,6 +3,7 @@
     import { afterUpdate, onMount } from 'svelte';
     import {
         config,
+        isLoggin,
         selectedByNav,
         usershortinfo,
     } from '../../stores/accounts/auth';
@@ -17,12 +18,14 @@
     import EventsHeader from '../events/EventsHeader.svelte';
     import PageEvents from './PageEvents.svelte';
     import BackSection from '../ui/BackSection.svelte';
+    import Page404 from '../Page404.svelte';
 
     let userdata = {},
         loaded = false,
         user = '',
         show = !$selectedByNav,
-        is_Selected = false;
+        is_Selected = false,
+        noFound = false;
     if ($selectedByNav) selectedByNav.set(false);
     $: {
         if (params.username != null) {
@@ -30,13 +33,18 @@
                 postsLoaded.set(false);
                 loaded = false;
                 user = params.username;
-                axios(`${baseurl}/pages/page/${params.username}/`, config).then(
-                    (res) => {
+                axios(`${baseurl}/pages/page/${params.username}/`, config)
+                    .then((res) => {
                         userdata = res.data;
                         userdata = userdata;
                         loaded = true;
-                    }
-                );
+                        noFound = false;
+                    })
+                    .catch(() => {
+                        noFound = true;
+                        user = '';
+                        loaded = false;
+                    });
             }
             axios(`${baseurl}/posts/?user=${params.username}`, config).then(
                 (res) => {
@@ -68,8 +76,10 @@
     export let params = {};
 </script>
 
-{#if loaded}
-    {#if show}
+{#if noFound}
+    <Page404 />
+{:else if loaded}
+    {#if show && !isLoggin}
         <BackSection name="{userdata['user']['username']}" />
     {/if}
     <PageHeader userdata="{userdata}" />
