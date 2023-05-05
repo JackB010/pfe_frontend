@@ -42,10 +42,10 @@
 </script>
 
 <Wapper>
-    <div class="border sm:mx-2 mx-1 rounded shadow  mt-16 mb-2 ">
+    <div class="border sm:mx-2 mx-1 rounded shadow mt-16">
         <form
-            class="dark:text-white  w-full sm:w-10/12 dark:bg-slate-800 
-         shadow-gray-500  mx-auto rounded p-4 sm:p-8 "
+            class="dark:text-white w-full sm:w-10/12 dark:bg-slate-800
+         shadow-gray-500 mx-auto rounded p-4 sm:p-8"
             on:submit|preventDefault="{signupFunc}"
         >
             <div class="mb-4 relative">
@@ -141,7 +141,7 @@
                 </div>
                 {#if !isShow}
                     <input
-                        class="shadow appearance-none border  rounded w-full  pl-10 z-0
+                        class="shadow appearance-none border rounded w-full pl-10 z-0
                 py-2 px-3 text-gray-700 mb-3 leading-tight pr-6 focus:outline-none focus:ring-rose-600 focus:border-rose-600"
                         id="password"
                         type="password"
@@ -150,7 +150,7 @@
                         autocomplete="current-password"
                         required
                     />
-                    <div class="absolute right-2 top-9  z-300 cursor-pointer">
+                    <div class="absolute right-2 top-9 z-300 cursor-pointer">
                         <svg
                             aria-hidden="true"
                             class="w-5 h-5 text-gray-500 dark:text-gray-400 cursor-pointer z-30"
@@ -177,7 +177,7 @@
                     </div>
                 {:else}
                     <input
-                        class="shadow appearance-none border  rounded w-full  pl-10 z-0
+                        class="shadow appearance-none border rounded w-full pl-10 z-0
                 py-2 px-3 text-gray-700 mb-3 leading-tight pr-6 focus:outline-none focus:ring-rose-600 focus:border-rose-600"
                         id="password"
                         type="text"
@@ -186,7 +186,7 @@
                         autocomplete="current-password"
                         required
                     />
-                    <div class="absolute right-2 top-9  z-300 cursor-pointer">
+                    <div class="absolute right-2 top-9 z-300 cursor-pointer">
                         <svg
                             aria-hidden="true"
                             class="w-5 h-5 text-gray-500 dark:text-gray-400 cursor-pointer z-30"
@@ -233,7 +233,7 @@
                     </svg>
                 </div>
                 <input
-                    class="shadow appearance-none border  rounded w-full 
+                    class="shadow appearance-none border rounded w-full
                 py-2 pl-10 text-gray-700 mb-3 leading-tight focus:outline-none focus:ring-rose-600 focus:border-rose-600"
                     id="password1"
                     type="password"
@@ -246,15 +246,15 @@
                     id="login_error"
                 ></p>
             </div>
-            <div class="flex items-center justify-between flex-col ">
+            <div class="flex items-center justify-between flex-col">
                 <div
-                    class=" text-gray-100 text-lg text-center border-rose-600 
-                 w-full bg-rose-600 dark:bg-rose-600  h-10 
-                rounded mb-6 "
+                    class=" text-gray-100 text-lg text-center border-rose-600
+                 w-full bg-rose-600 dark:bg-rose-600 h-10
+                rounded mb-2"
                 >
                     <button
                         type="submit"
-                        class="outline-none  w-full h-full  space-x-2"
+                        class="outline-none w-full h-full space-x-2"
                         >Sign UP</button
                     >
                 </div>

@@ -7,7 +7,7 @@
 </script>
 
 <div
-    class="w-full px-4 py-2 border-b flex items-start hover:bg-rose-50 cursor-pointer"
+    class="w-full px-4 py-2 border-b flex items-start hover:bg-rose-50/30 cursor-pointer"
 >
     <div
         style="background-image: url({src})"
@@ -16,7 +16,9 @@
             : 'rounded-lg'} bg-cover bg-center cursor-pointer object-cover shadow"
     ></div>
     <div class="ml-4">
-        <p class="text-md font-semibold text-slate-600 m-0 p-0">{username}</p>
+        <p class="text-md font-semibold text-black dark:text-gray-300 m-0 p-0">
+            {username}
+        </p>
         <p class="text-xs text-slate-400 -mt-0.5">
             <Number number="{count_followed_by}" />
             Follower{#if count_followed_by !== 1}s{/if}
