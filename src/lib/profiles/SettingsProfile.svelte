@@ -11,6 +11,7 @@
     import { baseurl } from '../functions';
     import Loader from '../ui/Loader.svelte';
     import Wapper from '../Wapper.svelte';
+    import Alert from '../ui/Alert.svelte';
 
     $: photo_holder = $userinfo['photo'];
     let bio,
@@ -19,7 +20,9 @@
         categories = [],
         categorie,
         username,
-        is_loaded = false;
+        is_loaded = false,
+        updated = false,
+        error = false;
     let fileInput, files;
     onMount(() => {
         axios(`${baseurl}${$userUrl}`, config).then((res) => {
@@ -74,8 +77,24 @@
                         $usershortinfo.ftype
                     )
                 );
-
                 userinfo.set(res.data);
+                error = false;
+
+                setTimeout(() => {
+                    updated = true;
+                }, 50);
+                setTimeout(() => {
+                    updated = false;
+                }, 5000);
+            })
+            .catch((err) => {
+                error = true;
+                setTimeout(() => {
+                    updated = true;
+                }, 50);
+                setTimeout(() => {
+                    updated = false;
+                }, 5000);
             });
     };
     const handleKeydown = (event) => {
@@ -115,28 +134,31 @@
 
 {#if is_loaded}
     <Wapper>
-        <div class="mb-2 border  rounded ">
+        <div class="mb-2 border rounded pt-3">
+            {#if updated}
+                <Alert error="{error}" />
+            {/if}
             <div
-                class="flex sm:flex-row sm:items-center m-2  sm:space-x-3 flex-col "
+                class="flex sm:flex-row sm:items-center m-2 sm:space-x-3 flex-col"
             >
                 <div class="self-center">
                     <div
                         style="background-image: url({photo_holder})"
                         class="{$usershortinfo.ftype === 'profile'
                             ? 'rounded-full'
-                            : 'rounded-lg'} w-32 h-32  bg-cover   bg-center   border-4 object-cover shadow"
+                            : 'rounded-lg'} w-32 h-32 bg-cover bg-center border-4 object-cover shadow"
                     ></div>
-                    <div class="relative ">
+                    <div class="relative">
                         <input
                             bind:files="{files}"
                             bind:this="{fileInput}"
                             type="file"
                             id="multi-upload-input "
-                            class=" w-full hidden "
+                            class=" w-full hidden"
                             accept="image/png, image/jpeg"
                         />
                         <svg
-                            class="w-8 h-8  absolute -top-[2.2rem] rounded-full cursor-pointer bg-white left-[5.8rem]  text-rose-600 "
+                            class="w-8 h-8 absolute -top-[2.2rem] rounded-full cursor-pointer bg-white left-[5.8rem] text-rose-600"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -153,7 +175,7 @@
                     </div>
                 </div>
                 <div class="flex flex-col flex-1 ml-2">
-                    <div class="flex-1  ">
+                    <div class="flex-1">
                         <label
                             class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                             for="bio"
@@ -161,7 +183,7 @@
                             Bio
                         </label>
                         <textarea
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight  outline-none
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight outline-none
                             focus:outline-none border-rose-600 focus:border-rose-600 h-24"
                             id="bio"
                             placeholder="Write your bio ..."
@@ -172,8 +194,8 @@
                 </div>
             </div>
             {#if $usershortinfo.ftype === 'page'}
-                <div class="mx-1 mb-4">
-                    <div class="flex-1 mb-4 ">
+                <div class="mx-2 mb-4">
+                    <div class="flex-1 mb-4">
                         <label
                             class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                             for="bio"
@@ -181,8 +203,8 @@
                             About
                         </label>
                         <input
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight  outline-none
-                            focus:outline-none border-rose-600 focus:border-rose-600 "
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight outline-none
+                            focus:outline-none border-rose-600 focus:border-rose-600"
                             id="About"
                             placeholder="Write your bio ..."
                             autocomplete="About"
@@ -206,17 +228,17 @@
                             placeholder="categories"
                         />
                         <div
-                            class="  flex flex-row flex-wrap mb-2 space-x-1 mt-3  "
+                            class="  flex flex-row flex-wrap mb-2 space-x-1 mt-3"
                         >
                             {#each categories as item}
-                                <div class="flex  flex-nowrap mb-2">
+                                <div class="flex flex-nowrap mb-2">
                                     <span
-                                        class="flex items-center  dark:bg-rose-600 cursor-pointer shadow-md text-rose-600 dark:text-white text-sm sm:text-sm p-1.5 font-semibold w-fit"
+                                        class="flex items-center dark:bg-rose-600 cursor-pointer shadow-md text-rose-600 dark:text-white text-sm sm:text-sm p-1.5 font-semibold w-fit"
                                     >
-                                        <span class="pr-2 ">{item}</span>
+                                        <span class="pr-2">{item}</span>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
-                                            class="h-5 w-5 rotate-45 border rounded-full  dark:bg-white  cursor-pointer text-white bg-rose-600 dark:text-rose-600"
+                                            class="h-5 w-5 rotate-45 border rounded-full dark:bg-white cursor-pointer text-white bg-rose-600 dark:text-rose-600"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -242,7 +264,7 @@
                     </div>
                 </div>
             {/if}
-            <div class="text-center ">
+            <div class="text-center">
                 <span
                     on:click="{() => {
                         UpdateProfile();

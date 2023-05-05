@@ -131,7 +131,7 @@
                     : ''} "
             />
             <span
-                class="absolute flex z-30 {isLoggin
+                class="absolute flex z-30 {!$isLoggin
                     ? ' pointer-events-none cursor-not-allowed '
                     : ''} items-center justify-center h-full w-12 right-0 top-0  text-gray-400 hover:text-gray-600"
             >
@@ -177,7 +177,7 @@
         />
         <button
             type="submit"
-            class="w-14 h-full {isLoggin
+            class="w-14 h-full {!$isLoggin
                 ? ' pointer-events-none cursor-not-allowed '
                 : ''}  mr-4 rounded-r-md active:bg-none border focus:outline-none"
             ><svg

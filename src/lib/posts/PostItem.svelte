@@ -19,6 +19,7 @@
         owner="{post['by_owner']}"
         created="{post.created}"
         is_saved="{post['is_saved']}"
+        show_post_to="{post['show_post_to']}"
         id="{post['id']}"
         bind:num_total_saved="{num_total_saved}"
     />

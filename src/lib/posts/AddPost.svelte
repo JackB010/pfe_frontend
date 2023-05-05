@@ -173,13 +173,13 @@
                 clip-rule="evenodd"></path>
         </svg>
     </div> -->
-            <div class=" mx-auto  mt-4 flex-auto w-full ">
+            <div class=" mx-auto mt-4 flex-auto w-full">
                 <div
                     class="tab-content tab-space l
                 "
                 >
                     <form
-                        class="w-11/12 flex  flex-col mx-auto"
+                        class="w-11/12 flex flex-col mx-auto"
                         on:submit|preventDefault="{params.id
                             ? updatePost
                             : createPost}"
@@ -192,7 +192,7 @@
                                 Content
                             </label>
                             <textarea
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight  outline-none
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight outline-none
                             focus:outline-none border-rose-600 focus:border-rose-600"
                                 id="content"
                                 placeholder="Write what you think ..."
@@ -201,7 +201,7 @@
                                 required></textarea>
                         </div>
                         {#if $usershortinfo.ftype === 'profile'}
-                            <ShowTo bind:show_post_to="{show_post_to}" />
+                            <ShowTo bind:value="{show_post_to}" />
                         {/if}
                         <Tags bind:tags="{tags}" />
                         {#if $usershortinfo.ftype === 'profile'}
@@ -209,13 +209,13 @@
                         {/if}
                         <ImagesInput bind:images="{images}" />
                         <div
-                            class="mb-4 flex flex-1  flex-row ml-1 items-center h-5 "
+                            class="mb-4 flex flex-1 flex-row ml-1 items-center h-5"
                         >
                             <input
                                 bind:checked="{allow_comments}"
                                 type="checkbox"
-                                class="outline-none cursor-pointer focus:ring-0 active:ring-0 focus:outline-none 
-                                   focus:border-none w-5 h-5  rounded-full text-rose-600"
+                                class="outline-none cursor-pointer focus:ring-0 active:ring-0 focus:outline-none
+                                   focus:border-none w-5 h-5 rounded-full text-rose-600"
                             />
 
                             <label
@@ -229,7 +229,7 @@
                             <input
                                 type="submit"
                                 value="{params.id ? 'Update' : 'Create'} Post"
-                                class="text-white w-full px-2 h-10  rounded shadow bg-rose-600 dark:border-rose-600 outline-none focus:outline-none cursor-pointer"
+                                class="text-white w-full px-2 h-10 rounded shadow bg-rose-600 dark:border-rose-600 outline-none focus:outline-none cursor-pointer"
                             />
                         </div>
                     </form>

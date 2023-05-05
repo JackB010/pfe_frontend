@@ -52,28 +52,32 @@
 <svelte:window bind:scrollY="{y}" />
 <BackSection name="Saved Posts" />
 <Wapper>
-    <div class="flex flex-col items-center space-y-2 space-x-2">
-        <div
-            class="flex items-center  mt-4 space-x-2 shadow rounded-lg px-3 py-1"
-        >
-            <div class="text-2xl ">{username}</div>
+    <div class=" border rounded mb-2 ">
+        <div class="flex flex-col items-center space-y-2 space-x-2">
+            <div
+                class="flex items-center  mt-4 space-x-2 shadow rounded-lg px-3 py-1"
+            >
+                <div class="text-2xl ">{username}</div>
+            </div>
+            <div
+                class="text-lg shadow w-fit text-rose-600 mx-auto p-2 rounded-lg"
+            >
+                {count} Post{count === 1 ? '' : 's'} saved
+            </div>
         </div>
-        <div class="text-lg shadow w-fit text-rose-600 mx-auto p-2 rounded-lg">
-            {count} Post{count === 1 ? '' : 's'} saved
-        </div>
-    </div>
 
-    <div class="px-4 py-5 flex-auto ">
-        <div
-            class="tab-content tab-space l
+        <div class="px-4 py-5 flex-auto ">
+            <div
+                class="tab-content tab-space l
                 "
-        >
-            <div>
-                {#if $postsLoaded}
-                    <Posts />
-                {:else}
-                    <Loader />
-                {/if}
+            >
+                <div>
+                    {#if $postsLoaded}
+                        <Posts />
+                    {:else}
+                        <Loader />
+                    {/if}
+                </div>
             </div>
         </div>
     </div>

@@ -10,6 +10,7 @@
     } from '../../stores/accounts/auth';
     import { baseurl } from '../functions';
     import Wapper from '../Wapper.svelte';
+    import Alert from '../ui/Alert.svelte';
 
     let email,
         first_name,
@@ -17,7 +18,9 @@
         last_name,
         username,
         username_h,
-        is_delete = false;
+        is_delete = false,
+        updated = false,
+        error = false;
     onMount(() => {
         axios(`${baseurl}/accounts/profile/user/`, config).then((res) => {
             email = res.data['email'];
@@ -55,16 +58,34 @@
                         return data;
                     });
                 }
+                setTimeout(() => {
+                    updated = true;
+                }, 50);
+                setTimeout(() => {
+                    updated = false;
+                }, 5000);
+            })
+            .catch((err) => {
+                error = true;
+                setTimeout(() => {
+                    updated = true;
+                }, 50);
+                setTimeout(() => {
+                    updated = false;
+                }, 5000);
             });
     };
 </script>
 
 <Wapper>
-    <div class="mb-2 border  rounded ">
+    <div class="mb-2 border rounded pt-3">
+        {#if updated}
+            <Alert error="{error}" />
+        {/if}
         {#if !is_delete}
             <div class="m-2 flex flex-col space-y-3" in:fade>
                 <div
-                    class="flex  items-center px-2 text-white font-semibold rounded bg-rose-600  h-11 shadow cursor-pointer"
+                    class="flex items-center px-2 text-white font-semibold rounded bg-rose-600 h-11 shadow cursor-pointer"
                     on:click="{() => {
                         push(
                             `/profile/${$usershortinfo.username}/settings/change`
@@ -75,7 +96,7 @@
                     <div class="flex-1">Change Password</div>
                     <div class="">
                         <svg
-                            class="w-5 h-5 transition-transform transform -rotate-90 hover:text-rose-600 hover:scale-105   hover:bg-white rounded-full "
+                            class="w-5 h-5 transition-transform transform -rotate-90 hover:text-rose-600 hover:scale-105 hover:bg-white rounded-full"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -90,7 +111,7 @@
                     </div>
                 </div>
                 <div>
-                    <div class="mb-4 ">
+                    <div class="mb-4">
                         <label
                             class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                             for="username"
@@ -98,7 +119,7 @@
                             Username
                         </label>
                         <input
-                            class="shadow  appearance-none border pl-4 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-rose-600 focus:border-rose-600"
+                            class="shadow appearance-none border pl-4 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-rose-600 focus:border-rose-600"
                             id="username"
                             type="text"
                             bind:value="{username}"
@@ -109,7 +130,7 @@
                     </div>
                 </div>
                 <div>
-                    <div class="mb-4 ">
+                    <div class="mb-4">
                         <label
                             class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                             for="email"
@@ -128,7 +149,7 @@
                     </div>
                 </div>
                 <div>
-                    <div class="mb-4 ">
+                    <div class="mb-4">
                         <label
                             class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                             for="first_name"
@@ -147,7 +168,7 @@
                     </div>
                 </div>
                 <div>
-                    <div class="mb-4 ">
+                    <div class="mb-4">
                         <label
                             class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                             for="last_name"
@@ -194,9 +215,9 @@
                             <div>Delete</div>
                         </div>
                     </div>
-                    <div class="text-center ">
+                    <div class="text-center">
                         <span
-                            class="float-right bg-rose-600  text-white mr-4 mb-2 rounded cursor-pointer shadow w-24 py-2"
+                            class="float-right bg-rose-600 text-white mr-4 mb-2 rounded cursor-pointer shadow w-24 py-2"
                             on:click="{() => {
                                 UpdateUser();
                             }}"
@@ -209,17 +230,15 @@
             <div class="h-[30rem] flex flex-row items-center">
                 <div
                     in:fly="{{ y: 100, duration: 1000 }}"
-                    class="bg-white w-8/12  z-50 items-center flex flex-col space-y-4 pb-4 pt-2 rounded-2xl absolute  translate-x-1/4 "
+                    class="bg-white w-8/12 z-50 items-center flex flex-col space-y-4 pb-4 pt-2 rounded-2xl absolute translate-x-1/4"
                 >
                     <div class="text-rose-600 font-bold">
                         Do you want to delet your account?
                     </div>
 
-                    <div
-                        class="flex flex-1 w-full justify-center items-center "
-                    >
+                    <div class="flex flex-1 w-full justify-center items-center">
                         <div
-                            class="text-center flex-1  "
+                            class="text-center flex-1"
                             on:click="{() => {
                                 is_active = false;
                                 UpdateUser();
@@ -233,14 +252,14 @@
                         </div>
 
                         <div
-                            class="text-center flex-1 "
+                            class="text-center flex-1"
                             on:click="{() => {
                                 is_delete = !is_delete;
                             }}"
                             on:keypress="{() => {}}"
                         >
                             <span
-                                class=" bg-[#FF0000] text-white  rounded-lg cursor-pointer shadow-lg w-24 py-2 px-5"
+                                class=" bg-[#FF0000] text-white rounded-lg cursor-pointer shadow-lg w-24 py-2 px-5"
                                 >Cansole</span
                             >
                         </div>

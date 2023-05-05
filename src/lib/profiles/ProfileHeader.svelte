@@ -1,7 +1,11 @@
 <script>
     import Wapper from '../Wapper.svelte';
     import Number from '../Number.svelte';
-    import { config, usershortinfo } from '../../stores/accounts/auth';
+    import {
+        config,
+        isLoggin,
+        usershortinfo,
+    } from '../../stores/accounts/auth';
     import axios from 'axios';
     import { baseurl } from '../functions';
     import { params, push } from 'svelte-spa-router';
@@ -53,17 +57,29 @@
                     <div
                         class="flex-1 space-x-10 mb-4 flex pb-3 items-center border-b w-fit mx-auto"
                     >
-                        <span class="text-sm text-gray-700 dark:text-white "
+                        <span
+                            on:click="{() => {
+                                push(
+                                    `/profile/${userdata['user'].username}/following/`
+                                );
+                            }}"
+                            on:keypress="{(e) => {}}"
+                            class="text-sm text-gray-700 dark:text-white cursor-pointer  "
                             ><span class="font-bold"
                                 ><Number
-                                    number="{userdata[
-                                        'count_following_profile'
-                                    ]}"
+                                    number="{userdata['count_following']}"
                                 /></span
                             > Following</span
                         >
                         <div class="w-0 h-4 border border-gray-300"></div>
-                        <span class="text-sm text-gray-700 dark:text-white"
+                        <span
+                            on:click="{() => {
+                                push(
+                                    `/profile/${userdata['user'].username}/followers/`
+                                );
+                            }}"
+                            on:keypress="{(e) => {}}"
+                            class="text-sm text-gray-700 dark:text-white cursor-pointer "
                             ><span class="font-bold"
                                 ><Number
                                     number="{userdata['count_followed_by']}"
@@ -80,8 +96,10 @@
                         <span
                             on:click="{followUser}"
                             on:keypress="{() => {}}"
-                            class="{is_owner
-                                ? 'cursor-not-allowed bg-gray-200 text-black'
+                            class="{is_owner ||
+                            !$isLoggin ||
+                            $usershortinfo.ftype === 'page'
+                                ? 'cursor-not-allowed bg-gray-200 text-black pointer-events-none'
                                 : 'cursor-pointer'} {userdata['is_following'] &&
                             !is_owner
                                 ? 'ring-2 ring-rose-600 text-rose-600'
@@ -96,8 +114,10 @@
                                     push(`/chat/${userdata['user'].username}`);
                             }}"
                             on:keypress="{(e) => {}}"
-                            class="cursor-pointer {is_owner
-                                ? 'cursor-not-allowed bg-gray-200 text-black'
+                            class="cursor-pointer {is_owner ||
+                            !$isLoggin ||
+                            $usershortinfo.ftype === 'page'
+                                ? 'cursor-not-allowed bg-gray-200 text-black pointer-events-none'
                                 : 'cursor-pointer'} px-4 h-fit w-fit py-1 rounded shadow justify-center bg-rose-600 font-medium text-white"
                             >Message</span
                         >
@@ -162,7 +182,10 @@
                 </div>
                 <div>
                     <span class=" pt-2 text-xs sm:text-base"
-                        >Owned pages {userdata['num_total_pages']}
+                        >Owned pages <span
+                            class="bg-rose-600 text-white px-2 py-0.5 rounded-full"
+                            >{userdata['num_total_pages']}</span
+                        >
                         <span class="ml-auto">
                             <svg
                                 class="w-4 h-4 inline transition-transform transform {isActive
@@ -260,7 +283,7 @@
                     >
                         <span class="font-bold "
                             ><Number
-                                number="{userdata['count_following_profile']}"
+                                number="{userdata['count_following_page']}"
                             /></span
                         > Following Pages
                     </div>

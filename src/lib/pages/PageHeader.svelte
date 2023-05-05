@@ -10,19 +10,20 @@
     import { baseurl } from '../functions';
     import { push } from 'svelte-spa-router';
     import UserFollow from '../accounts/UserFollow.svelte';
+    import moment from 'moment';
 
     export let userdata = {};
     let selected = false;
     let is_owner_profile = false,
         is_owner = false;
     $: {
-        if (!isLoggin) {
+        if ($isLoggin) {
             is_owner = userdata['user'].username === $usershortinfo['username'];
         }
     }
 
     $: {
-        if (!isLoggin) {
+        if ($isLoggin) {
             userdata['owners_list'].forEach((element) => {
                 if ($usershortinfo['username'] === element['username'])
                     is_owner_profile = true;
@@ -97,19 +98,27 @@
     };
 </script>
 
-<Wapper
-    ><div class="border my-2 rounded">
+<Wapper>
+    <div class="border my-2 rounded">
         <div class="  mx-auto w-11/12 p-4">
             <div class="flex flex-row items-center ">
                 <div
                     style="background-image: url({userdata['photo']})"
                     class="sm:w-32 sm:h-32 w-24 h-24 bg-cover   bg-center rounded-lg border-4 object-cover shadow"
                 ></div>
+
                 <div class="flex-1">
                     <div
                         class="flex-1 space-x-10 mb-4 flex pb-3 items-center border-b w-fit mx-auto"
                     >
-                        <span class="text-sm text-gray-700 dark:text-white "
+                        <span
+                            on:click="{() => {
+                                push(
+                                    `/page/${userdata['user'].username}/following/`
+                                );
+                            }}"
+                            on:keypress="{(e) => {}}"
+                            class="text-sm text-gray-700 dark:text-white cursor-pointer "
                             ><span class="font-bold"
                                 ><Number
                                     number="{userdata['count_following']}"
@@ -117,7 +126,14 @@
                             > Following</span
                         >
                         <div class="w-0 h-4 border border-gray-300"></div>
-                        <span class="text-sm text-gray-700 dark:text-white"
+                        <span
+                            on:click="{() => {
+                                push(
+                                    `/page/${userdata['user'].username}/followers/`
+                                );
+                            }}"
+                            on:keypress="{(e) => {}}"
+                            class="text-sm text-gray-700 dark:text-white cursor-pointer"
                             ><span class="font-bold"
                                 ><Number
                                     number="{userdata['count_followed_by']}"
@@ -136,8 +152,8 @@
                             on:keypress="{() => {}}"
                             class="
                               px-4 h-fit w-fit py-1 rounded shadow font-medium justify-center 
-                                {is_owner || isLoggin
-                                ? 'cursor-not-allowed bg-gray-200 text-black'
+                                {is_owner || !$isLoggin
+                                ? 'cursor-not-allowed bg-gray-200 text-black pointer-events-none'
                                 : 'cursor-pointer'}
                                 {userdata['is_following'] && !is_owner
                                 ? ' ring-2 ring-rose-600 text-rose-600'
@@ -153,8 +169,8 @@
                             }}"
                             on:keypress="{(e) => {}}"
                             class="px-4 h-fit w-fit py-1 rounded shadow justify-center bg-rose-600 font-medium text-white {is_owner ||
-                            isLoggin
-                                ? 'cursor-not-allowed bg-gray-200 text-black'
+                            !$isLoggin
+                                ? 'cursor-not-allowed bg-gray-200 text-black pointer-events-none'
                                 : 'cursor-pointer'}  ">Message</span
                         >
                         {#if is_owner}
@@ -191,7 +207,14 @@
                 </div>
             </div>
             <div class=" pr-1 pl-4 mt-3">
-                <div class="font-medium text-2xl    mt-1 text-rose-600">
+                <div class="text-gray-400 text-xs">
+                    <span
+                        >joined <span>
+                            {moment(userdata['user'].date_joined).fromNow()}
+                        </span></span
+                    >
+                </div>
+                <div class="font-medium text-2xl mt-1 text-rose-600">
                     {userdata['user'].username}
                 </div>
 
@@ -201,7 +224,9 @@
                         {userdata['user'].last_name}
                     </div>
                 {/if}
-                <div class=" my-2 font-light text-sm  text-gray-600">
+                <div
+                    class=" my-2 font-light text-sm  text-gray-700 dark:text-gray-300"
+                >
                     <p>
                         <span class="text-rose-600">about:</span>
                         {userdata['about']}
@@ -215,11 +240,11 @@
                 </div>
                 <div class="">
                     <span class=" pt-2 text-xs sm:text-base w-fit "
-                        >Owned pages <span
+                        >Owners Profiles <span
                             class="bg-rose-600 text-white px-2 py-0.5 rounded-full"
                             >{userdata['owners_list'].length}</span
                         >
-                        {#if !isLoggin}
+                        {#if $isLoggin}
                             <span class="ml-auto">
                                 <svg
                                     class="w-4 h-4 text-rose-600 inline transition-transform transform {isActive
@@ -268,88 +293,12 @@
                                         d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                 </svg>
                             </span>
-                            {#if selected}
-                                <div class="relative ">
-                                    <div
-                                        class=" absolute top-0 left-0  w-72 md:w-96 py-1 mb-4 h-60  rounded shadow min-w-max  ring-1 ring-black ring-opacity-25 dark:bg-dark  focus:outline-none bg-white dark:bg-slate-900 dark:text-white overflow-y-scroll "
-                                    >
-                                        <span
-                                            class="flex px-1 text-sm items-center transition-colors  dark:text-light  space-x-2 cursor-pointer"
-                                        >
-                                            <form
-                                                class="w-full flex  border-b-2 border-rose-600 "
-                                                on:submit|preventDefault="{SearchUser}"
-                                            >
-                                                <input
-                                                    class="h-10 flex-1 text-base text-rose-700
-                                     pl-4 outline-none focus:outline-none"
-                                                    bind:value="{search}"
-                                                />
-                                                <span
-                                                    class="border w-0 h-6 my-auto   border-rose-600 "
-                                                ></span>
-                                                <button
-                                                    class=" text-rose-600 dark:text-white 
-                                                          px-2     
-                                    outline-none focus:outline-none  ease-linear transition-all duration-100"
-                                                >
-                                                    <svg
-                                                        class="w-5 h-5"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
-                                                        stroke="currentColor"
-                                                        aria-hidden="true"
-                                                    >
-                                                        <path
-                                                            stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                            stroke-width="2.5"
-                                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                                                        ></path>
-                                                    </svg>
-                                                </button>
-                                            </form>
-                                        </span>
-
-                                        <span
-                                            class="w-fulll text-sm mt-2 mr-1 ml-0.5 h-full z-50 transition-colors flex flex-col"
-                                        >
-                                            {#if searchedUser.length != 0}
-                                                <div class="h-full">
-                                                    {#each searchedUser as user}
-                                                        <div
-                                                            class="cursor-pointer "
-                                                            on:click="{() => {
-                                                                makeOwner(
-                                                                    user,
-                                                                    false
-                                                                );
-                                                            }}"
-                                                            on:keypress="{() => {}}"
-                                                        >
-                                                            <UserFollow
-                                                                user="{user}"
-                                                            />
-                                                        </div>
-                                                    {/each}
-                                                </div>
-                                            {:else if done}
-                                                <span
-                                                    class="w-full text-center text-gray-700 dark:text-gray-300 py-4  text-lg"
-                                                    >No user found !!</span
-                                                >
-                                            {/if}
-                                        </span>
-                                    </div>
-                                </div>
-                            {/if}
                         {/if}
                     </span>
                     {#if isActive && userdata['owners_list'].length > 0}
-                        <div class="relative">
+                        <div class="relative ">
                             <div
-                                class=" absolute   w-full  py-1 mb-4 h-60  rounded shadow min-w-max  ring-1 ring-black ring-opacity-25 dark:bg-dark  focus:outline-none bg-white dark:bg-slate-900 dark:text-white overflow-y-scroll overflow-x-hidden "
+                                class=" absolute    w-full  py-1 mb-4 h-40  rounded shadow min-w-max  ring-1 ring-black ring-opacity-25 dark:bg-dark  focus:outline-none bg-white dark:bg-slate-900 dark:text-white overflow-y-scroll overflow-x-hidden "
                             >
                                 {#each userdata['owners_list'] as user}
                                     <div class=" flex flex-row items-center">
@@ -464,12 +413,84 @@
                     >
                         <span class="font-bold "
                             ><Number
-                                number="{userdata['count_followed_by']}"
+                                number="{userdata['num_total_events']}"
                             /></span
-                        > Following Pages
+                        > Events
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </Wapper>
+
+{#if selected}
+    <!-- <div></div> -->
+    <!-- <div class="relative "> -->
+    <div
+        class=" absolute top-[60%] left-1/3  w-72 md:w-96 py-1 mb-4 h-52 z-[100000000000]  rounded shadow min-w-max  ring-1 ring-black ring-opacity-25 dark:bg-dark  focus:outline-none bg-white dark:bg-slate-900 dark:text-white overflow-y-scroll "
+    >
+        <span
+            class="flex px-1 text-sm items-center transition-colors  dark:text-light  space-x-2 cursor-pointer"
+        >
+            <form
+                class="w-full flex  border-b-2 border-rose-600 "
+                on:submit|preventDefault="{SearchUser}"
+            >
+                <input
+                    class="h-10 flex-1 text-base text-rose-700
+                                     pl-4 outline-none focus:outline-none"
+                    bind:value="{search}"
+                />
+                <span class="border w-0 h-6 my-auto   border-rose-600 "></span>
+                <button
+                    class=" text-rose-600 dark:text-white 
+                                                          px-2     
+                                    outline-none focus:outline-none  ease-linear transition-all duration-100"
+                >
+                    <svg
+                        class="w-5 h-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2.5"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        ></path>
+                    </svg>
+                </button>
+            </form>
+        </span>
+
+        <span
+            class="w-fulll text-sm mt-2 mr-1 ml-0.5 h-full z-50 transition-colors flex flex-col"
+        >
+            {#if searchedUser.length != 0}
+                <div class="h-full">
+                    {#each searchedUser as user}
+                        <div
+                            class="cursor-pointer "
+                            on:click="{() => {
+                                makeOwner(user, false);
+                            }}"
+                            on:keypress="{() => {}}"
+                        >
+                            <UserFollow user="{user}" />
+                        </div>
+                    {/each}
+                </div>
+            {:else if done}
+                <span
+                    class="w-full text-center text-gray-700 dark:text-gray-300 py-4  text-lg"
+                    >No user found !!</span
+                >
+            {/if}
+        </span>
+    </div>
+    <!-- </div>
+</div> -->
+{/if}

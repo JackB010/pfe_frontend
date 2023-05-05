@@ -14,25 +14,6 @@ export let usershortinfo = writable({
     count_followed_by: 0,
 });
 export let userinfo = writable({});
-// bio: null,
-// birth_day: null,
-// count_followed_by: null,
-// count_following: null,
-// id: null,
-// is_following: null,
-// photo: null,
-// photo_icon: null,
-// user: {
-//     date_joined: null,
-//     email: null,
-//     first_name: null,
-//     id: null,
-//     is_active: null,
-//     last_login: null,
-//     last_name: null,
-//     username: null,
-// }
-// });
 export let usersettingss = writable({});
 export let userUrl = writable('');
 export let userToken = writable({ refresh: undefined, access: undefined });
@@ -52,6 +33,7 @@ export const getProfileShortInfo = async (username, ftype) => {
     }
     await axios(`${baseurl}/${ftype === "profile" ? 'accounts' : 'pages'}/search/?search=${username}`).then(res => {
         data = res.data['results'][0];
+
     })
     return data;
 }

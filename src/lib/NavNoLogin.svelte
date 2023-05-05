@@ -6,6 +6,7 @@
     import Wapper from './Wapper.svelte';
     import axios from 'axios';
     import User from './accounts/User.svelte';
+    import brand from '../brand.jpg';
     let searchedUser = [],
         done = false,
         search = '',
@@ -41,8 +42,8 @@
         class=" flex items-center justify-between  w-full bg-white dark:text-white dark:bg-slate-800 border rounded shadow
           py-3  pb-2 "
     >
-        <div class="ml-3">
-            <p>Logo</p>
+        <div class="ml-3 flex-[0.1]">
+            <p><img src="{brand}" alt="brand" class="h-16" /></p>
         </div>
         <div
             class="flex-[0.8] sm:flex-[0.7]  shadow rounded w-full self-center   justify-center"

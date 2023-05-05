@@ -41,7 +41,7 @@
         <div
             on:click="{makeLikeFunc}"
             on:keypress="{(e) => {}}"
-            class="  inline-block  mt-2 ml-3  {isLoggin
+            class="  inline-block  mt-2 ml-3  {!$isLoggin
                 ? 'cursor-not-allowed text-gray-400'
                 : ''} cursor-pointer active:text-rose-600 
             "
@@ -72,7 +72,7 @@
     </div>
 
     <div
-        class="mt-2   items-center  flex-1 {isLoggin
+        class="mt-2   items-center  flex-1 {!$isLoggin
             ? 'cursor-not-allowed text-gray-400'
             : ''} "
     >

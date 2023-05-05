@@ -15,6 +15,7 @@
         owner = undefined,
         id = undefined,
         is_saved = undefined,
+        show_post_to = undefined,
         num_total_saved = -1;
     let is_delete = false,
         is_active = false,
@@ -24,7 +25,7 @@
     $: ftype = profile['ftype'];
     $: changed = false;
     $: isActive = false;
-    $: if (!isLoggin) {
+    $: if ($isLoggin) {
         is_owner =
             $usershortinfo.username === profile['username'] ||
             $usershortinfo.username === owner['username'];
@@ -64,8 +65,8 @@
 
 {#if !is_delete}
     <div class="flex p-0.5 space-x-2 w-full mb-2" in:fade>
-        <div class="flex items-center px-4 py-2 w-full ">
-            <div class="">
+        <div class="flex items-center px-4 py-2 w-full">
+            <div class="relative">
                 <a href="{`/${ftype}/${username}`}" use:link>
                     <div
                         style="background-image: url({image})"
@@ -104,22 +105,71 @@
                     </span>
 
                     <div>
-                        <small class="text-sm text-gray-700 dark:text-slate-200"
-                            >{moment(created).fromNow()}</small
+                        <small
+                            class="text-sm flex items-center flex-row-reverse text-gray-700 dark:text-slate-200"
+                        >
+                            <span class="ml-1.5">
+                                {#if show_post_to === 'onlyme'}
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="w-4 h-4 font-bold dark:fill-white fill-gray-700"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="6"
+                                        fill="none"
+                                    >
+                                        <path
+                                            d="M17 10.25H16.75V8C16.75 6.74022 16.2496 5.53204 15.3588 4.64124C14.468 3.75045 13.2598 3.25 12 3.25C10.7402 3.25 9.53204 3.75045 8.64124 4.64124C7.75045 5.53204 7.25 6.74022 7.25 8V10.25H7C6.27065 10.25 5.57118 10.5397 5.05546 11.0555C4.53973 11.5712 4.25 12.2707 4.25 13V18C4.25 18.7293 4.53973 19.4288 5.05546 19.9445C5.57118 20.4603 6.27065 20.75 7 20.75H17C17.7293 20.75 18.4288 20.4603 18.9445 19.9445C19.4603 19.4288 19.75 18.7293 19.75 18V13C19.75 12.2707 19.4603 11.5712 18.9445 11.0555C18.4288 10.5397 17.7293 10.25 17 10.25ZM8.75 8C8.75 7.13805 9.09241 6.3114 9.7019 5.7019C10.3114 5.09241 11.138 4.75 12 4.75C12.862 4.75 13.6886 5.09241 14.2981 5.7019C14.9076 6.3114 15.25 7.13805 15.25 8V10.25H8.75V8ZM18.25 18C18.25 18.3315 18.1183 18.6495 17.8839 18.8839C17.6495 19.1183 17.3315 19.25 17 19.25H7C6.66848 19.25 6.35054 19.1183 6.11612 18.8839C5.8817 18.6495 5.75 18.3315 5.75 18V13C5.75 12.6685 5.8817 12.3505 6.11612 12.1161C6.35054 11.8817 6.66848 11.75 7 11.75H17C17.3315 11.75 17.6495 11.8817 17.8839 12.1161C18.1183 12.3505 18.25 12.6685 18.25 13V18Z"
+                                        ></path>
+                                    </svg>
+                                {/if}
+                                {#if show_post_to === 'everyone'}
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="w-6 h-6 dark:fill-white fill-gray-700"
+                                        viewBox="-20 0 190 190"
+                                        stroke-width="3"
+                                        fill="none"
+                                    >
+                                        <path
+                                            fill-rule="evenodd"
+                                            clip-rule="evenodd"
+                                            d="M76.54 149.16C14.75 149.16 17.54 60.8701 75.54 60.8701C133.34 60.8701 133 149.16 76.54 149.16ZM75.48 66.8001C72.6891 66.7949 69.9038 67.0493 67.16 67.5601L68.22 73.6301L55.52 82.6301L44.37 81.9401C43.2722 83.477 42.2928 85.0949 41.44 86.7801L43.78 108.67L50.66 117.51L43.6 127.51C49.89 136.72 60.73 143.23 76.33 143.23C98.79 143.23 110.98 127.07 112.75 109.62L107.48 104.83L99.75 101.89L98.49 103.8L101.49 106.95L103.81 107.3L104.81 110.66L97.51 114.35L92.51 105.64L90.78 109.56L94.55 117.85L99.18 119.2L91.72 123.2L82 137.14L73.74 137.79L71.93 129.79L73.3 118L63.83 115.48L60.71 108L62.2 100.8L71.2 97.1101L79.71 101.98L84.2 100.51L90.89 102.32L92.41 93.7901L83.8 90.9401L83.7 96.5001L78.23 96.2501L77.76 90.3701L71 91.8601L71.51 86.6901L68.63 83.3501L73.01 79.3501L80.13 83.3501L82.36 78.6201L88 76.2201L91.76 77.8801L95.58 77.1101L97.23 73.1101C91.5 69.1701 84.27 66.8001 75.48 66.8001Z"
+                                        ></path>
+                                    </svg>
+                                {/if}
+                                {#if show_post_to === 'followers'}
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="w-4 h-4 dark:fill-white fill-gray-700"
+                                        viewBox="0 0 64 64"
+                                        stroke-width="3"
+                                        fill="none"
+                                        ><circle cx="22.83" cy="22.57" r="7.51"
+                                        ></circle><path
+                                            d="M38,49.94a15.2,15.2,0,0,0-15.21-15.2h0a15.2,15.2,0,0,0-15.2,15.2Z"
+                                        ></path><circle
+                                            cx="44.13"
+                                            cy="27.22"
+                                            r="6.05"></circle><path
+                                            d="M42.4,49.94h14A12.24,12.24,0,0,0,44.13,37.7h0a12.21,12.21,0,0,0-5.75,1.43"
+                                        ></path></svg
+                                    >{/if}
+                            </span>
+                            <span> {moment(created).fromNow()}</span></small
                         >
                     </div>
                 </div>
             </div>
 
             <!-- <div class="flex-1   px-3 "></div> -->
-            <div class=" flex-1   ">
-                <div class="flex items-center float-right space-x-2 ">
+            <div class=" flex-1">
+                <div class="flex items-center float-right space-x-2">
                     <div
                         on:click="{() => (isActive = !isActive)}"
                         on:keypress="{() => {}}"
                         class="pr-2 cursor-pointer w-fit h-fit"
                     >
-                        <span class="font-bold float-right  cursor-pointer"
+                        <span class="font-bold float-right cursor-pointer"
                             ><svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
@@ -133,13 +183,13 @@
                     </div>
                 </div>
                 <div
-                    class="relative {isActive && !isLoggin ? '' : 'hidden'} "
+                    class="relative {isActive && $isLoggin ? '' : 'hidden'} "
                     on:mouseleave="{(e) => {
                         isActive = false;
                     }}"
                 >
                     <div
-                        class=" absolute top-7 right-2 z-50 w-56 py-1 mb-4 h-fit rounded-md shadow-lg min-w-max  ring-1 ring-black ring-opacity-25 dark:bg-dark  focus:outline-none bg-white dark:bg-slate-900 dark:text-white"
+                        class=" absolute top-7 right-2 z-50 w-56 py-1 mb-4 h-fit rounded-md shadow-lg min-w-max ring-1 ring-black ring-opacity-25 dark:bg-dark focus:outline-none bg-white dark:bg-slate-900 dark:text-white"
                     >
                         {#if is_owner}
                             <span
@@ -149,7 +199,7 @@
                                     push(`/post/${id}/edit`);
                                 }}"
                                 on:keypress="{() => {}}"
-                                class="flex px-4 py-2 text-sm  transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 space-x-2 cursor-pointer"
+                                class="flex px-4 py-2 text-sm transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 space-x-2 cursor-pointer"
                             >
                                 <div>
                                     <svg
@@ -157,7 +207,7 @@
                                         width="16"
                                         height="16"
                                         fill="currentColor"
-                                        class="bi bi-pencil-square "
+                                        class="bi bi-pencil-square"
                                         viewBox="0 0 16 16"
                                     >
                                         <path
@@ -180,12 +230,12 @@
                                 on:keypress="{() => {}}"
                             >
                                 <span
-                                    class="flex px-4 py-2 text-sm  transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 space-x-2 cursor-pointer"
+                                    class="flex px-4 py-2 text-sm transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 space-x-2 cursor-pointer"
                                 >
                                     <span
                                         ><svg
                                             xmlns="http://www.w3.org/2000/svg"
-                                            class="h-5 w-5 "
+                                            class="h-5 w-5"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -207,13 +257,13 @@
                                 savePost();
                             }}"
                             on:keypress="{() => {}}"
-                            class="px-4 py-2 text-sm  transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 flex space-x-2 cursor-pointer"
+                            class="px-4 py-2 text-sm transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 flex space-x-2 cursor-pointer"
                         >
                             <span>
                                 <svg
                                     fill="none"
                                     viewBox="0 0 24 24"
-                                    class="w-5 h-5    inline
+                                    class="w-5 h-5 inline
                                {is_saved
                                         ? 'fill-yellow-300'
                                         : ' '}  text-yellow-300"
@@ -239,15 +289,15 @@
     <div class="h-[10rem] flex flex-row items-center">
         <div
             in:fly="{{ y: 100, duration: 1000 }}"
-            class="bg-white w-8/12  z-50 items-center flex flex-col space-y-4 pb-4 pt-2 rounded-2xl absolute  translate-x-1/4 "
+            class="bg-white w-8/12 z-50 items-center flex flex-col space-y-4 pb-4 pt-2 rounded-2xl absolute translate-x-1/4"
         >
             <div class="text-rose-600 font-bold">
                 Do you want to delet your account?
             </div>
 
-            <div class="flex flex-1 w-full justify-center items-center ">
+            <div class="flex flex-1 w-full justify-center items-center">
                 <div
-                    class="text-center flex-1  "
+                    class="text-center flex-1"
                     on:click="{() => {
                         is_active = false;
                         deletePost();
@@ -261,14 +311,14 @@
                 </div>
 
                 <div
-                    class="text-center flex-1 "
+                    class="text-center flex-1"
                     on:click="{() => {
                         is_delete = !is_delete;
                     }}"
                     on:keypress="{() => {}}"
                 >
                     <span
-                        class=" bg-[#FF0000] text-white  rounded-lg cursor-pointer shadow-lg w-24 py-2 px-5"
+                        class=" bg-[#FF0000] text-white rounded-lg cursor-pointer shadow-lg w-24 py-2 px-5"
                         >Cansole</span
                     >
                 </div>

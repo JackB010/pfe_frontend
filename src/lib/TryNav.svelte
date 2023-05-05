@@ -17,12 +17,12 @@
 </script>
 
 <div
-    class="flex flex-wrap  mx-auto md:-mt-5  md:w-[70%] lg:w-[60%] border-b-rose-600"
+    class="flex flex-wrap  mx-auto md:-mt-4 w-full  md:w-[73%] lg:w-[60%] border-b-rose-600"
 >
     <div class="min-w-full ">
         <div
-            class="relative flex flex-col  break-words bg-white dark:bg-slate-800
-             dark:text-white  mb-6 shadow-md rounded-lg border-b-2 border-b-rose-600"
+            class="relative flex flex-col h-14  break-words bg-white dark:bg-slate-800
+             dark:text-white  mb-6 shadow rounded border-b-2 border-b-rose-600"
         >
             <div
                 class="flex  bg-white px-1    dark:text-white  dark:bg-slate-800"

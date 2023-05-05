@@ -21,6 +21,7 @@ import PagesCategorie from './lib/accounts/PagesCategorie.svelte';
 import HomeEvents from './lib/events/HomeEvents.svelte';
 import HomeSettings from './lib/profiles/HomeSettings.svelte';
 import PostSaved from './lib/posts/PostSaved.svelte';
+import FollowersList from './lib/pages/FollowersList.svelte';
 
 export const routes = new Map();
 routes.set('/', PostList);
@@ -28,25 +29,30 @@ routes.set('/chat', HomeChat);
 routes.set('/events', HomeEvents);
 routes.set('/notifications', RootNotification);
 routes.set('/chat/:username', ChatRoom);
+// post
 routes.set('/post/add', AddPost);
+routes.set('/posts/tag/:tag', PostTag);
 routes.set('/post/:id/edit', AddPost);
 routes.set('/post/:id', Post);
 
-routes.set('/posts/tag/:tag', PostTag);
 routes.set('/friends', AddFriends)
-routes.set('/page/categorie/:categorie', PagesCategorie)
-routes.set('/event/:id/edit', CreateEvent)
+// event
 routes.set('/event/add', CreateEvent)
+routes.set('/event/:id/edit', CreateEvent)
+// page
+routes.set('/page/:username', Page)
+routes.set('/page/categorie/:categorie', PagesCategorie)
 routes.set('/page/:username/settings', HomeSettings)
 routes.set('/page/:username/saved', PostSaved)
 routes.set('/page/:username/settings/change', ChangePassword)
-
+routes.set('/page/:username/:followtpye', FollowersList)
+// profile
+routes.set('/profile/:username', Profile)
 routes.set('/profile/:username/settings', HomeSettings)
 routes.set('/profile/:username/saved', PostSaved)
 routes.set('/profile/:username/settings/change', ChangePassword)
+routes.set('/profile/:username/:followtpye', FollowersList)
 
-routes.set('/profile/:username', Profile)
-routes.set('/page/:username', Page)
 routes.set('/Page404', Page404);
 routes.set('*', Page404);
 
