@@ -49,15 +49,15 @@
     };
 </script>
 
-<div class=" h-fit w-full flex flex-col ">
+<div class=" h-fit w-full flex flex-col">
     <div
-        class="ml-7  h-fit w-11/12 flex flex-1 mx-auto overflow-y-auto  flex-row pl-2 pr-2 space-x-1 -mb-3"
+        class="ml-7 h-fit w-11/12 flex flex-1 mx-auto overflow-y-auto flex-row pl-2 pr-2 space-x-1 -mb-3"
     >
         {#each outImages as image, index}
             <span class="relative"
                 ><svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class=" h-4 w-4 bg-white rounded-full absolute  mx-auto z-10 left-3/4 cursor-pointer"
+                    class=" h-4 w-4 bg-white rounded-full absolute mx-auto z-10 left-3/4 cursor-pointer"
                     fill="red"
                     viewBox="0 0 1792 1792"
                     on:click="{() => {
@@ -86,17 +86,17 @@
             bind:this="{fileInput}"
             type="file"
             id="multi-upload-input "
-            class=" w-full hidden "
+            class=" w-full hidden"
             accept="image/png, image/jpeg"
             multiple
         />
     </div>
 </div>
 
-<form class="flex w-full mx-auto mb-3 " on:submit|preventDefault="{handelsend}">
+<form class="flex w-full mx-auto mb-3" on:submit|preventDefault="{handelsend}">
     {#if placeholder.includes('message')}
         <span
-            class="flex items-center border  cursor-pointer w-14 ml-4 rounded-l-md justify-center bg-white text-gray-400 hover:text-gray-600 "
+            class="flex items-center border cursor-pointer w-14 ml-4 rounded-l-md justify-center bg-white text-gray-400 hover:text-gray-600"
         >
             <svg
                 class="w-5 h-5"
@@ -116,15 +116,15 @@
             </svg>
         </span>
     {/if}
-    <div class="flex-grow  {!placeholder.includes('message') ? 'pl-5' : ''} ">
+    <div class="flex-grow {!placeholder.includes('message') ? 'pl-5' : ''} ">
         <div class="relative w-full">
             <input
                 bind:value="{text}"
                 placeholder="{placeholder}"
                 class="placeholder:text-xs
-                {isLoggin
+                {!$isLoggin
                     ? ' pointer-events-none cursor-not-allowed  '
-                    : ''}  sm:placeholder:text-sm flex w-full outline-none pr-10 focus:outline-none  border  focus:border-rose-600 pl-4 h-10 text-black {!placeholder.includes(
+                    : ''}  sm:placeholder:text-sm flex w-full outline-none pr-10 focus:outline-none border focus:border-rose-600 pl-4 h-10 text-black {!placeholder.includes(
                     'message'
                 )
                     ? 'rounded-l-md'
@@ -133,7 +133,7 @@
             <span
                 class="absolute flex z-30 {!$isLoggin
                     ? ' pointer-events-none cursor-not-allowed '
-                    : ''} items-center justify-center h-full w-12 right-0 top-0  text-gray-400 hover:text-gray-600"
+                    : ''} items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600"
             >
                 <svg
                     class="w-6 h-6 cursor-pointer"
@@ -171,7 +171,7 @@
             bind:this="{fileInput}"
             type="file"
             id="multi-upload-input "
-            class=" w-full hidden  "
+            class=" w-full hidden"
             accept="image/png, image/jpeg"
             multiple
         />
@@ -182,7 +182,7 @@
                 : ''}  mr-4 rounded-r-md active:bg-none border focus:outline-none"
             ><svg
                 class="w-5 h-5 transform rotate-45 mx-auto -mt-px text-gray-400
-                 hover:text-gray-600 "
+                 hover:text-gray-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

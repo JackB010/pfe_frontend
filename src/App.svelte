@@ -1,9 +1,9 @@
 <script>
-    import Router from 'svelte-spa-router';
+    import Router, { push } from 'svelte-spa-router';
     // import Nav from './lib/_Nav.svelte';
     import TryNav from './lib/TryNav.svelte';
     import NavNoLogin from './lib/NavNoLogin.svelte';
-    import { nonroutes, routes } from './routesHolder';
+    import { nonroutes, routes, conform } from './routesHolder';
     import './style/app.css';
 
     import {
@@ -13,6 +13,7 @@
         setLogedOut,
         updateToken,
         userToken,
+        userinfo,
     } from './stores/accounts/auth';
 
     import { onMount } from 'svelte';
@@ -26,6 +27,9 @@
     onMount(() => {
         moment.locale('fr');
         const pathname = window.location.pathname;
+        if (!$userinfo['is_conformed']) {
+            push('/conform');
+        }
         if (!pathname.startsWith('/chat')) {
             chating_with.set('');
         }
@@ -76,12 +80,16 @@
     // });
 </script>
 
-<main class=" lg:container mx-auto ">
+<main class=" lg:container mx-auto">
     {#if $isLoggin}
         <div class="md:mt-5">
             <!-- <Nav /> -->
             <TryNav />
-            <Router routes="{routes}" />
+            {#if !$userinfo['is_conformed']}
+                <Router routes="{conform}" />
+            {:else}
+                <Router routes="{routes}" />
+            {/if}
         </div>
     {:else}
         <NavNoLogin />

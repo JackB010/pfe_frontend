@@ -79,7 +79,7 @@ export const setLogedOut = async () => {
     await usershortinfo.set(null)
     await usersettingss.set({})
     // userinfo.set(null)
-    push("/");
+    // push("/");
 }
 
 

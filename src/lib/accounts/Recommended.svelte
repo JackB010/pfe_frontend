@@ -8,6 +8,7 @@
     import { link } from 'svelte-spa-router';
 
     let is_loaded = false;
+
     $: {
         let suggestedUrl = '';
         if ($usershortinfo.ftype === 'profile') {
@@ -55,7 +56,7 @@
 {#if is_loaded}
     <Wapper>
         <div class="h-fit w-full border mb-2 rounded">
-            <div class="flex flex-row items-center mt-2  mx-4">
+            <div class="flex flex-row items-center mt-2 mx-4">
                 <div
                     class="font-bold text-xl flex-1 dark:text-white text-gray-900"
                 >
@@ -82,12 +83,12 @@
                 </div>
             </div>
             <div
-                class="flex flex-row items-center mx-3 my-1   overflow-hidden "
+                class="flex flex-row items-center mx-3 my-1 overflow-hidden"
                 id="homesuggestion"
             >
                 {#each $recommended as user}
                     <div
-                        class="h-full relative  flex flex-col items-center m-2 px-8   dark:ring-1 ring-rose-600 shadow rounded"
+                        class="h-full relative flex flex-col items-center m-2 px-8 dark:ring-1 ring-rose-600 shadow rounded"
                     >
                         <a
                             href="{`/${user.ftype}/${user.username}`}"
@@ -96,7 +97,7 @@
                         >
                             <div
                                 style="background-image: url({user.photo_icon})"
-                                class="w-14 h-14 bg-cover bg-center  cursor-pointer object-cover {user.ftype ===
+                                class="w-14 h-14 bg-cover bg-center cursor-pointer object-cover {user.ftype ===
                                 'profile'
                                     ? 'rounded-full'
                                     : 'rounded-lg'} border-1 mt-2 mx-1 shadow"
@@ -112,15 +113,15 @@
                                 class="ml-1">Followers</span
                             >
                         </div>
-                        <div class="relative w-full h-10  mb-3">
-                            <div class="  z-50 mx-auto  mt-5 justify-center  ">
+                        <div class="relative w-full h-10 mb-3">
+                            <div class="  z-50 mx-auto mt-5 justify-center">
                                 <span
                                     id="{user.username}"
                                     on:click="{() => {
                                         followUser(user.username, user.ftype);
                                     }}"
                                     on:keypress="{() => {}}"
-                                    class="cursor-pointer 
+                                    class="cursor-pointer
                                      bg-rose-600 text-white absolute -left-2 bottom-0
                                        px-4 h-fit w-fit py-1 rounded shadow justify-center"
                                     >Follow</span

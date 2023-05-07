@@ -11,11 +11,13 @@
     import { push } from 'svelte-spa-router';
     import UserFollow from '../accounts/UserFollow.svelte';
     import moment from 'moment';
+    import { onMount } from 'svelte';
 
     export let userdata = {};
     let selected = false;
     let is_owner_profile = false,
-        is_owner = false;
+        is_owner = false,
+        usersettings = {};
     $: {
         if ($isLoggin) {
             is_owner = userdata['user'].username === $usershortinfo['username'];
@@ -24,12 +26,18 @@
 
     $: {
         if ($isLoggin) {
+            axios(`${baseurl}/pages/settings/${userdata['id']}/`, config).then(
+                (res) => {
+                    usersettings = res.data;
+                }
+            );
             userdata['owners_list'].forEach((element) => {
                 if ($usershortinfo['username'] === element['username'])
                     is_owner_profile = true;
             });
         }
     }
+
     let isActive = false;
     const followUser = () => {
         if (!is_owner) {
@@ -101,10 +109,10 @@
 <Wapper>
     <div class="border my-2 rounded">
         <div class="  mx-auto w-11/12 p-4">
-            <div class="flex flex-row items-center ">
+            <div class="flex flex-row items-center">
                 <div
                     style="background-image: url({userdata['photo']})"
-                    class="sm:w-32 sm:h-32 w-24 h-24 bg-cover   bg-center rounded-lg border-4 object-cover shadow"
+                    class="sm:w-32 sm:h-32 w-24 h-24 bg-cover bg-center rounded-lg border-4 object-cover shadow"
                 ></div>
 
                 <div class="flex-1">
@@ -118,7 +126,7 @@
                                 );
                             }}"
                             on:keypress="{(e) => {}}"
-                            class="text-sm text-gray-700 dark:text-white cursor-pointer "
+                            class="text-sm text-gray-700 dark:text-white cursor-pointer"
                             ><span class="font-bold"
                                 ><Number
                                     number="{userdata['count_following']}"
@@ -151,8 +159,12 @@
                             on:click="{followUser}"
                             on:keypress="{() => {}}"
                             class="
-                              px-4 h-fit w-fit py-1 rounded shadow font-medium justify-center 
-                                {is_owner || !$isLoggin
+                              px-4 h-fit w-fit py-1 rounded shadow font-medium justify-center
+                                {is_owner ||
+                            !$isLoggin ||
+                            (usersettings.followers_limit &&
+                                usersettings.followers_limit_num ===
+                                    userdata['count_followed_by'])
                                 ? 'cursor-not-allowed bg-gray-200 text-black pointer-events-none'
                                 : 'cursor-pointer'}
                                 {userdata['is_following'] && !is_owner
@@ -169,7 +181,8 @@
                             }}"
                             on:keypress="{(e) => {}}"
                             class="px-4 h-fit w-fit py-1 rounded shadow justify-center bg-rose-600 font-medium text-white {is_owner ||
-                            !$isLoggin
+                            !$isLoggin ||
+                            $usershortinfo.ftype === 'page'
                                 ? 'cursor-not-allowed bg-gray-200 text-black pointer-events-none'
                                 : 'cursor-pointer'}  ">Message</span
                         >
@@ -225,21 +238,21 @@
                     </div>
                 {/if}
                 <div
-                    class=" my-2 font-light text-sm  text-gray-700 dark:text-gray-300"
+                    class=" my-2 font-light text-sm text-gray-700 dark:text-gray-300"
                 >
                     <p>
                         <span class="text-rose-600">about:</span>
                         {userdata['about']}
                     </p>
                 </div>
-                <div class=" my-2 font-light text-sm ">
+                <div class=" my-2 font-light text-sm">
                     <p>
                         <span class="text-rose-600">bio:</span>
                         {userdata['bio']}
                     </p>
                 </div>
                 <div class="">
-                    <span class=" pt-2 text-xs sm:text-base w-fit "
+                    <span class=" pt-2 text-xs sm:text-base w-fit"
                         >Owners Profiles <span
                             class="bg-rose-600 text-white px-2 py-0.5 rounded-full"
                             >{userdata['owners_list'].length}</span
@@ -269,7 +282,7 @@
                         {/if}
                         {#if is_owner}
                             <span
-                                class="text-xl ml-1 cursor-pointer text-rose-600 "
+                                class="text-xl ml-1 cursor-pointer text-rose-600"
                                 on:click="{() => {
                                     selected = !selected;
                                     search = '';
@@ -279,7 +292,7 @@
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="h-6 w-6 inline  transition-transform ease-in-out duration-150 {selected
+                                    class="h-6 w-6 inline transition-transform ease-in-out duration-150 {selected
                                         ? 'rotate-45'
                                         : ''}"
                                     fill="none"
@@ -296,39 +309,43 @@
                         {/if}
                     </span>
                     {#if isActive && userdata['owners_list'].length > 0}
-                        <div class="relative ">
+                        <div class="relative">
                             <div
-                                class=" absolute    w-full  py-1 mb-4 h-40  rounded shadow min-w-max  ring-1 ring-black ring-opacity-25 dark:bg-dark  focus:outline-none bg-white dark:bg-slate-900 dark:text-white overflow-y-scroll overflow-x-hidden "
+                                class=" absolute w-full py-1 mb-4 h-40 rounded shadow min-w-max ring-1 ring-black ring-opacity-25 dark:bg-dark focus:outline-none bg-white dark:bg-slate-900 dark:text-white overflow-y-scroll overflow-x-hidden"
                             >
-                                {#each userdata['owners_list'] as user}
-                                    <div class=" flex flex-row items-center">
-                                        <div class="flex-1">
-                                            <UserFollow user="{user}" />
-                                        </div>
+                                {#if usersettings.show_owners || is_owner}
+                                    {#each userdata['owners_list'] as user}
                                         <div
-                                            class="cursor-pointer "
-                                            on:click="{() => {
-                                                makeOwner(user, true);
-                                            }}"
-                                            on:keypress="{() => {}}"
+                                            class=" flex flex-row items-center"
                                         >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                class="h-6 w-6 rotate-45 bg-red-600  text-white rounded-full mx-1"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
+                                            <div class="flex-1">
+                                                <UserFollow user="{user}" />
+                                            </div>
+                                            <div
+                                                class="cursor-pointer"
+                                                on:click="{() => {
+                                                    makeOwner(user, true);
+                                                }}"
+                                                on:keypress="{() => {}}"
                                             >
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    stroke-width="2.5"
-                                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                                                ></path>
-                                            </svg>
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    class="h-6 w-6 rotate-45 bg-red-600 text-white rounded-full mx-1"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2.5"
+                                                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                                    ></path>
+                                                </svg>
+                                            </div>
                                         </div>
-                                    </div>
-                                {/each}
+                                    {/each}
+                                {/if}
                             </div>
                         </div>
                     {/if}
@@ -337,7 +354,7 @@
                             <svg
                                 fill="none"
                                 viewBox="0 0 24 24"
-                                class="w-5 h-5    inline
+                                class="w-5 h-5 inline
                                 fill-rose-600 text-rose-600"
                                 stroke="currentColor "
                             >
@@ -365,7 +382,7 @@
                                 <svg
                                     fill="none"
                                     viewBox="0 0 24 24"
-                                    class="w-5 h-5    inline
+                                    class="w-5 h-5 inline
                                 fill-yellow-300 text-yellow-300"
                                     stroke="currentColor "
                                 >
@@ -382,7 +399,7 @@
                     {/if}
                     <div>
                         <div
-                            class="  flex flex-row flex-wrap mb-3 space-x-1 mt-3  "
+                            class="  flex flex-row flex-wrap mb-3 space-x-1 mt-3"
                         >
                             {#each userdata['categories'] as categorie}
                                 <span
@@ -409,9 +426,9 @@
 
                     <div class="w-0 border border-gray-300"></div>
                     <div
-                        class="mx-auto text-xs sm:text-base text-center cursor-pointer  w-fit "
+                        class="mx-auto text-xs sm:text-base text-center cursor-pointer w-fit"
                     >
-                        <span class="font-bold "
+                        <span class="font-bold"
                             ><Number
                                 number="{userdata['num_total_events']}"
                             /></span
@@ -427,13 +444,13 @@
     <!-- <div></div> -->
     <!-- <div class="relative "> -->
     <div
-        class=" absolute top-[60%] left-1/3  w-72 md:w-96 py-1 mb-4 h-52 z-[100000000000]  rounded shadow min-w-max  ring-1 ring-black ring-opacity-25 dark:bg-dark  focus:outline-none bg-white dark:bg-slate-900 dark:text-white overflow-y-scroll "
+        class=" absolute top-[60%] left-1/3 w-72 md:w-96 py-1 mb-4 h-52 z-[100000000000] rounded shadow min-w-max ring-1 ring-black ring-opacity-25 dark:bg-dark focus:outline-none bg-white dark:bg-slate-900 dark:text-white overflow-y-scroll"
     >
         <span
-            class="flex px-1 text-sm items-center transition-colors  dark:text-light  space-x-2 cursor-pointer"
+            class="flex px-1 text-sm items-center transition-colors dark:text-light space-x-2 cursor-pointer"
         >
             <form
-                class="w-full flex  border-b-2 border-rose-600 "
+                class="w-full flex border-b-2 border-rose-600"
                 on:submit|preventDefault="{SearchUser}"
             >
                 <input
@@ -441,11 +458,11 @@
                                      pl-4 outline-none focus:outline-none"
                     bind:value="{search}"
                 />
-                <span class="border w-0 h-6 my-auto   border-rose-600 "></span>
+                <span class="border w-0 h-6 my-auto border-rose-600"></span>
                 <button
-                    class=" text-rose-600 dark:text-white 
-                                                          px-2     
-                                    outline-none focus:outline-none  ease-linear transition-all duration-100"
+                    class=" text-rose-600 dark:text-white
+                                                          px-2
+                                    outline-none focus:outline-none ease-linear transition-all duration-100"
                 >
                     <svg
                         class="w-5 h-5"
@@ -473,7 +490,7 @@
                 <div class="h-full">
                     {#each searchedUser as user}
                         <div
-                            class="cursor-pointer "
+                            class="cursor-pointer"
                             on:click="{() => {
                                 makeOwner(user, false);
                             }}"
@@ -485,7 +502,7 @@
                 </div>
             {:else if done}
                 <span
-                    class="w-full text-center text-gray-700 dark:text-gray-300 py-4  text-lg"
+                    class="w-full text-center text-gray-700 dark:text-gray-300 py-4 text-lg"
                     >No user found !!</span
                 >
             {/if}

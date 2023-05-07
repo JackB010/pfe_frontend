@@ -67,7 +67,12 @@
                     push('/');
                 })
                 .catch((err) => {
-                    show_error('Uncorrect username or password.');
+                    if (err.response['data']['username'])
+                        show_error(err.response['data']['username'][0]);
+                    if (err.response['data']['email'])
+                        show_error(err.response['data']['email'][0]);
+                    if (err.response['data']['non_field_errors'])
+                        show_error(err.response['data']['non_field_errors'][0]);
                 });
         } else {
             show_error('Passwords not matching.');

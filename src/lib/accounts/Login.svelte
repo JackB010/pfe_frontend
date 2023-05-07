@@ -36,13 +36,19 @@
             .catch((err) => {
                 let error = document.querySelector('#login_error');
                 error.classList.remove('hidden');
+                console.log(err.response['data']);
+
                 username = '';
                 password = '';
             });
         // await setLogedIn();
         // $location === "/login" ? push("/") : push($location);
     };
-
+    // const show_error = (msg) => {
+    //     let error = document.querySelector('#login_error');
+    //     error.innerHTML = msg;
+    //     error.classList.remove('hidden');
+    // };
     export const params = {};
 </script>
 
@@ -208,7 +214,9 @@
                             <path
                                 d="M0 0C1.001 0.0522592 1.261 0.52884 0.779999 1.43C0.53352 1.55558 0.27352 1.59874 0 1.56C0 1.04 0 0.520001 0 0L0 0Z"
                                 id="Shape"
-                                fill="#273143"
+                                fill="#{$theme !== 'dark'
+                                    ? 'FFFFFF'
+                                    : '24293B'}"
                                 fill-rule="evenodd"
                                 stroke="none"></path>
                         </g>
@@ -216,7 +224,9 @@
                             <path
                                 d="M0 0.01383C0.776881 -0.0758704 1.12346 0.270712 1.04 1.05383C1.12346 1.83695 0.776881 2.18353 0 2.09383C0 1.40041 0 0.707253 0 0.01383L0 0.01383Z"
                                 id="Shape"
-                                fill="#273143"
+                                fill="#{$theme !== 'dark'
+                                    ? 'FFFFFF'
+                                    : '24293B'}"
                                 fill-rule="evenodd"
                                 stroke="none"></path>
                         </g>

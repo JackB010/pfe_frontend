@@ -1,12 +1,14 @@
 <script>
     import { onMount } from 'svelte';
     import Wapper from '../Wapper.svelte';
-    import ShowTo from '../posts/ShowTo.svelte';
     import axios from 'axios';
     import { config } from '../../stores/accounts/auth';
     import { baseurl } from '../functions';
+    import Alert from '../ui/Alert.svelte';
 
     let params = {};
+    let updated = false,
+        error = false;
     let data = {
         birth_day: null,
         show_birth_day: 'everyone',
@@ -38,22 +40,44 @@
     });
 
     const UpdateSettings = () => {
-        axios.put(`${baseurl}/accounts/settings/`, data, config).then((res) => {
-            data = res.data;
-            if (localStorage.getItem('color-theme') !== data.theme) {
-                if (data.theme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                } else {
-                    document.documentElement.classList.remove('dark');
+        axios
+            .put(`${baseurl}/accounts/settings/`, data, config)
+            .then((res) => {
+                data = res.data;
+                if (localStorage.getItem('color-theme') !== data.theme) {
+                    if (data.theme === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                    localStorage.setItem('color-theme', data.theme);
                 }
-                localStorage.setItem('color-theme', data.theme);
-            }
-        });
+                error = false;
+
+                setTimeout(() => {
+                    updated = true;
+                }, 50);
+                setTimeout(() => {
+                    updated = false;
+                }, 5000);
+            })
+            .catch((err) => {
+                error = true;
+                setTimeout(() => {
+                    updated = true;
+                }, 50);
+                setTimeout(() => {
+                    updated = false;
+                }, 5000);
+            });
     };
 </script>
 
 <Wapper>
     <div class="mb-2 border rounded pt-3">
+        {#if updated}
+            <Alert error="{error}" />
+        {/if}
         <div class="mx-2">
             <div>
                 <div class="mb-4 flex w-full">

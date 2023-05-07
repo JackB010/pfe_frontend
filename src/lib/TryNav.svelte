@@ -17,27 +17,25 @@
 </script>
 
 <div
-    class="flex flex-wrap  mx-auto md:-mt-4 w-full  md:w-[73%] lg:w-[60%] border-b-rose-600"
+    class="flex flex-wrap mx-auto md:-mt-4 w-full md:w-[73%] lg:w-[60%] pt-1 border-b-rose-600"
 >
-    <div class="min-w-full ">
+    <div class="min-w-full">
         <div
-            class="relative flex flex-col h-14  break-words bg-white dark:bg-slate-800
-             dark:text-white  mb-6 shadow rounded border-b-2 border-b-rose-600"
+            class="relative flex flex-col h-14 break-words bg-white dark:bg-slate-800
+             dark:text-white mb-5 shadow rounded border-b-2 border-b-rose-600"
         >
-            <div
-                class="flex  bg-white px-1    dark:text-white  dark:bg-slate-800"
-            >
+            <div class="flex bg-white px-1 dark:text-white dark:bg-slate-800">
                 <div
                     class="flex items-center space-x-7 md:space-x-4 py-2.5 w-full"
                 >
                     <div class="flex">
                         <a
                             href="/"
-                            class="flex items-end cursor-pointer "
+                            class="flex items-end cursor-pointer"
                             use:link
                         >
                             <div
-                                class="flex items-end  space-x-2 hover:text-rose-600"
+                                class="flex items-end space-x-2 hover:text-rose-600"
                             >
                                 <div>
                                     <svg
@@ -55,7 +53,7 @@
                                         ></path>
                                     </svg>
                                 </div>
-                                <div class="hidden sm:inline ">Home</div>
+                                <div class="hidden sm:inline">Home</div>
                             </div>
                         </a>
                     </div>
@@ -66,9 +64,7 @@
                                 class="flex items-end cursor-pointer space-x-2"
                                 use:link
                             >
-                                <div
-                                    class="flex  space-x-3 hover:text-rose-600"
-                                >
+                                <div class="flex space-x-3 hover:text-rose-600">
                                     <div class="relative">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -97,9 +93,7 @@
                                 class="flex items-end cursor-pointer space-x-2"
                                 use:link
                             >
-                                <div
-                                    class="flex  space-x-3 hover:text-rose-600"
-                                >
+                                <div class="flex space-x-3 hover:text-rose-600">
                                     <div class="relative">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -116,7 +110,7 @@
                                         >
                                         {#if $unread_messages !== 0}
                                             <div
-                                                class="absolute text-white w-fit h-fit top-3 right-0  bg-red-600 text-sm rounded-full"
+                                                class="absolute text-white w-fit h-fit top-3 right-0 bg-red-600 text-sm rounded-full"
                                             >
                                                 <Number
                                                     number="{$unread_messages}"
@@ -154,9 +148,9 @@
                                     </svg>
                                     {#if $unread_notifications !== 0}
                                         <div
-                                            class="absolute text-white w-fit h-fit top-3 right-0  bg-red-600 text-sm rounded-full"
+                                            class="absolute text-white w-fit h-fit top-3 right-0 bg-red-600 text-sm rounded-full"
                                         >
-                                            <p class=" px-1 ">
+                                            <p class=" px-1">
                                                 <Number
                                                     number="{$unread_notifications}"
                                                 />
@@ -184,7 +178,7 @@
                                         viewBox="0 0 24 24"
                                         stroke-width="2"
                                         stroke="currentColor"
-                                        class="w-6 h-6   rounded-full p-0.5"
+                                        class="w-6 h-6 rounded-full p-0.5"
                                     >
                                         <path
                                             stroke-linecap="round"
@@ -196,23 +190,23 @@
                             </div>
                         </a>
                     </div>
-                    <div class=" flex-1   ">
-                        <div class="flex items-center float-right space-x-2 ">
+                    <div class=" flex-1">
+                        <div class="flex items-center float-right space-x-2">
                             <a
                                 href="{`/${$usershortinfo.ftype}/${$usershortinfo.username}`}"
                                 use:link
                                 on:click="{() => {
                                     selectedByNav.set(true);
                                 }}"
-                                class="flex cursor-pointer space-x-2 pr-3  w-fit"
+                                class="flex cursor-pointer space-x-2 pr-3 w-fit"
                             >
-                                <div class="w-fit ">
+                                <div class="w-fit">
                                     <div
                                         style="background-image: url({$usershortinfo.photo_icon})"
                                         class="{$usershortinfo.ftype ===
                                         'profile'
                                             ? 'rounded-full'
-                                            : 'rounded-lg'} h-8 w-8 -mt-1 border bg-cover bg-center cursor-pointer "
+                                            : 'rounded-lg'} h-8 w-8 -mt-1 border bg-cover bg-center cursor-pointer"
                                     ></div>
                                 </div>
                                 <div
@@ -227,7 +221,7 @@
                                 class="pr-2 cursor-pointer w-fit h-fit"
                             >
                                 <svg
-                                    class="w-6 h-6 transition-transform transform bg-gray-100 dark:bg-black rounded-full 
+                                    class="w-6 h-6 transition-transform transform bg-gray-100 dark:bg-black rounded-full
                                     p-0.5 {isActive ? '' : 'rotate-180'}"
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
@@ -249,7 +243,7 @@
                             }}"
                         >
                             <div
-                                class=" absolute top-9 right-2 z-50 w-56 py-1 mb-4 h-fit rounded shadow-lg min-w-max  ring-1 ring-black ring-opacity-25 dark:bg-dark  focus:outline-none bg-white dark:bg-slate-900 dark:text-white"
+                                class=" absolute top-9 right-2 z-50 w-56 py-1 mb-4 h-fit rounded shadow-lg min-w-max ring-1 ring-black ring-opacity-25 dark:bg-dark focus:outline-none bg-white dark:bg-slate-900 dark:text-white"
                             >
                                 <span
                                     on:click="{() => {
@@ -261,14 +255,14 @@
                                         isActive = false;
                                     }}"
                                     on:keypress="{() => {}}"
-                                    class="flex px-4 py-2 text-sm  transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 space-x-2 cursor-pointer"
+                                    class="flex px-4 py-2 text-sm transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 space-x-2 cursor-pointer"
                                 >
                                     <div
                                         style="background-image: url({$usershortinfo.photo_icon})"
                                         class="{$usershortinfo.ftype ===
                                         'profile'
                                             ? 'rounded-full'
-                                            : 'rounded-lg'} h-5 w-5  border bg-cover bg-center cursor-pointer "
+                                            : 'rounded-lg'} h-5 w-5 border bg-cover bg-center cursor-pointer"
                                     ></div>
                                     <span> Profile</span>
                                 </span>
@@ -283,7 +277,7 @@
                                     on:keypress="{() => {}}"
                                 >
                                     <span
-                                        class="flex px-4 py-2 text-sm  transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 space-x-2 cursor-pointer"
+                                        class="flex px-4 py-2 text-sm transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 space-x-2 cursor-pointer"
                                     >
                                         <span
                                             ><svg
@@ -313,7 +307,7 @@
                                 <span
                                     on:click="{setLogedOut}"
                                     on:keypress="{() => {}}"
-                                    class="px-4 py-2 text-sm  transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 flex space-x-2 cursor-pointer"
+                                    class="px-4 py-2 text-sm transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 flex space-x-2 cursor-pointer"
                                 >
                                     <span
                                         ><svg

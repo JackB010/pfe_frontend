@@ -22,10 +22,16 @@ import HomeEvents from './lib/events/HomeEvents.svelte';
 import HomeSettings from './lib/profiles/HomeSettings.svelte';
 import PostSaved from './lib/posts/PostSaved.svelte';
 import FollowersList from './lib/pages/FollowersList.svelte';
+import CodeConform from './lib/accounts/CodeConform.svelte';
 
 export const routes = new Map();
+export const conform = new Map();
+conform.set('/conform', CodeConform);
+conform.set('*', CodeConform);
+
 routes.set('/', PostList);
 routes.set('/chat', HomeChat);
+
 routes.set('/events', HomeEvents);
 routes.set('/notifications', RootNotification);
 routes.set('/chat/:username', ChatRoom);

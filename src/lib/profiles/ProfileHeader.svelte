@@ -13,16 +13,29 @@
     import { onMount } from 'svelte';
     import moment from 'moment';
     export let userdata = {};
+    let usersettings = {};
+
     $: is_owner = userdata['user'].username === $usershortinfo['username'];
     let pages = [],
         isActive = false;
     onMount(() => {
-        axios(
-            `${baseurl}/accounts/profile/user/pages/${userdata['user'].username}/`,
-            config
-        ).then((res) => {
-            pages = [...res.data];
-        });
+        axios(`${baseurl}/accounts/settings/${userdata['id']}/`, config).then(
+            (res) => {
+                usersettings = res.data;
+                if (
+                    usersettings.show_pages_owned === 'everyone' ||
+                    is_owner ||
+                    (usersettings.show_pages_owned === 'followers' &&
+                        userdata.is_following)
+                )
+                    axios(
+                        `${baseurl}/accounts/profile/user/pages/${userdata['user'].username}/`,
+                        config
+                    ).then((res) => {
+                        pages = [...res.data];
+                    });
+            }
+        );
     });
 
     const followUser = () => {
@@ -48,10 +61,10 @@
 <Wapper>
     <div class="border my-2 rounded">
         <div class="  mx-auto w-[94%] p-4">
-            <div class="flex flex-row items-center ">
+            <div class="flex flex-row items-center">
                 <div
                     style="background-image: url({userdata['photo']})"
-                    class="sm:w-32 sm:h-32 w-24 h-24 bg-cover   bg-center rounded-full border-4 object-cover shadow"
+                    class="sm:w-32 sm:h-32 w-24 h-24 bg-cover bg-center rounded-full border-4 object-cover shadow"
                 ></div>
                 <div class="flex-1">
                     <div
@@ -64,7 +77,7 @@
                                 );
                             }}"
                             on:keypress="{(e) => {}}"
-                            class="text-sm text-gray-700 dark:text-white cursor-pointer  "
+                            class="text-sm text-gray-700 dark:text-white cursor-pointer"
                             ><span class="font-bold"
                                 ><Number
                                     number="{userdata['count_following']}"
@@ -79,7 +92,7 @@
                                 );
                             }}"
                             on:keypress="{(e) => {}}"
-                            class="text-sm text-gray-700 dark:text-white cursor-pointer "
+                            class="text-sm text-gray-700 dark:text-white cursor-pointer"
                             ><span class="font-bold"
                                 ><Number
                                     number="{userdata['count_followed_by']}"
@@ -164,19 +177,20 @@
                     >
                 </div>
 
-                <div class="font-medium text-2xl    mt-1 text-rose-600">
+                <div class="font-medium text-2xl mt-1 text-rose-600">
                     {userdata['user'].username}
                 </div>
-
-                {#if userdata['user'].first_name !== '' || userdata['user'].last_name !== ''}
-                    <div class="mb-2 text-sm font-normal">
-                        {userdata['user'].first_name}
-                        {userdata['user'].last_name}
-                    </div>
+                {#if usersettings.show_full_name === 'everyone' || is_owner || (usersettings.show_full_name === 'followers' && userdata.is_following)}
+                    {#if userdata['user'].first_name !== '' || userdata['user'].last_name !== ''}
+                        <div class="mb-2 text-sm font-normal">
+                            {userdata['user'].first_name}
+                            {userdata['user'].last_name}
+                        </div>
+                    {/if}
                 {/if}
-                <div class=" my-2 font-light text-sm ">
+                <div class=" my-2 font-light text-sm">
                     <p>
-                        <span class="text-rose-600">bio: </span>
+                        <span class="text-rose-500">bio: </span>
                         {userdata['bio']}
                     </p>
                 </div>
@@ -224,7 +238,7 @@
                             <svg
                                 fill="none"
                                 viewBox="0 0 24 24"
-                                class="w-5 h-5    inline
+                                class="w-5 h-5 inline
                                 fill-rose-600 text-rose-600"
                                 stroke="currentColor "
                             >
@@ -252,7 +266,7 @@
                                 <svg
                                     fill="none"
                                     viewBox="0 0 24 24"
-                                    class="w-5 h-5    inline
+                                    class="w-5 h-5 inline
                                 fill-yellow-300 text-yellow-300"
                                     stroke="currentColor "
                                 >
@@ -268,6 +282,21 @@
                         </div>
                     {/if}
                 </div>
+                <div class="w-full mt-2 flex">
+                    <div class="flex-[0.7]">
+                        {#if (usersettings.show_birth_day === 'everyone' || is_owner || (usersettings.show_birth_day === 'followers' && userdata.is_following)) && usersettings.birth_day != null}
+                            <span class="text-rose-500">Born at:</span>
+                            <span>{usersettings.birth_day}</span>
+                        {/if}
+                    </div>
+                    <div>
+                        {#if usersettings.show_gender === 'everyone' || is_owner || (usersettings.show_gender === 'followers' && userdata.is_following)}
+                            <span
+                                >{#if usersettings.gender == 'male'}Male{:else if usersettings.gender == 'female'}Female{/if}</span
+                            >
+                        {/if}
+                    </div>
+                </div>
                 <div class="flex p-4 mt-4">
                     <div class="w-fit mx-auto text-center text-xs sm:text-base">
                         <span class="font-bold"
@@ -279,9 +308,9 @@
 
                     <div class="w-0 border border-gray-300"></div>
                     <div
-                        class="mx-auto text-xs sm:text-base text-center cursor-pointer  w-fit "
+                        class="mx-auto text-xs sm:text-base text-center cursor-pointer w-fit"
                     >
-                        <span class="font-bold "
+                        <span class="font-bold"
                             ><Number
                                 number="{userdata['count_following_page']}"
                             /></span
