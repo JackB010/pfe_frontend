@@ -24,16 +24,16 @@
 </div> -->
 
 <Wapper>
-    <div class="border  sm:mx-2 mx-1 rounded shadow mt-28 ">
-        <div class="flex md:justify-end max-w-xl mx-auto flex-col">
+    <div class="border sm:mx-2 mx-1 rounded shadow mt-28">
+        <div class="flex md:justify-end mx-auto flex-col">
             <div
-                class=" flex flex-col bg-white dark:text-white dark:bg-slate-800 mx-3  h-80 "
+                class=" flex flex-col bg-white dark:text-white dark:bg-slate-800 mx-3 h-80"
             >
                 <div
-                    class="flex flex-row text-center space-x-6 justify-around p-4 mx-auto h-full w-full  items-center "
+                    class="flex flex-row text-center space-x-6 justify-around p-4 mx-auto h-full w-full items-center"
                 >
                     <div
-                        class="  h-[75%] flex-1 rounded my-auto dark:bg-rose-600 flex flex-col items-center  pt-2 cursor-pointer hover:scale-105 border-2 border-rose-600 dark:border-white"
+                        class="  h-[75%] flex-1 rounded my-auto flex flex-col items-center pt-2 cursor-pointer hover:scale-105 border-2 border-rose-600 dark:border-white"
                         on:click="{() => {
                             push('/signup/page/');
                         }}"
@@ -42,11 +42,11 @@
                         <span class="text-center justify-center"
                             ><svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                class="h-16 w-16 -translate-y-9 p-1 bg-white border-none ring-2 text-rose-600 ring-rose-600 text-center rounded-full shadow-lg "
+                                class="h-16 w-16 -translate-y-9 p-1 bg-white border-none ring-2 text-rose-600 ring-rose-600 text-center rounded-full shadow-lg"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
-                                stroke-width="2"
+                                stroke-width="1.5"
                             >
                                 <path
                                     stroke-linecap="round"
@@ -56,12 +56,12 @@
                             </svg></span
                         >
                         <span
-                            class="dark:text-white font-medium  shadow text-xl text-rose-600"
-                            >Signup As Page</span
+                            class="dark:text-white font-medium shadow text-xl text-rose-600 w-10/12"
+                            >Inscrivez-vous en tant que page</span
                         >
                     </div>
                     <div
-                        class=" h-[75%]  flex-1 rounded my-auto dark:bg-rose-600 dark:border-white  flex flex-col items-center  pt-2 cursor-pointer  hover:scale-105 border-2 border-rose-600"
+                        class=" h-[75%] flex-1 rounded my-auto dark:border-white flex flex-col items-center pt-2 cursor-pointer hover:scale-105 border-2 border-rose-600"
                         on:click="{() => {
                             push('/signup/profile/');
                         }}"
@@ -70,32 +70,38 @@
                         <span
                             ><svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                class="h-16 w-16 ring-2 -translate-y-9  bg-white text-rose-600 ring-rose-600 p-1 rounded-full shadow-lg "
+                                class="h-16 w-16 ring-2 -translate-y-9 bg-white text-rose-600 ring-rose-600 p-1 rounded-full shadow-lg"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
                                 stroke-width="2"
                             >
                                 <path
+                                    d="M17.5 21.0001H6.5C5.11929 21.0001 4 19.8808 4 18.5001C4 14.4194 10 14.5001 12 14.5001C14 14.5001 20 14.4194 20 18.5001C20 19.8808 18.8807 21.0001 17.5 21.0001Z"
+                                    stroke-width="1.5"
                                     stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                                ></path>
+                                    stroke-linejoin="round"></path>
+                                <path
+                                    d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z"
+                                    stroke-width="1.5"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"></path>
                             </svg></span
                         >
                         <span
-                            class="dark:text-white font-medium  shadow text-xl text-rose-600"
-                            >Signup As Profile</span
+                            class="dark:text-white font-medium shadow text-xl text-rose-600 w-10/12"
+                            >Inscrivez-vous en tant que profil</span
                         >
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div
+        class="text-center flex flex-col mt-1 items-center text-gray-500 text-xs dark:text-white"
+    >
+        <div>
+            &copy;{new Date().getUTCFullYear()} USTHB. All rights reserved.
+        </div>
+    </div>
 </Wapper>
-
-<div
-    class="mx-auto text-center w-[96%] absolute bottom-2 text-gray-500 text-xs dark:text-white"
->
-    &copy;{new Date().getUTCFullYear()} Acme Corp. All rights reserved.
-</div>

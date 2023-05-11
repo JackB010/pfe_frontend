@@ -1,11 +1,12 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { baseurl } from "./../../lib/functions";
-import { push } from "svelte-spa-router";
+import { link, location, push, replace } from "svelte-spa-router";
 import { writable } from "svelte/store";
 
 
 export let profileId = writable('');
+export let username = writable('');
 export let usershortinfo = writable({
     id: null,
     username: null,
@@ -21,6 +22,8 @@ export let isLoggin = writable(false);
 export let loaded = writable(false);
 export let selectedByNav = writable(false);
 export let num_total_pages = writable(0);
+export let msg = writable("");
+
 export const config = { headers: { "Content-Type": "application/json", Authorization: "" } }
 
 export const getProfileShortInfo = async (username, ftype) => {
@@ -65,21 +68,29 @@ export const setLogedIn = async () => {
     await axios(`${baseurl}${url}`, config).then(res => {
         userinfo.set(res.data)
         num_total_pages.set(res.data["num_total_pages"])
+        username.set(res.data['user']['username'])
+
     })
     usershortinfo.set(await getProfileShortInfo(token['pid'], token['ftype']));
 
 
 }
 
-export const setLogedOut = async () => {
+export const clearData = async () => {
     await localStorage.removeItem("authTokens");
     await localStorage.removeItem("pid");
     await isLoggin.set(false);
-    await userToken.set(null);
+    await userToken.set({ refresh: undefined, access: undefined });
     await usershortinfo.set(null)
     await usersettingss.set({})
-    // userinfo.set(null)
-    // push("/");
+    userinfo.set(null)
+    isLoggin.set(false)
+}
+export const setLogedOut = async () => {
+    clearData()
+    replace('/')
+    // window.location.reload();
+    push("/");
 }
 
 

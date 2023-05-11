@@ -3,8 +3,9 @@
     import { push, link } from 'svelte-spa-router';
     import { baseurl } from '../functions';
     import Wapper from '../Wapper.svelte';
+    import { msg, username } from '../../stores/accounts/auth';
 
-    let username = '',
+    let username_ = '',
         email = '',
         password = '',
         password1 = '',
@@ -22,13 +23,15 @@
             }
             await axios
                 .post(`${baseurl}/accounts/register/`, {
-                    username,
+                    username: username_,
                     email,
                     password,
                     password1,
                 })
                 .then((res) => {
-                    push('/');
+                    username.set(username_);
+
+                    push('/conform');
                 })
                 .catch((err) => {
                     console.log(err.response['data']);
@@ -49,6 +52,34 @@
 
 <Wapper>
     <div class="border sm:mx-2 mx-1 rounded shadow mt-16">
+        <div class="flex items-center justify-between flex-col">
+            <span
+                class="w-[5rem] h-[5rem] border-2 bg-rose-600/25 dark:bg-white/50 mt-4 rounded-full text-center"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-12 h-12 mt-3 mx-auto"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                >
+                    <path
+                        stroke="#231F20"
+                        d="M17.5 21.0001H6.5C5.11929 21.0001 4 19.8808 4 18.5001C4 14.4194 10 14.5001 12 14.5001C14 14.5001 20 14.4194 20 18.5001C20 19.8808 18.8807 21.0001 17.5 21.0001Z"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                    <path
+                        stroke="#231F20"
+                        d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                </svg>
+            </span>
+            <span class="mt-4 -mb-2 text-2xl dark:text-gray-200 text-gray-700">
+                Inscrivez-vous en tant que profil
+            </span>
+        </div>
         <form
             class="dark:text-white w-full sm:w-10/12 dark:bg-slate-800
          shadow-gray-500 mx-auto rounded p-4 sm:p-8"
@@ -59,31 +90,33 @@
                     class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                     for="username"
                 >
-                    Username
+                    Nom d'utilisateur
                 </label>
                 <div class="absolute p-2 pointer-events-none">
                     <svg
-                        aria-hidden="true"
-                        class="w-5 h-5 text-gray-500 dark:text-gray-400"
                         xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
+                        class="w-5 h-5 stroke-gray-500"
                         viewBox="0 0 24 24"
-                        stroke="currentColor"
+                        fill="none"
                     >
                         <path
+                            d="M17.5 21.0001H6.5C5.11929 21.0001 4 19.8808 4 18.5001C4 14.4194 10 14.5001 12 14.5001C14 14.5001 20 14.4194 20 18.5001C20 19.8808 18.8807 21.0001 17.5 21.0001Z"
+                            stroke-width="1.5"
                             stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M16.563 15.9c-.159-.052-1.164-.505-.536-2.414h-.009c1.637-1.686 2.888-4.399 2.888-7.07c0-4.107-2.731-6.26-5.905-6.26c-3.176 0-5.892 2.152-5.892 6.26c0 2.682 1.244 5.406 2.891 7.088c.642 1.684-.506 2.309-.746 2.397c-3.324 1.202-7.224 3.393-7.224 5.556v.811c0 2.947 5.714 3.617 11.002 3.617c5.296 0 10.938-.67 10.938-3.617v-.811c0-2.228-3.919-4.402-7.407-5.557z"
-                        ></path>
+                            stroke-linejoin="round"></path>
+                        <path
+                            d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"></path>
                     </svg>
                 </div>
                 <input
                     class="shadow appearance-none border pl-10 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-rose-600 focus:border-rose-600"
                     id="username"
                     type="text"
-                    bind:value="{username}"
-                    placeholder="Username"
+                    bind:value="{username_}"
+                    placeholder="Nom d'utilisateur"
                     autocomplete="username"
                     required
                 />
@@ -100,7 +133,7 @@
                         class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
                     >
                         <svg
-                            class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                            class="w-5 h-5 stroke-gray-500"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"
@@ -113,7 +146,7 @@
                     </div>
 
                     <input
-                        class="shadow appearance-none border rounded w-full pl-10 py-2 pr-3 focus:ring-rose-600 focus:border-rose-600"
+                        class="shadow appearance-none text-black border rounded w-full pl-10 py-2 pr-3 focus:ring-rose-600 focus:border-rose-600"
                         id="email"
                         type="email"
                         bind:value="{email}"
@@ -126,12 +159,12 @@
                     class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                     for="password"
                 >
-                    Password
+                    Mot de passe
                 </label>
                 <div class="absolute p-2 pointer-events-none">
                     <svg
                         aria-hidden="true"
-                        class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                        class="w-5 h-5 stroke-gray-500"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -152,14 +185,14 @@
                         id="password"
                         type="password"
                         bind:value="{password}"
-                        placeholder="password"
+                        placeholder="Mot de passe"
                         autocomplete="current-password"
                         required
                     />
                     <div class="absolute right-2 top-9 z-300 cursor-pointer">
                         <svg
                             aria-hidden="true"
-                            class="w-5 h-5 text-gray-500 dark:text-gray-400 cursor-pointer z-30"
+                            class="w-5 h-5 stroke-gray-500 cursor-pointer z-30"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -188,14 +221,14 @@
                         id="password"
                         type="text"
                         bind:value="{password}"
-                        placeholder="password"
+                        placeholder="Mot de passe"
                         autocomplete="current-password"
                         required
                     />
                     <div class="absolute right-2 top-9 z-300 cursor-pointer">
                         <svg
                             aria-hidden="true"
-                            class="w-5 h-5 text-gray-500 dark:text-gray-400 cursor-pointer z-30"
+                            class="w-5 h-5 stroke-gray-500 cursor-pointer z-30"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -219,12 +252,12 @@
                     class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                     for="password1"
                 >
-                    Password Conform
+                    Confirmez le mot de passe
                 </label>
                 <div class="absolute p-2 pointer-events-none">
                     <svg
                         aria-hidden="true"
-                        class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                        class="w-5 h-5 stroke-gray-500"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -245,7 +278,7 @@
                     type="password"
                     autocomplete="new-password"
                     bind:value="{password1}"
-                    placeholder="password conform"
+                    placeholder="Confirmez le mot de passe"
                 />
                 <p
                     class="text-red-500 text-xs italic hidden"
@@ -261,16 +294,17 @@
                     <button
                         type="submit"
                         class="outline-none w-full h-full space-x-2"
-                        >Sign UP</button
+                        >S'inscrire</button
                     >
                 </div>
             </div>
         </form>
     </div>
+    <div
+        class="text-center flex flex-col mt-1 items-center text-gray-500 text-xs dark:text-white"
+    >
+        <div>
+            &copy;{new Date().getUTCFullYear()} USTHB. All rights reserved.
+        </div>
+    </div>
 </Wapper>
-
-<div
-    class="mx-auto text-center w-[96%] absolute bottom-0 mb-2 text-gray-500 text-xs dark:text-white"
->
-    &copy;{new Date().getUTCFullYear()} Acme Corp. All rights reserved.
-</div>

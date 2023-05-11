@@ -4,8 +4,8 @@
     import { push, link } from 'svelte-spa-router';
     import { baseurl, dynamicSort } from '../functions';
     import Wapper from '../Wapper.svelte';
-
-    let username = '',
+    import { username } from '../../stores/accounts/auth';
+    let username_ = '',
         email = '',
         about = '',
         categories = [],
@@ -23,7 +23,7 @@
                 }
             }
             if (incategories) {
-                show_error('categorie already exists');
+                show_error('La catégorie existe déjà');
             }
             if (!incategories && categorie.length > 0) {
                 categories.push(categorie);
@@ -56,7 +56,7 @@
 
             await axios
                 .post(`${baseurl}/pages/register/`, {
-                    username,
+                    username: username_,
                     email,
                     about,
                     categories,
@@ -64,7 +64,8 @@
                     password1,
                 })
                 .then((res) => {
-                    push('/');
+                    username.set(username_);
+                    push('/conform');
                 })
                 .catch((err) => {
                     if (err.response['data']['username'])
@@ -84,6 +85,28 @@
 
 <Wapper>
     <div class="border sm:mx-2 mx-1 rounded shadow mt-16 mb-2">
+        <div class="flex items-center justify-between flex-col">
+            <span
+                class="w-[5rem] h-[5rem] border-2 bg-rose-600/25 dark:bg-white/50 mt-4 rounded-full text-center"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-12 h-12 mt-3 mx-auto"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                >
+                    <path
+                        stroke="#231F20"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d=" M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                    ></path>
+                </svg>
+            </span>
+            <span class="mt-4 -mb-2 text-2xl dark:text-gray-200 text-gray-700">
+                Inscrivez-vous en tant que page
+            </span>
+        </div>
         <form
             class="dark:text-white w-full sm:w-10/12 dark:bg-slate-800
          shadow-gray-500 mx-auto rounded p-4 sm:p-8"
@@ -94,31 +117,33 @@
                     class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                     for="username"
                 >
-                    Username
+                    Nom d'utilisateur
                 </label>
                 <div class="absolute p-2 pointer-events-none">
                     <svg
-                        aria-hidden="true"
-                        class="w-5 h-5 text-gray-500 dark:text-gray-400"
                         xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
+                        class="w-5 h-5 stroke-gray-500"
                         viewBox="0 0 24 24"
-                        stroke="currentColor"
+                        fill="none"
                     >
                         <path
+                            d="M17.5 21.0001H6.5C5.11929 21.0001 4 19.8808 4 18.5001C4 14.4194 10 14.5001 12 14.5001C14 14.5001 20 14.4194 20 18.5001C20 19.8808 18.8807 21.0001 17.5 21.0001Z"
+                            stroke-width="1.5"
                             stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M16.563 15.9c-.159-.052-1.164-.505-.536-2.414h-.009c1.637-1.686 2.888-4.399 2.888-7.07c0-4.107-2.731-6.26-5.905-6.26c-3.176 0-5.892 2.152-5.892 6.26c0 2.682 1.244 5.406 2.891 7.088c.642 1.684-.506 2.309-.746 2.397c-3.324 1.202-7.224 3.393-7.224 5.556v.811c0 2.947 5.714 3.617 11.002 3.617c5.296 0 10.938-.67 10.938-3.617v-.811c0-2.228-3.919-4.402-7.407-5.557z"
-                        ></path>
+                            stroke-linejoin="round"></path>
+                        <path
+                            d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"></path>
                     </svg>
                 </div>
                 <input
                     class="shadow appearance-none border pl-10 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-rose-600 focus:border-rose-600"
                     id="username"
                     type="text"
-                    bind:value="{username}"
-                    placeholder="Username"
+                    bind:value="{username_}"
+                    placeholder="Nom d'utilisateur"
                     autocomplete="username"
                     required
                 />
@@ -135,7 +160,7 @@
                         class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
                     >
                         <svg
-                            class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                            class="w-5 h-5 stroke-gray-500"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"
@@ -162,12 +187,12 @@
                     class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                     for="password"
                 >
-                    Password
+                    Mot de passe
                 </label>
                 <div class="absolute p-2 pointer-events-none">
                     <svg
                         aria-hidden="true"
-                        class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                        class="w-5 h-5 stroke-gray-500"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -188,14 +213,14 @@
                         id="password"
                         type="password"
                         bind:value="{password}"
-                        placeholder="password"
+                        placeholder="Mot de passe"
                         autocomplete="current-password"
                         required
                     />
                     <div class="absolute right-2 top-9 z-300 cursor-pointer">
                         <svg
                             aria-hidden="true"
-                            class="w-5 h-5 text-gray-500 dark:text-gray-400 cursor-pointer z-30"
+                            class="w-5 h-5 stroke-gray-500 cursor-pointer z-30"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -224,14 +249,14 @@
                         id="password"
                         type="text"
                         bind:value="{password}"
-                        placeholder="password"
+                        placeholder="Mot de passe"
                         autocomplete="current-password"
                         required
                     />
                     <div class="absolute right-2 top-9 z-300 cursor-pointer">
                         <svg
                             aria-hidden="true"
-                            class="w-5 h-5 text-gray-500 dark:text-gray-400 cursor-pointer z-30"
+                            class="w-5 h-5 stroke-gray-500 cursor-pointer z-30"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -255,12 +280,12 @@
                     class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                     for="password1"
                 >
-                    Password Conform
+                    Confirmez le mot de passe
                 </label>
                 <div class="absolute p-2 pointer-events-none">
                     <svg
                         aria-hidden="true"
-                        class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                        class="w-5 h-5 stroke-gray-500"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -281,43 +306,104 @@
                     type="password"
                     autocomplete="new-password"
                     bind:value="{password1}"
-                    placeholder="password conform"
+                    placeholder="Confirmez le mot de passe"
                 />
                 <p
                     class="text-red-500 text-xs italic hidden"
                     id="login_error"
                 ></p>
             </div>
-            <div class="mb-4">
+            <div class="mb-4 relative">
                 <label
                     class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                     for="about"
                 >
-                    About
+                    À propos de la page
                 </label>
                 <input
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    class="shadow appearance-none border rounded w-full pl-10 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="about"
                     type="text"
                     bind:value="{about}"
-                    placeholder="what is this page about?"
+                    placeholder="De quoi parle votre page ?"
                 />
+                <div class="absolute left-2 top-9 z-300">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        class="w-5 h-5 fill-gray-500"
+                        viewBox="0 0 512 512"
+                        version="1.1"
+                    >
+                        <title>about</title>
+                        <g
+                            id="Page-1"
+                            stroke="none"
+                            stroke-width="1.5"
+                            fill-rule="evenodd"
+                        >
+                            <g
+                                id="about-white"
+                                transform="translate(42.666667, 42.666667)"
+                            >
+                                <path
+                                    d="M213.333333,3.55271368e-14 C95.51296,3.55271368e-14 3.55271368e-14,95.51168 3.55271368e-14,213.333333 C3.55271368e-14,331.153707 95.51296,426.666667 213.333333,426.666667 C331.154987,426.666667 426.666667,331.153707 426.666667,213.333333 C426.666667,95.51168 331.154987,3.55271368e-14 213.333333,3.55271368e-14 Z M213.333333,384 C119.227947,384 42.6666667,307.43872 42.6666667,213.333333 C42.6666667,119.227947 119.227947,42.6666667 213.333333,42.6666667 C307.44,42.6666667 384,119.227947 384,213.333333 C384,307.43872 307.44,384 213.333333,384 Z M240.04672,128 C240.04672,143.46752 228.785067,154.666667 213.55008,154.666667 C197.698773,154.666667 186.713387,143.46752 186.713387,127.704107 C186.713387,112.5536 197.99616,101.333333 213.55008,101.333333 C228.785067,101.333333 240.04672,112.5536 240.04672,128 Z M192.04672,192 L234.713387,192 L234.713387,320 L192.04672,320 L192.04672,192 Z"
+                                    id="Shape"
+                                >
+                                </path>
+                            </g>
+                        </g>
+                    </svg>
+                </div>
             </div>
-            <div class="mb-6">
+            <div class="mb-6 relative">
                 <label
                     class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                     for="categories"
                 >
-                    Categories
+                    Catégories de votre page
                 </label>
                 <input
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    class="shadow appearance-none pl-10 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="categories"
                     type="text"
                     on:keydown="{handleKeydown}"
                     bind:value="{categorie}"
-                    placeholder="categories"
+                    placeholder="Catégories de votre page"
                 />
+                <div class="absolute left-2 top-9 z-300">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-5 h-5 stroke-gray-500"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                    >
+                        <path
+                            d="M5 10H7C9 10 10 9 10 7V5C10 3 9 2 7 2H5C3 2 2 3 2 5V7C2 9 3 10 5 10Z"
+                            stroke-width="1.5"
+                            stroke-miterlimit="10"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"></path>
+                        <path
+                            d="M17 10H19C21 10 22 9 22 7V5C22 3 21 2 19 2H17C15 2 14 3 14 5V7C14 9 15 10 17 10Z"
+                            stroke-width="1.5"
+                            stroke-miterlimit="10"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"></path>
+                        <path
+                            d="M17 22H19C21 22 22 21 22 19V17C22 15 21 14 19 14H17C15 14 14 15 14 17V19C14 21 15 22 17 22Z"
+                            stroke-width="1.5"
+                            stroke-miterlimit="10"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"></path>
+                        <path
+                            d="M5 22H7C9 22 10 21 10 19V17C10 15 9 14 7 14H5C3 14 2 15 2 17V19C2 21 3 22 5 22Z"
+                            stroke-width="1.5"
+                            stroke-miterlimit="10"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"></path>
+                    </svg>
+                </div>
                 <div class="w-full flex flex-wrap text-white -ml-2">
                     <div class=" space-x-2 space-y-2 flex flex-wrap">
                         <br />
@@ -364,7 +450,7 @@
                     <button
                         type="submit"
                         class="outline-none w-full h-full space-x-2"
-                        >Sign UP</button
+                        >S'inscrire</button
                     >
                 </div>
             </div>

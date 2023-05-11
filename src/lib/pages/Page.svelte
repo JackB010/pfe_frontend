@@ -28,9 +28,12 @@
         is_Selected = false,
         noFound = false,
         is_owner = false;
+    export let params = {};
     if ($selectedByNav) selectedByNav.set(false);
     $: {
         if (params.username != null) {
+            console.log(user);
+            console.log(params.username);
             if (user !== params.username) {
                 postsLoaded.set(false);
                 loaded = false;
@@ -38,7 +41,9 @@
                 axios(`${baseurl}/pages/page/${params.username}/`, config)
                     .then((res) => {
                         userdata = res.data;
+                        console.log(res.data);
                         userdata = userdata;
+                        console.log(userdata);
                         loaded = true;
                         noFound = false;
                     })
@@ -47,31 +52,32 @@
                         user = '';
                         loaded = false;
                     });
-            }
-            if (userdata['id'] !== undefined) {
-                axios(
-                    `${baseurl}/pages/settings/${userdata['id']}/`,
-                    config
-                ).then((res) => {
-                    usersettings = res.data;
-                });
-            }
-
-            axios(`${baseurl}/posts/?user=${params.username}`, config).then(
-                (res) => {
-                    nexturl.set(res.data['next']);
-                    postItems.set(res.data['results']);
-                    postsLoaded.set(true);
+                if (userdata['id'] !== undefined) {
+                    axios(
+                        `${baseurl}/pages/settings/${userdata['id']}/`,
+                        config
+                    ).then((res) => {
+                        usersettings = res.data;
+                    });
                 }
-            );
-            if ($isLoggin) {
-                is_owner =
-                    userdata['user'].username === $usershortinfo['username'];
-            } else {
-                is_owner = true;
+
+                axios(`${baseurl}/posts/?user=${params.username}`, config).then(
+                    (res) => {
+                        nexturl.set(res.data['next']);
+                        postItems.set(res.data['results']);
+                        postsLoaded.set(true);
+                    }
+                );
             }
         }
     }
+
+    if ($isLoggin) {
+        is_owner = params.username === $usershortinfo['username'];
+    } else {
+        is_owner = true;
+    }
+
     // onMount(async () => {
     //     user = params.username;
     //     axios(`${baseurl}/pages/page/${params.username}/`, config).then(
@@ -89,8 +95,6 @@
     //         }
     //     );
     // });
-
-    export let params = {};
 </script>
 
 {#if noFound}

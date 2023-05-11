@@ -7,6 +7,7 @@
     import './style/app.css';
 
     import {
+        clearData,
         config,
         isLoggin,
         setLogedIn,
@@ -27,7 +28,7 @@
     onMount(() => {
         moment.locale('fr');
         const pathname = window.location.pathname;
-        if (!$userinfo['is_conformed']) {
+        if (!$userinfo['is_conformed'] && $isLoggin) {
             push('/conform');
         }
         if (!pathname.startsWith('/chat')) {
@@ -35,7 +36,7 @@
         }
 
         if (localStorage.getItem('authTokens')) setLogedIn();
-        else setLogedOut();
+        else clearData();
         if ($isLoggin) {
             updateToken($userToken.refresh);
         }
@@ -83,12 +84,17 @@
 <main class=" lg:container mx-auto">
     {#if $isLoggin}
         <div class="md:mt-5">
-            <!-- <Nav /> -->
             <TryNav />
-            {#if !$userinfo['is_conformed']}
-                <Router routes="{conform}" />
-            {:else}
-                <Router routes="{routes}" />
+            {#if $userinfo}
+                {#await $userinfo['is_conformed']}
+                    <Router routes="" />
+                {:then l}
+                    {#if l}
+                        <Router routes="{routes}" />
+                    {:else}
+                        <Router routes="{conform}" />
+                    {/if}
+                {/await}
             {/if}
         </div>
     {:else}

@@ -42,8 +42,7 @@
                 elm.classList.toggle('ring-1');
                 elm.classList.toggle('ring-rose-600');
                 elm.classList.toggle('dark:text-white');
-                elm.classList.toggle('-left-2');
-                elm.classList.toggle('-left-4');
+
                 if (elm.innerText === 'Follow') {
                     elm.innerText = 'Unfollow';
                 } else {
@@ -88,7 +87,7 @@
             >
                 {#each $recommended as user}
                     <div
-                        class="h-full relative flex flex-col items-center m-2 px-8 dark:ring-1 ring-rose-600 shadow rounded"
+                        class="h-full relative flex flex-col items-center mb-4 m-2 px-8 dark:ring-1 ring-rose-600 shadow rounded"
                     >
                         <a
                             href="{`/${user.ftype}/${user.username}`}"
@@ -97,36 +96,36 @@
                         >
                             <div
                                 style="background-image: url({user.photo_icon})"
-                                class="w-14 h-14 bg-cover bg-center cursor-pointer object-cover {user.ftype ===
+                                class="w-14 h-14 bg-cover bg-center self-center cursor-pointer object-cover {user.ftype ===
                                 'profile'
                                     ? 'rounded-full'
-                                    : 'rounded-lg'} border-1 mt-2 mx-1 shadow"
+                                    : 'rounded-lg'} border-1 mt-2 mx-auto shadow"
                             ></div>
                             <div class="text-semibold mt-1">
                                 {user.username}
                             </div>
                         </a>
                         <div
-                            class="text-xs text-gray-700 dark:text-gray-300 mb-2"
+                            class="text-xs text-center text-gray-700 dark:text-gray-300 mb-2"
                         >
                             <Number number="{user.count_followed_by}" /><span
                                 class="ml-1">Followers</span
                             >
                         </div>
-                        <div class="relative w-full h-10 mb-3">
-                            <div class="  z-50 mx-auto mt-5 justify-center">
-                                <span
-                                    id="{user.username}"
-                                    on:click="{() => {
-                                        followUser(user.username, user.ftype);
-                                    }}"
-                                    on:keypress="{() => {}}"
-                                    class="cursor-pointer
-                                     bg-rose-600 text-white absolute -left-2 bottom-0
+                        <div
+                            class="relative mx-auto w-full h-10 mb-3 flex flex-col items-center m-2 px-8"
+                        >
+                            <span
+                                id="{user.username}"
+                                on:click="{() => {
+                                    followUser(user.username, user.ftype);
+                                }}"
+                                on:keypress="{() => {}}"
+                                class="cursor-pointer
+                                     bg-rose-600 text-white absolute mx-auto
                                        px-4 h-fit w-fit py-1 rounded shadow justify-center"
-                                    >Follow</span
-                                >
-                            </div>
+                                >Follow</span
+                            >
                         </div>
                     </div>
                 {/each}

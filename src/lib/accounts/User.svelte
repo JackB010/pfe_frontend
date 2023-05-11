@@ -13,10 +13,12 @@
         style="background-image: url({src})"
         class="h-10 w-10 border {type === 'profile'
             ? 'rounded-full'
-            : 'rounded-lg'} bg-cover bg-center cursor-pointer object-cover shadow"
+            : 'rounded-lg'} bg-cover bg-center cursor-pointer object-cover"
     ></div>
-    <div class="ml-4">
-        <p class="text-md font-semibold text-black dark:text-gray-300 m-0 p-0">
+    <div class="ml-4 flex flex-col">
+        <p
+            class="text-md font-semibold text-black dark:text-gray-300 m-0 p-0 self-start"
+        >
             {username}
         </p>
         <p class="text-xs text-slate-400 -mt-0.5">

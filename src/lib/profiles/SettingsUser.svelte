@@ -51,6 +51,7 @@
                 is_active = res.data['is_active'];
                 last_name = res.data['last_name'];
                 username = res.data['username'];
+                error = false
                 if (!is_active) setLogedOut();
                 if (username !== username_h) {
                     usershortinfo.update((data) => {

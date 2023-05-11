@@ -67,6 +67,7 @@ export const nonroutes = new Map();
 
 nonroutes.set('/', Login);
 nonroutes.set('/signup', SessionSignup);
+nonroutes.set('/conform', CodeConform);
 nonroutes.set('/signup/page', SignupPage);
 nonroutes.set('/signup/profile', SignupProfile);
 nonroutes.set('/reset', ResetPassword);

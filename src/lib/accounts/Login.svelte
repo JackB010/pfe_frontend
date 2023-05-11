@@ -3,13 +3,15 @@
     import jwt_decode from 'jwt-decode';
     import { theme } from '../functions';
     import axios from 'axios';
-    import { setLogedIn } from './../../stores/accounts/auth';
+    import { setLogedIn, msg } from './../../stores/accounts/auth';
     import { link } from 'svelte-spa-router';
     import { baseurl } from '../functions';
     import Wapper from '../Wapper.svelte';
+    import Alert from '../ui/Alert.svelte';
 
     let username = '',
-        password = '';
+        password = '',
+        error = false;
     $: isShow = false;
     const loginFunc = async (e) => {
         await axios
@@ -18,26 +20,31 @@
                 password,
             })
             .then(async (res) => {
-                await localStorage.setItem(
-                    'authTokens',
-                    JSON.stringify(res.data)
-                );
                 const token = jwt_decode(res.data.access);
-                // console.log(`${baseurl}/accounts/settings/${token['pid']}/`);
-                await axios(
-                    `${baseurl}/${
-                        token['ftype'] === 'profile' ? 'accounts' : 'pages'
-                    }/settings/${token['pid']}/`
-                ).then(async (res) => {
-                    localStorage.setItem('color-theme', res.data['theme']);
-                });
-                window.location.reload();
+                console.log(token);
+                if (token['expaired']) {
+                    msg.set('votre compte a expiré');
+                    error = true;
+                } else {
+                    await localStorage.setItem(
+                        'authTokens',
+                        JSON.stringify(res.data)
+                    );
+                    // console.log(`${baseurl}/accounts/settings/${token['pid']}/`);
+                    await axios(
+                        `${baseurl}/${
+                            token['ftype'] === 'profile' ? 'accounts' : 'pages'
+                        }/settings/${token['pid']}/`
+                    ).then(async (res) => {
+                        localStorage.setItem('color-theme', res.data['theme']);
+                    });
+                    window.location.reload();
+                }
             })
             .catch((err) => {
                 let error = document.querySelector('#login_error');
                 error.classList.remove('hidden');
-                console.log(err.response['data']);
-
+                console.log(err);
                 username = '';
                 password = '';
             });
@@ -49,11 +56,24 @@
     //     error.innerHTML = msg;
     //     error.classList.remove('hidden');
     // };
+    $: {
+        if ($msg.length !== 0) {
+            setTimeout(() => {
+                msg.set('');
+                error = false;
+            }, 5000);
+        }
+    }
     export const params = {};
 </script>
 
 <Wapper>
     <div class="border sm:mx-2 mx-1 rounded shadow mt-28">
+        {#if $msg.length !== 0}
+            <div class="mt-2 -mb-4">
+                <Alert error="{error}" text="{$msg}" />
+            </div>
+        {/if}
         <div class="flex flex-col items-center">
             <span>
                 <svg
@@ -244,23 +264,25 @@
                     class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                     for="username"
                 >
-                    Username
+                    Nom d'utilisateur
                 </label>
                 <div class="absolute p-2 pointer-events-none">
                     <svg
-                        aria-hidden="true"
-                        class="w-5 h-5 text-gray-500 dark:text-gray-400"
                         xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
+                        class="w-5 h-5 stroke-gray-500"
                         viewBox="0 0 24 24"
-                        stroke="currentColor"
+                        fill="none"
                     >
                         <path
+                            d="M17.5 21.0001H6.5C5.11929 21.0001 4 19.8808 4 18.5001C4 14.4194 10 14.5001 12 14.5001C14 14.5001 20 14.4194 20 18.5001C20 19.8808 18.8807 21.0001 17.5 21.0001Z"
+                            stroke-width="1.5"
                             stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M16.563 15.9c-.159-.052-1.164-.505-.536-2.414h-.009c1.637-1.686 2.888-4.399 2.888-7.07c0-4.107-2.731-6.26-5.905-6.26c-3.176 0-5.892 2.152-5.892 6.26c0 2.682 1.244 5.406 2.891 7.088c.642 1.684-.506 2.309-.746 2.397c-3.324 1.202-7.224 3.393-7.224 5.556v.811c0 2.947 5.714 3.617 11.002 3.617c5.296 0 10.938-.67 10.938-3.617v-.811c0-2.228-3.919-4.402-7.407-5.557z"
-                        ></path>
+                            stroke-linejoin="round"></path>
+                        <path
+                            d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"></path>
                     </svg>
                 </div>
                 <input
@@ -268,7 +290,7 @@
                     id="username"
                     type="text"
                     bind:value="{username}"
-                    placeholder="Username"
+                    placeholder="Nom d'utilisateur"
                     autocomplete="username"
                     required
                 />
@@ -278,12 +300,12 @@
                     class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                     for="password"
                 >
-                    Password
+                    Mot de passe
                 </label>
                 <div class="absolute p-2 pointer-events-none">
                     <svg
                         aria-hidden="true"
-                        class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                        class="w-5 h-5 stroke-gray-500"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -304,14 +326,14 @@
                         id="password"
                         type="password"
                         bind:value="{password}"
-                        placeholder="password"
+                        placeholder="Mot de passe"
                         autocomplete="current-password"
                         required
                     />
                     <div class="absolute right-2 top-9 z-300 cursor-pointer">
                         <svg
                             aria-hidden="true"
-                            class="w-5 h-5 text-gray-500 dark:text-gray-400 cursor-pointer z-30"
+                            class="w-5 h-5 stroke-gray-500 cursor-pointer z-30"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -340,14 +362,14 @@
                         id="password"
                         type="text"
                         bind:value="{password}"
-                        placeholder="password"
+                        placeholder="Mot de passe"
                         autocomplete="current-password"
                         required
                     />
                     <div class="absolute right-2 top-9 z-300 cursor-pointer">
                         <svg
                             aria-hidden="true"
-                            class="w-5 h-5 text-gray-500 dark:text-gray-400 cursor-pointer z-30"
+                            class="w-5 h-5 stroke-gray-500 cursor-pointer z-30"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -372,24 +394,25 @@
             </div>
             <div class="flex items-center justify-between flex-col">
                 <div
-                    class=" text-gray-100 text-lg text-center border-rose-600
+                    class=" text-white text-lg text-center border-rose-600
                  w-full bg-rose-600 dark:bg-rose-600 h-10
                 rounded mb-6"
                 >
                     <button
                         type="submit"
-                        class="outline-none w-full h-full space-x-2"
-                        >Log In</button
+                        class="outline-none w-full h-full space-x-2 cursor-pointer"
+                        >Connexion</button
                     >
                 </div>
-                <a href="/reset" use:link> <Text>Forgot Password?</Text></a>
+                <a href="/reset" use:link> <Text>Mot de passe oublié?</Text></a>
             </div>
         </form>
     </div>
+    <div
+        class="text-center flex flex-col mt-1 items-center text-gray-500 text-xs dark:text-white"
+    >
+        <div>
+            &copy;{new Date().getUTCFullYear()} USTHB. All rights reserved.
+        </div>
+    </div>
 </Wapper>
-
-<div
-    class="mx-auto text-center w-[96%] absolute bottom-2 text-gray-500 text-xs dark:text-white"
->
-    &copy;{new Date().getUTCFullYear()} Acme Corp. All rights reserved.
-</div>
