@@ -7,11 +7,14 @@
     export let post = {};
     export let num_total_likes = -1;
     export let num_total_saved = -1;
+    let is_delete = false;
 </script>
 
 <!-- dark:bg-slate-600 -->
 <div
-    class="felx  flex-col pb-1 border bg-inherit my-3   rounded "
+    class="felx flex-col pb-1 border my-3 rounded {is_delete
+        ? 'bg-red-600'
+        : 'bg-inherit'}"
     id="{post['id']}"
 >
     <PostHeader
@@ -21,6 +24,7 @@
         is_saved="{post['is_saved']}"
         show_post_to="{post['show_post_to']}"
         id="{post['id']}"
+        bind:is_delete="{is_delete}"
         bind:num_total_saved="{num_total_saved}"
     />
     <PostContent

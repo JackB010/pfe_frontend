@@ -24,7 +24,9 @@
     import { unread_notifications } from './stores/notifications/notifications';
     import { chating_with, getChatContacts } from './stores/chats/chat';
     import moment from 'moment';
+    import jwt_decode from 'jwt-decode';
 
+    let token;
     onMount(() => {
         moment.locale('fr');
         const pathname = window.location.pathname;
@@ -39,6 +41,7 @@
         else clearData();
         if ($isLoggin) {
             updateToken($userToken.refresh);
+            token = jwt_decode($userToken.access);
         }
         let intervaltime40 = 1000 * 60 * 40;
         let interval = setInterval(() => {
@@ -85,16 +88,10 @@
     {#if $isLoggin}
         <div class="md:mt-5">
             <TryNav />
-            {#if $userinfo}
-                {#await $userinfo['is_conformed']}
-                    <Router routes="" />
-                {:then l}
-                    {#if l}
-                        <Router routes="{routes}" />
-                    {:else}
-                        <Router routes="{conform}" />
-                    {/if}
-                {/await}
+            {#if token['is_conformed'] || $userinfo['is_conformed']}
+                <Router routes="{routes}" />
+            {:else}
+                <Router routes="{conform}" />
             {/if}
         </div>
     {:else}

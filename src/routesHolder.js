@@ -31,6 +31,7 @@ conform.set('*', CodeConform);
 
 routes.set('/', PostList);
 routes.set('/chat', HomeChat);
+routes.set('/conform', CodeConform);
 
 routes.set('/events', HomeEvents);
 routes.set('/notifications', RootNotification);

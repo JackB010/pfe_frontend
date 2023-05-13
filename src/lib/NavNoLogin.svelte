@@ -1,5 +1,4 @@
 <script>
-    import Button from './ui/Button.svelte';
     import { themeToggleBtn, theme, baseurl } from './functions';
     import { link, push } from 'svelte-spa-router';
     import { location } from 'svelte-spa-router';
@@ -40,9 +39,9 @@
     // document.onclick((e)=>{
     //     done =false;
     // })
-    window.addEventListener('click', () => {
-        done = false;
-    });
+    // window.addEventListener('click', () => {
+    //     done = false;
+    // });
 </script>
 
 <Wapper>
@@ -51,7 +50,7 @@
           py-3 pb-2"
     >
         <div
-            class="ml-3 flex-[0.1] cursor-pointer"
+            class="ml-3 flex items-center flex-[0.1] cursor-pointer"
             on:click="{() => {
                 push('/');
             }}"
@@ -205,6 +204,7 @@
                     </g>
                 </g>
             </svg>
+            <div class="font-semibold text-lg">USTHB</div>
         </div>
         <div class="flex space-x-2">
             <div class="flex flex-col">

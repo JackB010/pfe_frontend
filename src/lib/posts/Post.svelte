@@ -60,11 +60,12 @@
              dark:text-white  border-2 mb-6 shadow-lg rounded  "
         > -->
     <Wapper>
-        <div class=" mx-auto mt-4 flex-auto w-full ">
-            <div
-                class="tab-content tab-space l
-                "
-            >
+        <div
+            class=" mx-auto mt-4 flex-auto w-full {$postcomments.length !== 0
+                ? 'border pt-2 shadow rounded'
+                : ''}"
+        >
+            <div class="tab-content tab-space">
                 {#if $commentsLoaded}
                     {#each $postcomments as comment, i (comment.id)}
                         <div class="mx-auto" id="{comment.id}">

@@ -9,6 +9,7 @@
     import FullInput from '../ui/FullInput.svelte';
     import { onMount } from 'svelte';
     import { link } from 'svelte-spa-router';
+    import { postcomments } from '../../stores/posts/posts';
 
     export let comment = {};
 
@@ -62,19 +63,20 @@
                 is_edit = false;
                 comment['comment'] = res.data['comment'];
                 if (is_delete) {
-                    let elm = document.getElementById(comment['id']);
-                    elm.classList.add('hidden');
+                    postcomments.update((data) =>
+                        data.filter((item) => item.id != comment['id'])
+                    );
                 }
             });
     };
 </script>
 
 <div
-    class="flex  flex-col  rounded dark:bg-inherit  p-2 mb-4 mx-3 border "
+    class="flex flex-col rounded dark:bg-inherit p-2 mb-4 mx-3 border"
     id="{comment['id']}"
 >
-    <div class="flex  space-x-2 w-full mb-2">
-        <div class="flex items-start px-4  w-full">
+    <div class="flex space-x-2 w-full mb-2">
+        <div class="flex items-start px-4 w-full">
             <div class="w-16">
                 <a
                     href="{`/${comment['profile']['ftype']}/${comment['profile']['username']}`}"
@@ -94,29 +96,28 @@
             </div>
 
             <div class=" flex-1 items-start">
-                <div class="flex flex-col items-start -space-y-1 ">
+                <div class="flex flex-col items-start -space-y-1">
                     <a
                         href="{`/${comment['profile']['ftype']}/${comment['profile']['username']}`}"
                         use:link
                     >
                         <h2
-                            class="text-md cursor-pointer font-semibold text-gray-900  dark:text-white -mt-0.5"
+                            class="text-md cursor-pointer font-semibold text-gray-900 dark:text-white -mt-0.5"
                         >
                             {comment['profile']['username']}
                         </h2>
                     </a>
                     <div>
-                        <small
-                            class="text-xs text-gray-700 dark:text-slate-200  "
+                        <small class="text-xs text-gray-700 dark:text-slate-200"
                             >{moment(comment.created).fromNow()}</small
                         >
                     </div>
                 </div>
             </div>
             {#if comment['profile']['username'] === $usershortinfo.username}
-                <div class=" px-3 ">
+                <div class=" px-3">
                     <div
-                        class=" self-start  cursor-pointer"
+                        class=" self-start cursor-pointer"
                         on:click="{() => (isActive = !isActive)}"
                         on:keypress="{() => {}}"
                     >
@@ -140,7 +141,7 @@
                             }}"
                         >
                             <div
-                                class=" absolute  right-0 z-50 w-56 py-1 mb-4 h-fit rounded-md shadow-lg min-w-max  ring-1 ring-black ring-opacity-25 dark:bg-dark  focus:outline-none bg-white dark:bg-slate-900 dark:text-white"
+                                class=" absolute right-0 z-50 w-56 py-1 mb-4 h-fit rounded-md shadow-lg min-w-max ring-1 ring-black ring-opacity-25 dark:bg-dark focus:outline-none bg-white dark:bg-slate-900 dark:text-white"
                             >
                                 <span
                                     on:click="{() => {
@@ -149,7 +150,7 @@
                                         // push(`/event/${event['id']}/edit`);
                                     }}"
                                     on:keypress="{() => {}}"
-                                    class="flex px-4 py-2 text-sm  transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 space-x-2 cursor-pointer"
+                                    class="flex px-4 py-2 text-sm transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 space-x-2 cursor-pointer"
                                 >
                                     <div>
                                         <svg
@@ -157,7 +158,7 @@
                                             width="16"
                                             height="16"
                                             fill="currentColor"
-                                            class="bi bi-pencil-square "
+                                            class="bi bi-pencil-square"
                                             viewBox="0 0 16 16"
                                         >
                                             <path
@@ -180,12 +181,12 @@
                                     on:keypress="{() => {}}"
                                 >
                                     <span
-                                        class="flex px-4 py-2 text-sm  transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 space-x-2 cursor-pointer"
+                                        class="flex px-4 py-2 text-sm transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 space-x-2 cursor-pointer"
                                     >
                                         <span
                                             ><svg
                                                 xmlns="http://www.w3.org/2000/svg"
-                                                class="h-5 w-5 "
+                                                class="h-5 w-5"
                                                 fill="none"
                                                 viewBox="0 0 24 24"
                                                 stroke="currentColor"
@@ -209,27 +210,27 @@
         </div>
     </div>
 
-    <div class=" flex flex-1 flex-wrap sm:flex-nowrap  ml-20    ">
-        <div class=" w-[96%] ">
-            <p class="text-gray-900 dark:text-white  mb-2 font-mono text-sm">
+    <div class=" flex flex-1 flex-wrap sm:flex-nowrap ml-20">
+        <div class=" w-[96%]">
+            <p class="text-gray-900 dark:text-white mb-2 font-mono text-sm">
                 {comment['comment']}
             </p>
         </div>
     </div>
 
-    <div class="flex  space-x-5 justify-start flex-1 w-10/12 mx-auto  ">
-        <div class=" items-center ">
+    <div class="flex space-x-5 justify-start flex-1 w-10/12 mx-auto">
+        <div class=" items-center">
             <div
                 on:click="{likeComment}"
                 on:keypress="{(e) => {}}"
-                class=" inline-block  mt-2  cursor-pointer 
+                class=" inline-block mt-2 cursor-pointer
             "
             >
-                <div class="inline-block absolute ">
+                <div class="inline-block absolute">
                     <svg
                         fill="none"
                         viewBox="0 0 24 24"
-                        class="w-5 h-5    {comment['is_liked']
+                        class="w-5 h-5 {comment['is_liked']
                             ? 'fill-rose-600 text-rose-600  '
                             : ''}"
                         stroke="currentColor "
@@ -243,7 +244,7 @@
                     </svg>
                 </div>
                 <div class="inline-block">
-                    <span class="text-sm  ml-7">
+                    <span class="text-sm ml-7">
                         <Number number="{comment['num_likes']}" /> Like{#if comment['num_likes'] !== 1}s{/if}
                     </span>
                 </div>
@@ -252,11 +253,11 @@
 
         <div class="">
             <div
-                class=" inline-block  mt-2 absolute cursor-pointer "
+                class=" inline-block mt-2 absolute cursor-pointer"
                 on:click="{showReplies}"
                 on:keypress="{(e) => {}}"
             >
-                <div class="inline-block  w-fit h-fit pt-1 absolute ">
+                <div class="inline-block w-fit h-fit pt-1 absolute">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="h-5 w-5 rotate-180"
@@ -270,8 +271,8 @@
                     </svg>
                 </div>
 
-                <div class="inline-block   ml-7 ">
-                    <span class="text-sm ">
+                <div class="inline-block ml-7">
+                    <span class="text-sm">
                         <Number number="{comment['num_replies']}" />
                         {#if comment['num_replies'] !== 1}Replies{:else}Reply{/if}
                     </span>
@@ -281,7 +282,7 @@
     </div>
     {#if comment['profile']['username'] === $usershortinfo.username}
         {#if is_edit}
-            <div class="mt-4 flex ">
+            <div class="mt-4 flex">
                 <div class="cursor-pointer w-fit h-fit">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
