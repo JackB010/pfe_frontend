@@ -68,7 +68,7 @@
                 ></div>
                 <div class="flex-1">
                     <div
-                        class="flex-1 space-x-10 mb-4 flex pb-3 items-center border-b w-fit mx-auto"
+                        class="flex-1 space-x-2 sm:space-x-10 mb-4 flex pb-3 items-center border-b w-fit mx-auto"
                     >
                         <span
                             on:click="{() => {
@@ -77,7 +77,7 @@
                                 );
                             }}"
                             on:keypress="{(e) => {}}"
-                            class="text-sm text-gray-700 dark:text-white cursor-pointer"
+                            class="text-xs sm:text-sm text-gray-700 dark:text-white cursor-pointer"
                             ><span class="font-bold"
                                 ><Number
                                     number="{userdata['count_following']}"
@@ -92,7 +92,7 @@
                                 );
                             }}"
                             on:keypress="{(e) => {}}"
-                            class="text-sm text-gray-700 dark:text-white cursor-pointer"
+                            class="text-xs sm:text-sm text-gray-700 dark:text-white cursor-pointer"
                             ><span class="font-bold"
                                 ><Number
                                     number="{userdata['count_followed_by']}"
@@ -103,8 +103,8 @@
 
                     <div
                         class="flex-1 {is_owner
-                            ? 'space-x-6'
-                            : 'space-x-12'} flex w-fit mx-auto items-center"
+                            ? 'sm:space-x-6 space-x-2'
+                            : 'sm:space-x-12 space-x-4'} flex w-fit mx-auto items-center"
                     >
                         <span
                             on:click="{followUser}"
@@ -118,7 +118,7 @@
                                 ? 'ring-2 ring-rose-600 text-rose-600'
                                 : 'bg-rose-600'} {!userdata['is_following']
                                 ? 'text-white'
-                                : ''}  font-medium px-4 h-fit w-fit py-1 rounded shadow justify-center"
+                                : ''}  font-medium sm:px-4 px-3 h-fit w-fit py-1 rounded shadow justify-center"
                             >{#if userdata['is_following'] && !is_owner}Unfollow{:else}Follow{/if}</span
                         >
                         <span
@@ -131,13 +131,13 @@
                             !$isLoggin ||
                             $usershortinfo.ftype === 'page'
                                 ? 'cursor-not-allowed bg-gray-200 text-black pointer-events-none'
-                                : 'cursor-pointer'} px-4 h-fit w-fit py-1 rounded shadow justify-center bg-rose-600 font-medium text-white"
+                                : 'cursor-pointer'} sm:px-4 px-3 h-fit w-fit py-1 rounded shadow justify-center bg-rose-600 font-medium text-white"
                             >Message</span
                         >
                         {#if is_owner}
                             <span
                                 ><svg
-                                    class="w-6 h-6 text-gray-700 dark:text-white cursor-pointer"
+                                    class=" h-4 w-4 sm:w-6 sm:h-6 text-gray-700 dark:text-white cursor-pointer"
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
                                     viewBox="0 0 24 24"

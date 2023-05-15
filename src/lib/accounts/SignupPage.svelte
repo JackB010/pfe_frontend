@@ -103,7 +103,9 @@
                     ></path>
                 </svg>
             </span>
-            <span class="mt-4 -mb-2 text-2xl dark:text-gray-200 text-gray-700">
+            <span
+                class="mt-4 -mb- sm:text-2xl dark:text-gray-200 text-gray-700"
+            >
                 Inscrivez-vous en tant que page
             </span>
         </div>
@@ -209,7 +211,7 @@
                 {#if !isShow}
                     <input
                         class="shadow appearance-none border rounded w-full pl-10 z-0
-                py-2 px-3 text-gray-700 mb-3 leading-tight pr-6 focus:outline-none focus:ring-rose-600 focus:border-rose-600"
+                py-2 px-3 text-gray-700 mb-2 leading-tight pr-6 focus:outline-none focus:ring-rose-600 focus:border-rose-600"
                         id="password"
                         type="password"
                         bind:value="{password}"
@@ -245,7 +247,7 @@
                 {:else}
                     <input
                         class="shadow appearance-none border rounded w-full pl-10 z-0
-                py-2 px-3 text-gray-700 mb-3 leading-tight pr-6 focus:outline-none focus:ring-rose-600 focus:border-rose-600"
+                py-2 px-3 text-gray-700 mb-2 leading-tight pr-6 focus:outline-none focus:ring-rose-600 focus:border-rose-600"
                         id="password"
                         type="text"
                         bind:value="{password}"
@@ -301,7 +303,7 @@
                 </div>
                 <input
                     class="shadow appearance-none border rounded w-full
-                py-2 pl-10 text-gray-700 mb-3 leading-tight focus:outline-none focus:ring-rose-600 focus:border-rose-600"
+                py-2 pl-10 text-gray-700 mb-2 leading-tight focus:outline-none focus:ring-rose-600 focus:border-rose-600"
                     id="password1"
                     type="password"
                     autocomplete="new-password"

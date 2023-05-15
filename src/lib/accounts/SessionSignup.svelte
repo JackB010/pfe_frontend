@@ -25,15 +25,16 @@
 
 <Wapper>
     <div class="border sm:mx-2 mx-1 rounded shadow mt-28">
-        <div class="flex md:justify-end mx-auto flex-col">
+        <div class="flex flex-col md:justify-end mx-auto">
             <div
-                class=" flex flex-col bg-white dark:text-white dark:bg-slate-800 mx-3 h-80"
+                class=" flex flex-col items-center bg-white dark:text-white dark:bg-slate-800 mx-3
+                h-80"
             >
                 <div
-                    class="flex flex-row text-center space-x-6 justify-around p-4 mx-auto h-full w-full items-center"
+                    class="flex flex-col sm:flex-row text-center sm:space-x-6 sm:space-y-0 space-y-12 justify-around p-4 m-auto h-full w-full items-center mx-auto"
                 >
                     <div
-                        class="  h-[75%] flex-1 rounded my-auto flex flex-col items-center pt-2 cursor-pointer hover:scale-105 border-2 border-rose-600 dark:border-white"
+                        class="sm:w-auto w-full h-[75%] flex-1 rounded my-auto mx-auto flex flex-col items-center pt-2 cursor-pointer hover:scale-105 border-2 border-rose-600 dark:border-white"
                         on:click="{() => {
                             push('/signup/page/');
                         }}"
@@ -56,12 +57,12 @@
                             </svg></span
                         >
                         <span
-                            class="dark:text-white font-medium shadow text-xl text-rose-600 w-10/12"
+                            class="dark:text-white font-medium shadow sm:text-xl text-rose-600 w-10/12"
                             >Inscrivez-vous en tant que page</span
                         >
                     </div>
                     <div
-                        class=" h-[75%] flex-1 rounded my-auto dark:border-white flex flex-col items-center pt-2 cursor-pointer hover:scale-105 border-2 border-rose-600"
+                        class=" sm:w-auto w-full h-[75%] flex-1 rounded my-auto dark:border-white flex flex-col items-center pt-2 cursor-pointer hover:scale-105 border-2 border-rose-600"
                         on:click="{() => {
                             push('/signup/profile/');
                         }}"
@@ -89,7 +90,7 @@
                             </svg></span
                         >
                         <span
-                            class="dark:text-white font-medium shadow text-xl text-rose-600 w-10/12"
+                            class="dark:text-white font-medium shadow sm:text-xl text-rose-600 w-10/12"
                             >Inscrivez-vous en tant que profil</span
                         >
                     </div>

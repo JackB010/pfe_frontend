@@ -261,7 +261,7 @@
         >
             <div class="mb-4 relative">
                 <label
-                    class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+                    class="block text-gray-700 text-xs sm:text-sm font-bold mb-2 dark:text-white"
                     for="username"
                 >
                     Nom d'utilisateur
@@ -297,7 +297,7 @@
             </div>
             <div class="mb-6 relative">
                 <label
-                    class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+                    class="block text-gray-700 text-xs sm:text-sm font-bold mb-2 dark:text-white"
                     for="password"
                 >
                     Mot de passe
@@ -404,7 +404,9 @@
                         >Connexion</button
                     >
                 </div>
-                <a href="/reset" use:link> <Text>Mot de passe oublié?</Text></a>
+                <a href="/reset" class="text-xs sm:text-sm" use:link>
+                    <Text>Mot de passe oublié?</Text></a
+                >
             </div>
         </form>
     </div>

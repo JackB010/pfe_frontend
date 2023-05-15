@@ -16,7 +16,9 @@
             : 'rounded-lg'} bg-cover bg-center cursor-pointer object-cover"
     ></div>
     <div class="ml-4 flex flex-col">
-        <p class="text-md font-semibold text-black m-0 p-0 self-start">
+        <p
+            class="text-md font-semibold text-black dark:text-rose-600 m-0 p-0 self-start"
+        >
             {username}
         </p>
         <p class="text-xs text-slate-400 -mt-0.5">

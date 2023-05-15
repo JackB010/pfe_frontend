@@ -117,7 +117,7 @@
 
                 <div class="flex-1">
                     <div
-                        class="flex-1 space-x-10 mb-4 flex pb-3 items-center border-b w-fit mx-auto"
+                        class="flex-1 space-x-2 sm:space-x-10 mb-4 flex pb-3 items-center border-b w-fit mx-auto"
                     >
                         <span
                             on:click="{() => {
@@ -126,7 +126,7 @@
                                 );
                             }}"
                             on:keypress="{(e) => {}}"
-                            class="text-sm text-gray-700 dark:text-white cursor-pointer"
+                            class="text-xs sm:text-sm text-gray-700 dark:text-white cursor-pointer"
                             ><span class="font-bold"
                                 ><Number
                                     number="{userdata['count_following']}"
@@ -141,7 +141,7 @@
                                 );
                             }}"
                             on:keypress="{(e) => {}}"
-                            class="text-sm text-gray-700 dark:text-white cursor-pointer"
+                            class="text-xs sm:text-sm text-gray-700 dark:text-white cursor-pointer"
                             ><span class="font-bold"
                                 ><Number
                                     number="{userdata['count_followed_by']}"
@@ -152,14 +152,14 @@
 
                     <div
                         class="flex-1 {is_owner
-                            ? 'space-x-6'
-                            : 'space-x-12'} flex w-fit mx-auto items-center"
+                            ? 'sm:space-x-6 space-x-2'
+                            : 'sm:space-x-12 space-x-4'} flex w-fit mx-auto items-center"
                     >
                         <span
                             on:click="{followUser}"
                             on:keypress="{() => {}}"
                             class="
-                              px-4 h-fit w-fit py-1 rounded shadow font-medium justify-center
+                              sm:px-4 px-3 h-fit w-fit py-1 rounded shadow font-medium justify-center
                                 {is_owner ||
                             !$isLoggin ||
                             (usersettings.followers_limit &&
@@ -180,16 +180,14 @@
                                     push(`/chat/${userdata['user'].username}`);
                             }}"
                             on:keypress="{(e) => {}}"
-                            class="px-4 h-fit w-fit py-1 rounded shadow justify-center bg-rose-600 font-medium text-white {is_owner ||
-                            !$isLoggin ||
-                            $usershortinfo.ftype === 'page'
-                                ? 'cursor-not-allowed bg-gray-200 text-black pointer-events-none'
-                                : 'cursor-pointer'}  ">Message</span
+                            class="sm:px-4 px-3 h-fit w-fit py-1 rounded shadow justify-center font-medium
+                            cursor-not-allowed bg-gray-200 text-black pointer-events-none
+                                ">Message</span
                         >
                         {#if is_owner}
                             <span
                                 ><svg
-                                    class="w-6 h-6 text-gray-700 dark:text-white cursor-pointer"
+                                    class="h-4 w-4 sm:w-6 sm:h-6 text-gray-700 dark:text-white cursor-pointer"
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
                                     viewBox="0 0 24 24"

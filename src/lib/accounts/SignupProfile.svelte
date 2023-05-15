@@ -76,7 +76,9 @@
                         stroke-linejoin="round"></path>
                 </svg>
             </span>
-            <span class="mt-4 -mb-2 text-2xl dark:text-gray-200 text-gray-700">
+            <span
+                class="mt-4 -mb-1 sm:text-2xl dark:text-gray-200 text-gray-700"
+            >
                 Inscrivez-vous en tant que profil
             </span>
         </div>

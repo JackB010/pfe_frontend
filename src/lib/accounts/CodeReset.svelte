@@ -40,7 +40,7 @@
 
 <Wapper>
     <div class="border sm:mx-2 mx-1 rounded shadow mt-36 mb-2">
-        <div class="flex items-center justify-between flex-col">
+        <div class="flex text-center items-center justify-between flex-col">
             <span
                 class="w-[5rem] h-[5rem] border-2 bg-rose-600/25 dark:bg-white/50 mt-4 rounded-full text-center"
             >
@@ -66,21 +66,21 @@
                     </g>
                 </svg>
             </span>
-            <span class="mt-4 -mb-2 text-2xl dark:text-gray-200 text-gray-700">
+            <span
+                class="mt-4 w-full -mb-2 text-xl sm:text-2xl dark:text-gray-200 text-gray-700"
+            >
                 Entrez le code de confirmation
             </span>
             <span class="mt-4 -mb-2 dark:text-gray-300 text-sm text-gray-700"
-                >entrez 7 chiffres que nous vous avons envoyés.
+                >entrez 7 chiffres que nous vous avons envoyés.<span
+                    on:click="{() => {
+                        resendCode();
+                    }}"
+                    on:keypress="{() => {}}"
+                    class="ml-2 cursor-pointer mt-0.5 font-semibold text-rose-600"
+                    >Renvoyer le code.</span
+                >
             </span>
-
-            <span
-                on:click="{() => {
-                    resendCode();
-                }}"
-                on:keypress="{() => {}}"
-                class="ml-2 cursor-pointer mt-0.5 font-semibold text-rose-600"
-                >Renvoyer le code.</span
-            >
         </div>
         <form
             class="dark:text-white w-full sm:w-10/12 dark:bg-slate-800

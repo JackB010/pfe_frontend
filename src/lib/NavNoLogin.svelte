@@ -209,18 +209,17 @@
         <div class="flex space-x-2">
             <div class="flex flex-col">
                 <span
-                    class="flex flex-row-reverse self-end cursor-pointer text-gray-100 sm:text-lg text-sm text-center border-rose-600
-                 w-fit bg-rose-600 px-3 py-2
-                rounded"
+                    class="flex flex-row-reverse cursor-pointer text-gray-100 sm:text-lg text-sm text-center border-rose-600
+                  bg-rose-600 px-1 sm:px-3 py-2 sm:py-3 sm:mt-0 mt-0.5 rounded"
                     on:click="{() => {
                         active = true;
                     }}"
                     on:keypress="{() => {}}"
                 >
-                    <span class="text-white">Search</span>
+                    <span class="text-white text-sm sm:text-base">Search</span>
                     <span>
                         <svg
-                            class="w-5 h-5 stroke-white mx-auto mr-1 mt-1"
+                            class="w-4 h-4 stroke-white mx-auto mr-1 sm:mt-1"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -239,13 +238,13 @@
             </div>
 
             <div class="flex justify-end items-center">
-                <div class=" mr-5">
+                <div class=" mr-3">
                     <div class="float-right">
                         {#if $location === '/'}
                             <a href="/signup" use:link
                                 ><div
-                                    class="  text-white sm:text-lg text-sm text-center border-rose-600
-                 w-full bg-rose-600 px-3 py-2
+                                    class="px-2 sm:px-3 py-2 sm:py-2.5 text-white sm:text-md text-sm text-center border-rose-600
+                 w-full bg-rose-600
                 rounded"
                                 >
                                     Sign Up
@@ -254,8 +253,8 @@
                         {:else}
                             <a href="/" use:link
                                 ><div
-                                    class=" text-white sm:text-lg text-sm text-center border-rose-600
-                 w-full bg-rose-600 px-3 py-2
+                                    class="px-2 sm:px-3 py-2 sm:py-2.5 text-white sm:text-lg text-sm text-center border-rose-600
+                 w-full bg-rose-600
                 rounded"
                                 >
                                     Log In
@@ -353,7 +352,7 @@
                         </form>
                         {#if done}
                             <div
-                                class=" py-1 z-[10000] w-full h-96 rounded border-y-2 border-y-rose-600 overflow-y-scroll"
+                                class=" py-1 z-[10000] w-full h-96 mt-2 rounded border-y-2 border-y-rose-600 overflow-y-scroll"
                                 bind:clientHeight="{y}"
                                 on:scroll="{(e) => {
                                     yy = e.target['scrollHeight'];

@@ -46,11 +46,13 @@
                         stroke-linejoin="round"></path>
                 </svg>
             </span>
-            <span class="mt-4 -mb-2 text-2xl dark:text-gray-200 text-gray-700">
+            <span
+                class="mt-4 -mb-2 text-xl sm:text-2xl dark:text-gray-200 text-gray-700"
+            >
                 Difficulté à se connecter
             </span>
             <span
-                class="mt-4 -mb-2 dark:text-gray-300 text-sm w-6/12 text-center text-gray-700"
+                class="mt-4 -mb-2 dark:text-gray-300 text-sm sm:w-6/12 text-center text-gray-700"
                 >entrez votre nom d'utilisateur ou votre e-mail pour
                 réinitialiser le mot de passe.
             </span>
