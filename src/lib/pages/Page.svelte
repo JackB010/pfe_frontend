@@ -41,9 +41,9 @@
                 axios(`${baseurl}/pages/page/${params.username}/`, config)
                     .then((res) => {
                         userdata = res.data;
-                        console.log(res.data);
+
                         userdata = userdata;
-                        console.log(userdata);
+                        document.title = `Page: ${userdata['user']['username']}`;
                         loaded = true;
                         noFound = false;
                     })

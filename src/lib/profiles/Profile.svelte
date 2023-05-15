@@ -33,6 +33,7 @@
                 ).then((res) => {
                     userdata = res.data;
                     userdata = userdata;
+                    document.title = `Profil: ${userdata['user']['username']}`;
                     loaded = true;
                 });
             }
@@ -63,6 +64,7 @@
     //         }
     //     );
     // });
+
     export let params = {};
 </script>
 

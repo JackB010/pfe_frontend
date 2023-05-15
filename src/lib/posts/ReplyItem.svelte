@@ -51,11 +51,11 @@
 </script>
 
 <div
-    class="flex  flex-col mt-3 border rounded   dark:bg-inherit bg-slate-100 p-2 mb-4 mx-4 sm:mx-8   "
+    class="flex flex-col mt-3 border rounded dark:bg-inherit bg-slate-100 p-2 mb-4 mx-4 sm:mx-8"
     id="{reply['id']}"
 >
     <div class="">
-        <div class="flex  flex-row w-full   items-start">
+        <div class="flex flex-row w-full items-start">
             <div class=" pl-6">
                 <a
                     href="{`/${reply['profile']['ftype']}/${reply['profile']['username']}`}"
@@ -73,26 +73,26 @@
                     ></div>
                 </a>
             </div>
-            <div class="flex   flex-row w-full   items-center">
-                <div class=" px-1 ">
+            <div class="flex flex-row w-full items-center">
+                <div class=" px-1">
                     <a
                         href="{`/${reply['profile']['ftype']}/${reply['profile']['username']}`}"
                         use:link
                     >
                         <h2
-                            class="text-sm cursor-pointer font-semibold text-gray-900  dark:text-white "
+                            class="text-sm cursor-pointer font-semibold text-gray-900 dark:text-white"
                         >
                             {reply['profile']['username']}
                         </h2>
                     </a>
                 </div>
                 <div class=" px-3">
-                    <small class="text-xs text-gray-700 dark:text-slate-200  "
+                    <small class="text-xs text-gray-700 dark:text-slate-200"
                         >{moment(reply.created).fromNow()}</small
                     >
                 </div>
                 {#if reply['profile']['username'] === $usershortinfo.username}
-                    <div class=" px-3   flex-1">
+                    <div class=" px-3 flex-1">
                         <div
                             class=" cursor-pointer float-right"
                             on:click="{() => (isActive = !isActive)}"
@@ -117,7 +117,7 @@
                                 }}"
                             >
                                 <div
-                                    class=" absolute  right-0 top-6 z-50 w-56 py-1 mb-4 h-fit rounded-md shadow-lg min-w-max  ring-1 ring-black ring-opacity-25 dark:bg-dark  focus:outline-none bg-white dark:bg-slate-900 dark:text-white"
+                                    class=" absolute right-0 top-6 z-50 w-56 py-1 mb-4 h-fit rounded-md shadow-lg min-w-max ring-1 ring-black ring-opacity-25 dark:bg-dark focus:outline-none bg-white dark:bg-slate-900 dark:text-white"
                                 >
                                     <span
                                         on:click="{() => {
@@ -126,7 +126,7 @@
                                             // push(`/event/${event['id']}/edit`);
                                         }}"
                                         on:keypress="{() => {}}"
-                                        class="flex px-4 py-2 text-sm  transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 space-x-2 cursor-pointer"
+                                        class="flex px-4 py-2 text-sm transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 space-x-2 cursor-pointer"
                                     >
                                         <div>
                                             <svg
@@ -134,7 +134,7 @@
                                                 width="16"
                                                 height="16"
                                                 fill="currentColor"
-                                                class="bi bi-pencil-square "
+                                                class="bi bi-pencil-square"
                                                 viewBox="0 0 16 16"
                                             >
                                                 <path
@@ -146,7 +146,7 @@
                                                 ></path>
                                             </svg>
                                         </div>
-                                        <span>Edit</span>
+                                        <span>Modifier</span>
                                     </span>
 
                                     <span
@@ -157,12 +157,12 @@
                                         on:keypress="{() => {}}"
                                     >
                                         <span
-                                            class="flex px-4 py-2 text-sm  transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 space-x-2 cursor-pointer"
+                                            class="flex px-4 py-2 text-sm transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 space-x-2 cursor-pointer"
                                         >
                                             <span
                                                 ><svg
                                                     xmlns="http://www.w3.org/2000/svg"
-                                                    class="h-5 w-5 "
+                                                    class="h-5 w-5"
                                                     fill="none"
                                                     viewBox="0 0 24 24"
                                                     stroke="currentColor"
@@ -175,7 +175,7 @@
                                                     ></path>
                                                 </svg></span
                                             >
-                                            <span>Delete</span>
+                                            <span>Supprimer</span>
                                         </span>
                                     </span>
                                 </div>
@@ -187,26 +187,26 @@
         </div>
     </div>
 
-    <div class=" flex flex-1 flex-wrap sm:flex-nowrap  ml-[4.5rem] mt-2  ">
-        <div class="  w-[98%] ">
-            <p class="text-gray-900 dark:text-white  mb-2 font-mono text-sm">
+    <div class=" flex flex-1 flex-wrap sm:flex-nowrap ml-[4.5rem] mt-2">
+        <div class="  w-[98%]">
+            <p class="text-gray-900 dark:text-white mb-2 font-mono text-sm">
                 {reply['reply']}
             </p>
         </div>
     </div>
-    <div class="flex flex-1  w-10/12 mx-auto  items-center ">
+    <div class="flex flex-1 w-10/12 mx-auto items-center">
         <div class=" ">
             <div
                 on:click="{likereply}"
                 on:keypress="{(e) => {}}"
-                class=" inline-block  mt-2  cursor-pointer 
+                class=" inline-block mt-2 cursor-pointer
             "
             >
-                <div class="inline-block absolute ">
+                <div class="inline-block absolute">
                     <svg
                         fill="none"
                         viewBox="0 0 24 24"
-                        class="w-5 h-5    {reply['is_liked']
+                        class="w-5 h-5 {reply['is_liked']
                             ? 'fill-rose-600 text-rose-600  '
                             : ''}"
                         stroke="currentColor "
@@ -220,8 +220,8 @@
                     </svg>
                 </div>
                 <div class="inline-block">
-                    <span class="text-sm  ml-8">
-                        <Number number="{reply['num_likes']}" /> Like{#if reply['num_likes'] !== 1}s{/if}
+                    <span class="text-sm ml-8">
+                        <Number number="{reply['num_likes']}" /> J'aime
                     </span>
                 </div>
             </div>
@@ -230,7 +230,7 @@
 </div>
 {#if reply['profile']['username'] === $usershortinfo.username}
     {#if is_edit}
-        <div class="mt-4 flex ">
+        <div class="mt-4 flex">
             <div class="cursor-pointer w-fit h-fit">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"

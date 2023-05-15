@@ -58,7 +58,7 @@
                                 class="text-md text-slate-600 space-x-2 m-0 p-0 flex flex-row items-center"
                             >
                                 <span>
-                                    {#if item.label === 'Only me'}
+                                    {#if item.label === items[2].label}
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             class="w-5 h-5 font-bold dark:fill-rose-600 fill-gray-700"
@@ -71,10 +71,10 @@
                                             ></path>
                                         </svg>
                                     {/if}
-                                    {#if item.label === 'Everyone'}
+                                    {#if item.label === items[0].label}
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
-                                            class="w-7 h-7 right-2 dark:fill-rose-600 fill-gray-700"
+                                            class="w-7 h-7 -mr-1 -ml-1 dark:fill-rose-600 fill-gray-700"
                                             viewBox="-20 0 190 190"
                                             stroke-width="3"
                                             fill="none"
@@ -86,7 +86,7 @@
                                             ></path>
                                         </svg>
                                     {/if}
-                                    {#if item.label === 'Followers'}
+                                    {#if item.label === items[1].label}
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             class="w-5 h-5 dark:fill-rose-600 fill-gray-700"

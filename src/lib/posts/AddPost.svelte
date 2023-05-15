@@ -14,12 +14,12 @@
     import BackSection from '../ui/BackSection.svelte';
 
     const items = [
-        { value: 'everyone', label: 'Everyone' },
-        { value: 'followers', label: 'Followers' },
-        { value: 'onlyme', label: 'Only me' },
+        { value: 'everyone', label: 'Tout le monde' },
+        { value: 'followers', label: 'Abonnés' },
+        { value: 'onlyme', label: 'Seulement moi' },
     ];
     let content = '',
-        show_post_to = items[0],
+        show_post_to = { value: 'everyone', label: 'Tout le monde' },
         allow_comments = true,
         tags = [],
         images = [],
@@ -36,6 +36,8 @@
     };
 
     onMount(() => {
+        document.title = `${params.id ? 'Mise à jour' : 'Créer'} Post`;
+
         if (params.id) {
             axios(`${baseurl}/posts/${params.id}/`, config).then((res) => {
                 postItem.set(res.data);
@@ -151,7 +153,7 @@
         class="relative w-full flex flex-col  break-words bg-white dark:bg-slate-800
              dark:text-white  border-2 mb-6 shadow-lg rounded  "
     > -->
-<BackSection name="Create Post" />
+<BackSection name="{`${params.id ? 'Mise à jour' : 'Créer'} Post`}" />
 
 {#if is_loaded}
     <Wapper>
@@ -189,13 +191,13 @@
                                 class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                                 for="content"
                             >
-                                Content
+                                Contenu
                             </label>
                             <textarea
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight outline-none
                             focus:outline-none border-rose-600 focus:border-rose-600"
                                 id="content"
-                                placeholder="Write what you think ..."
+                                placeholder="Écrivez ce que vous pensez..."
                                 autocomplete="content"
                                 bind:value="{content}"
                                 required></textarea>
@@ -221,14 +223,16 @@
                             <label
                                 class=" text-gray-700 text-sm font-bold ml-4 dark:text-white"
                                 for="allow_comments"
-                                ><span>Allow comments</span>
+                                ><span>Autoriser les commentaires</span>
                             </label>
                         </div>
 
                         <div class="bg-rose-600 object-cover rounded-lg mb-6">
                             <input
                                 type="submit"
-                                value="{params.id ? 'Update' : 'Create'} Post"
+                                value="{params.id
+                                    ? 'Mise à jour'
+                                    : 'Créer'} Post"
                                 class="text-white w-full px-2 h-10 rounded shadow bg-rose-600 dark:border-rose-600 outline-none focus:outline-none cursor-pointer"
                             />
                         </div>

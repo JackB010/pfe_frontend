@@ -53,7 +53,7 @@
                                         ></path>
                                     </svg>
                                 </div>
-                                <div class="hidden sm:inline">Home</div>
+                                <div class="hidden sm:inline">Accueil</div>
                             </div>
                         </a>
                     </div>
@@ -84,7 +84,9 @@
                                             ></path>
                                         </svg>
                                     </div>
-                                    <div class="hidden sm:inline">Events</div>
+                                    <div class="hidden sm:inline">
+                                        Événements
+                                    </div>
                                 </div></a
                             >
                         {:else}
@@ -212,7 +214,7 @@
                                 <div
                                     class="hidden sm:inline hover:text-rose-600"
                                 >
-                                    <div>Profile</div>
+                                    <div>Profil</div>
                                 </div>
                             </a>
                             <div
@@ -264,7 +266,7 @@
                                             ? 'rounded-full'
                                             : 'rounded-lg'} h-5 w-5 border bg-cover bg-center cursor-pointer"
                                     ></div>
-                                    <span> Profile</span>
+                                    <span> Profil</span>
                                 </span>
                                 <span
                                     on:click="{() => {
@@ -301,7 +303,7 @@
                                                 ></path>
                                             </svg></span
                                         >
-                                        <span>Settings</span>
+                                        <span>Paramètres</span>
                                     </span>
                                 </span>
                                 <span
@@ -323,7 +325,7 @@
                                                 d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                                             ></path></svg
                                         ></span
-                                    ><span>Logout</span>
+                                    ><span>Se déconnecter</span>
                                 </span>
                             </div>
                         </div>

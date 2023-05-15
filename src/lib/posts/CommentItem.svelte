@@ -170,7 +170,7 @@
                                             ></path>
                                         </svg>
                                     </div>
-                                    <span>Edit</span>
+                                    <span>Modifier</span>
                                 </span>
 
                                 <span
@@ -199,7 +199,7 @@
                                                 ></path>
                                             </svg></span
                                         >
-                                        <span>Delete</span>
+                                        <span>Supprimer</span>
                                     </span>
                                 </span>
                             </div>
@@ -245,7 +245,7 @@
                 </div>
                 <div class="inline-block">
                     <span class="text-sm ml-7">
-                        <Number number="{comment['num_likes']}" /> Like{#if comment['num_likes'] !== 1}s{/if}
+                        <Number number="{comment['num_likes']}" /> J'aime
                     </span>
                 </div>
             </div>
@@ -274,7 +274,7 @@
                 <div class="inline-block ml-7">
                     <span class="text-sm">
                         <Number number="{comment['num_replies']}" />
-                        {#if comment['num_replies'] !== 1}Replies{:else}Reply{/if}
+                        {#if comment['num_replies'] !== 1}Réponses{:else}Réponse{/if}
                     </span>
                 </div>
             </div>

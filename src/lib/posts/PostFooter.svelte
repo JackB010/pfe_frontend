@@ -36,21 +36,21 @@
     };
 </script>
 
-<div class="flex flex-shrink-0 py-1 px-3 mb-2 justify-start   ">
-    <div class="mt-2 flex-1   items-center  ">
+<div class="flex flex-shrink-0 py-1 px-3 mb-2 justify-start">
+    <div class="mt-2 flex-1 items-center">
         <div
             on:click="{makeLikeFunc}"
             on:keypress="{(e) => {}}"
-            class="  inline-block  mt-2 ml-3  {!$isLoggin
+            class="  inline-block mt-2 ml-3 {!$isLoggin
                 ? 'cursor-not-allowed text-gray-400'
-                : ''} cursor-pointer active:text-rose-600 
+                : ''} cursor-pointer active:text-rose-600
             "
         >
-            <div class="inline-block w-fit h-fit  absolute">
+            <div class="inline-block w-fit h-fit absolute">
                 <svg
                     fill="none"
                     viewBox="0 0 24 24"
-                    class="w-5 h-5    {is_liked
+                    class="w-5 h-5 {is_liked
                         ? 'fill-rose-600 text-rose-600  '
                         : ''}"
                     stroke="currentColor "
@@ -64,27 +64,27 @@
                 </svg>
             </div>
             <div class="inline-block">
-                <span class="text-sm  ml-6">
-                    <Number number="{num_likes}" /> Like{#if num_likes !== 1}s{/if}
+                <span class="text-sm ml-6">
+                    <Number number="{num_likes}" /> J'aime
                 </span>
             </div>
         </div>
     </div>
 
     <div
-        class="mt-2   items-center  flex-1 {!$isLoggin
+        class="mt-2 items-center flex-1 {!$isLoggin
             ? 'cursor-not-allowed text-gray-400'
             : ''} "
     >
         <div
-            class=" inline-block  mt-2 absolute {allow_comments
+            class=" inline-block mt-2 absolute {allow_comments
                 ? ''
                 : 'cursor-not-allowed text-gray-400'}"
         >
-            <div class="inline-block  w-fit h-fit pt-1 absolute ">
+            <div class="inline-block w-fit h-fit pt-1 absolute">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="w-5 h-5    "
+                    class="w-5 h-5"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -98,9 +98,9 @@
                 </svg>
             </div>
 
-            <div class="inline-block   ml-6 ">
-                <span class="text-sm ">
-                    <Number number="{num_comments}" /> Commet{#if num_comments !== 1}s{/if}
+            <div class="inline-block ml-6">
+                <span class="text-sm">
+                    <Number number="{num_comments}" /> commentaire{#if num_comments !== 1}s{/if}
                 </span>
             </div>
         </div>

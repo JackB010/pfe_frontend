@@ -32,6 +32,7 @@
             });
         }
     });
+    document.title = `Accueil`;
 </script>
 
 <div class="mx-1">
@@ -47,9 +48,9 @@
         {#if $location === '/'}
             <PostsHeader />
         {/if}
-        <div class="px-4  flex-auto  ">
+        <div class="px-4 flex-auto">
             <div
-                class="tab-content tab-space 
+                class="tab-content tab-space
                 "
             >
                 <div>

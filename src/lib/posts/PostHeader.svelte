@@ -64,7 +64,9 @@
 </script>
 
 <div class="flex p-0.5 space-x-2 w-full mb-2">
-    <div class="flex items-center px-4 py-2 w-full">
+    <div
+        class="flex items-center px-4 py-2 w-full {is_delete ? 'blur-sm' : ''}"
+    >
         <div class="relative">
             <a href="{`/${ftype}/${username}`}" use:link>
                 <div
@@ -217,7 +219,7 @@
                                     ></path>
                                 </svg>
                             </div>
-                            <span>Edit</span>
+                            <span>Modifier</span>
                         </span>
 
                         <span
@@ -246,7 +248,7 @@
                                         ></path>
                                     </svg></span
                                 >
-                                <span>Delete</span>
+                                <span>Supprimer</span>
                             </span>
                         </span>
                     {/if}
@@ -275,7 +277,9 @@
                                 ></path>
                             </svg></span
                         ><span
-                            >{#if !is_saved}Save{:else} Unsave {/if}</span
+                            >{#if !is_saved}Sauvegarder{:else}
+                                Annuler l'enregistrement
+                            {/if}</span
                         >
                     </span>
                 </div>
@@ -284,7 +288,7 @@
     </div>
 </div>
 {#if is_delete}
-    <div class="relative">
+    <div class="relative blur-none z-[100000000000]">
         <div
             class="absolute z-[100000000000] min-w-full overflow-hidden top-6 left-1/2 transform -translate-x-1/2 -translate-y-6"
             in:fly="{{ y: -400, duration: 400 }}"
@@ -292,11 +296,11 @@
         >
             <div
                 in:fly="{{ y: 100, duration: 800 }}"
-                class="bg-white items-center w-[90%] mx-auto rounded shadow
+                class="bg-white items-center w-[90%] mx-auto rounded shadow blur-none
             flex flex-col space-y-4 justify-around pb-4 pt-2 z-[100000000000]"
             >
                 <div class="text-rose-600 font-bold">
-                    Do you want to delet your account?
+                    Voulez-vous supprimer votre post?
                 </div>
 
                 <div class="flex flex-1 w-full justify-center items-center">
@@ -307,7 +311,7 @@
                                 is_active = false;
                                 deletePost();
                             }}"
-                            on:keypress="{() => {}}">Conform</span
+                            on:keypress="{() => {}}">Se conformer</span
                         >
                     </div>
 
@@ -317,7 +321,7 @@
                             on:click="{() => {
                                 is_delete = !is_delete;
                             }}"
-                            on:keypress="{() => {}}">Cansole</span
+                            on:keypress="{() => {}}">Annuler</span
                         >
                     </div>
                 </div>

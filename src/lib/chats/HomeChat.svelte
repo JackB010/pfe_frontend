@@ -54,6 +54,8 @@
             }
         }
     }
+                document.title = 'Chat';
+
 </script>
 
 {#if $messagesLoaded}

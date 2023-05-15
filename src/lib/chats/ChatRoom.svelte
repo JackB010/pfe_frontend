@@ -18,11 +18,11 @@
     import axios from 'axios';
     import Wapper from '../Wapper.svelte';
     import FullInput from '../ui/FullInput.svelte';
-    import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
-    import Fa from 'svelte-fa/src/fa.svelte';
     import { backurls, nexturl } from '../../stores/tools';
     let messages, userdata, element;
     onMount(async () => {
+        document.title = `Chat: ${params['username']}`;
+
         let username = params['username'];
         loadMessages(username);
         chating_with.set(await getProfileShortInfo(username, 'profile'));
@@ -70,6 +70,7 @@
             element.scrollTo(element.scrollHeight, 0);
         }
     };
+
     export let params = {};
 </script>
 

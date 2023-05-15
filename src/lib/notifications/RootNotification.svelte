@@ -139,12 +139,13 @@
             );
         }
     };
+    document.title = `Notifications`;
 </script>
 
 {#if $notificationsLoaded}
     <Wapper>
         <div
-            class=" border mx-auto w-full h-screen mb-2 overflow-hidden px-2 dark:text-black "
+            class=" border mx-auto w-full h-screen mb-2 overflow-hidden px-2 dark:text-black"
             id="chatHome"
         >
             <!-- <div class="flex flex-col relative mt-4 ">
@@ -212,11 +213,11 @@
             <SearchSection searchFunc="{searchFunc}" />
 
             <div
-                class="flex-1 text-white bg-rose-600 text-center  p-1 mt-2 ml-1 cursor-pointer rounded-lg"
+                class="flex-1 text-white bg-rose-600 text-center p-1 mt-2 ml-1 cursor-pointer rounded-lg"
                 on:click="{() => makeread(null)}"
                 on:keypress="{() => {}}"
             >
-                <span class="w-full justify-center  ">
+                <span class="w-full justify-center">
                     make all notification as read
                 </span>
             </div>
@@ -233,7 +234,7 @@
                     {#each $notificationsList as notification, i}
                         <li
                             in:fly="{{ y: 50, duration: (i % 10) * 200 }}"
-                            class="flex flex-row rounded-md shadow-md   items-center relative cursor-pointer {!notification[
+                            class="flex flex-row rounded-md shadow-md items-center relative cursor-pointer {!notification[
                                 'seen'
                             ]
                                 ? 'dark:bg-slate-500 dark:hover:bg-slate-600 bg-rose-200 hover:bg-rose-300 '
@@ -265,7 +266,7 @@
                                 class="flex flex-col ml-4 text-black space-y-1 dark:text-white"
                             >
                                 <span
-                                    class="flex flex-row flex-1 space-x-2  items-center"
+                                    class="flex flex-row flex-1 space-x-2 items-center"
                                 >
                                     <span>
                                         <h3
@@ -288,7 +289,7 @@
                                     >
                                 </span>
                                 <p
-                                    class="dark:text-gray-300 text-gray-700 text-xs "
+                                    class="dark:text-gray-300 text-gray-700 text-xs"
                                 >
                                     {moment(notification['created']).fromNow()}
                                 </p>

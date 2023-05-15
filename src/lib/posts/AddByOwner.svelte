@@ -45,7 +45,7 @@
     <span
         on:click="{() => (isActive = !isActive)}"
         on:keypress="{() => {}}"
-        class="flex items-center p-2 mb-4 border border-rose-600 dark:text-white transition-colors rounded-md dark:text-light w-full text-rose-600  dark:bg-rose-600"
+        class="flex items-center p-2 mb-4 border border-rose-600 dark:text-white transition-colors rounded-md dark:text-light w-full text-rose-600 dark:bg-rose-600"
         role="button"
     >
         <span>
@@ -64,7 +64,7 @@
                 ></path>
             </svg>
         </span>
-        <span class="ml-2 text-sm"> creater </span>
+        <span class="ml-2 text-sm"> Créateur </span>
         <span class="ml-auto">
             <svg
                 class="w-4 h-4 transition-transform transform {isActive
@@ -84,9 +84,9 @@
         </span>
     </span>
 
-    <div class="{!isActive ? 'hidden' : ''} w-full ">
+    <div class="{!isActive ? 'hidden' : ''} w-full">
         <div
-            class="absolute border  rounded-lg overflow-hidden  h-32  overflow-y-scroll bg-white w-11/12 -mt-3"
+            class="absolute border rounded-lg overflow-hidden h-32 overflow-y-scroll bg-white w-11/12 -mt-3"
         >
             {#each pages as page, index}
                 <span

@@ -82,20 +82,20 @@
                 push('/');
             });
     };
-
+    document.title = 'Créer un évènement';
     export let params = {};
 </script>
 
-<BackSection name="Create Event" />
+<BackSection name="Créer un évènement" />
 <Wapper>
     <div class="border rounded shadow">
-        <div class=" mx-auto mt-4 flex-auto w-full ">
+        <div class=" mx-auto mt-4 flex-auto w-full">
             <div
                 class="tab-content tab-space l
                 "
             >
                 <form
-                    class="w-11/12 flex  flex-col mx-auto"
+                    class="w-11/12 flex flex-col mx-auto"
                     on:submit|preventDefault="{params.id
                         ? updateEvent
                         : createEvent}"
@@ -108,7 +108,7 @@
                             Content
                         </label>
                         <textarea
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight  outline-none
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight outline-none
                             focus:outline-none border-rose-600 focus:border-rose-600"
                             id="content"
                             placeholder="Write what your event about ..."
@@ -125,7 +125,7 @@
                         </label>
                         <input
                             type="datetime-local"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight  outline-none
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight outline-none
                             focus:outline-none border-rose-600 focus:border-rose-600"
                             id="content"
                             placeholder="Write what your event about ..."
@@ -145,8 +145,8 @@
                     <div class="bg-rose-600 object-cover rounded-lg mb-6">
                         <input
                             type="submit"
-                            value="Create Post"
-                            class="text-white w-full px-2 h-10  rounded shadow bg-rose-600 dark:border-rose-600 
+                            value="Créer"
+                            class="text-white w-full px-2 h-10 rounded shadow bg-rose-600 dark:border-rose-600
      outline-none focus:outline-none cursor-pointer"
                         />
                     </div>

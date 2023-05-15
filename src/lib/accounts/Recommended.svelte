@@ -139,4 +139,10 @@
         overflow-x: overlay;
         z-index: 12;
     }
+
+    #homesuggestion::-webkit-scrollbar {
+        height: 8px;
+
+        border-radius: 50%;
+    }
 </style>

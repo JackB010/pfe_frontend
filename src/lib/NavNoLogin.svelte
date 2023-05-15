@@ -307,116 +307,124 @@
 {#if active}
     <div
         class="absolute z-[1234123123] w-screen h-screen min-h-screen min-w-full overflow-hidden top-1/4 bg-black/60 left-1/2 transform -translate-x-1/2 -translate-y-1/4"
-        in:fly="{{ y: -400, duration: 400 }}"
-        out:fly="{{ y: -400, duration: 100 }}"
     >
-        <div class="h-4"></div>
-        <Wapper>
-            <div
-                class="flex flex-col items-center px-4 py-2 text-center border rounded shadow-lg w-full"
-            >
-                <form
-                    class="w-full flex border-2 rounded border-rose-600"
-                    on:submit|preventDefault="{SearchUser}"
-                >
-                    <input
-                        bind:value="{search}"
-                        placeholder="Search Page"
-                        class="h-10 flex-1 text-base text-rose-700 w-full pointer-events-auto
-                                     pl-4 outline-none focus:outline-none rounded dark:bg-inherit dark:text-white"
-                    />
-                    <span class="border w-0 h-6 my-auto border-rose-600"></span>
-                    <button
-                        class=" text-rose-600 dark:text-white px-2 pointer-events-auto
-                                    outline-none focus:outline-none ease-linear transition-all duration-100"
-                    >
-                        <svg
-                            class="w-5 h-5 stroke-rose-600"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            aria-hidden="true"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2.5"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                            ></path>
-                        </svg>
-                    </button>
-                </form>
-                {#if done}
+        <div
+            in:fly="{{ y: 400, duration: 400 }}"
+            out:fly="{{ y: -400, duration: 100 }}"
+        >
+            <div in:fly="{{ y: -100, duration: 800 }}">
+                <div class="h-4"></div>
+                <Wapper>
                     <div
-                        class=" py-1 z-[10000] w-full h-96 rounded border-y-2 border-y-rose-600 overflow-y-scroll"
-                        bind:clientHeight="{y}"
-                        on:scroll="{(e) => {
-                            yy = e.target['scrollHeight'];
-                            y =
-                                e.target['scrollTop'] +
-                                e.target['clientHeight'];
-                        }}"
+                        class="flex flex-col items-center px-4 py-2 text-center border rounded shadow-lg w-full"
                     >
-                        {#if searchedUser.length !== 0}
-                            <div class="h-full w-full">
-                                {#each searchedUser as page}
-                                    <div
-                                        class="cursor-pointer w-full pointer-events-auto"
-                                        on:click="{() => {
-                                            push(`/page/${page.username}`);
-                                            searchedUser = [];
-                                            done = false;
-                                            active = false;
-                                            search = '';
-                                        }}"
-                                        on:keypress="{() => {}}"
-                                    >
-                                        <User
-                                            src="{page.photo_icon}"
-                                            username="{page.username}"
-                                            type="{page.ftype}"
-                                            count_followed_by="{page.count_followed_by}"
-                                        />
-                                    </div>
-                                {/each}
-                            </div>
-                        {:else if search !== ''}
-                            <span
-                                class="w-full text-center text-gray-700 dark:text-gray-300 py-4 text-lg"
-                                >No user found !!</span
-                            >{/if}
-                    </div>
-                {/if}
-            </div>
-            <div class=" bg-black/60 w-full">
-                <span
-                    class="float-right flex items-center bg-white mt-3 px-2 py-0.5 rounded font-semibold text-red-600 cursor-pointer pointer-events-auto"
-                    on:click="{() => {
-                        active = false;
-                        search = '';
-                    }}"
-                    on:keypress="{() => {}}"
-                >
-                    <span>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-6 w-6 rotate-45"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
+                        <form
+                            class="w-full flex border-2 rounded border-rose-600"
+                            on:submit|preventDefault="{SearchUser}"
                         >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                        </svg></span
-                    >
-                    <span>close</span></span
-                >
+                            <input
+                                bind:value="{search}"
+                                placeholder="Search Page"
+                                class="h-10 flex-1 text-base text-rose-700 w-full pointer-events-auto
+                                     pl-4 outline-none focus:outline-none rounded dark:bg-inherit dark:text-white"
+                            />
+                            <span class="border w-0 h-6 my-auto border-rose-600"
+                            ></span>
+                            <button
+                                class=" text-rose-600 dark:text-white px-2 pointer-events-auto
+                                    outline-none focus:outline-none ease-linear transition-all duration-100"
+                            >
+                                <svg
+                                    class="w-5 h-5 stroke-rose-600"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2.5"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                    ></path>
+                                </svg>
+                            </button>
+                        </form>
+                        {#if done}
+                            <div
+                                class=" py-1 z-[10000] w-full h-96 rounded border-y-2 border-y-rose-600 overflow-y-scroll"
+                                bind:clientHeight="{y}"
+                                on:scroll="{(e) => {
+                                    yy = e.target['scrollHeight'];
+                                    y =
+                                        e.target['scrollTop'] +
+                                        e.target['clientHeight'];
+                                }}"
+                            >
+                                {#if searchedUser.length !== 0}
+                                    <div class="h-full w-full">
+                                        {#each searchedUser as page}
+                                            <div
+                                                class="cursor-pointer w-full pointer-events-auto"
+                                                on:click="{() => {
+                                                    push(
+                                                        `/page/${page.username}`
+                                                    );
+                                                    searchedUser = [];
+                                                    done = false;
+                                                    active = false;
+                                                    search = '';
+                                                }}"
+                                                on:keypress="{() => {}}"
+                                            >
+                                                <User
+                                                    src="{page.photo_icon}"
+                                                    username="{page.username}"
+                                                    type="{page.ftype}"
+                                                    count_followed_by="{page.count_followed_by}"
+                                                />
+                                            </div>
+                                        {/each}
+                                    </div>
+                                {:else if search !== ''}
+                                    <span
+                                        class="w-full text-center text-gray-700 dark:text-gray-300 py-4 text-lg"
+                                        >No user found !!</span
+                                    >{/if}
+                            </div>
+                        {/if}
+                    </div>
+                    <div class=" bg-black/60 w-full">
+                        <span
+                            class="float-right flex items-center bg-white mt-3 px-2 py-0.5 rounded font-semibold text-red-600 cursor-pointer pointer-events-auto"
+                            on:click="{() => {
+                                active = false;
+                                search = '';
+                            }}"
+                            on:keypress="{() => {}}"
+                        >
+                            <span>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-6 w-6 rotate-45"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                </svg></span
+                            >
+                            <span>close</span></span
+                        >
+                    </div>
+                </Wapper>
             </div>
-        </Wapper>
+        </div>
     </div>
 {/if}
 

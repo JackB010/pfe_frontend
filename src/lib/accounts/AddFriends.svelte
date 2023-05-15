@@ -10,13 +10,20 @@
     import BackSection from '../ui/BackSection.svelte';
     import { onMount } from 'svelte';
     import SearchSection from '../ui/SearchSection.svelte';
+
     let is_loaded = false,
         y = 0,
         yy = -1,
         ftype = $usershortinfo.ftype,
         is_Selected = false;
     let suggestedUrl = '';
-
+    $: {
+        if (!is_Selected) {
+            document.title = 'Ajouter des profils';
+        } else {
+            document.title = 'Ajouter des pages';
+        }
+    }
     $: {
         ftype = $usershortinfo.ftype;
         if (ftype === 'profile') {
@@ -77,17 +84,17 @@
 {#if is_loaded}
     <BackSection
         name="{!is_Selected && $usershortinfo.ftype == 'profile'
-            ? 'Profiles'
+            ? 'Profils'
             : 'Pages'}"
     />
     <Wapper>
         <div
-            class=" border mb-2 rounded mx-auto w-full h-screen  overflow-hidden px-2 dark:text-black  "
+            class=" border mb-2 rounded mx-auto w-full h-screen overflow-hidden px-2 dark:text-black"
         >
             {#if ftype == 'profile'}
-                <div class="flex flex-row items-center justify-evenly ">
+                <div class="flex flex-row items-center justify-evenly">
                     <div
-                        class=" w-5/12 text-xl font-normal  dark:text-white text-rose-600  text-center py-1.5    cursor-pointer {!is_Selected
+                        class=" w-5/12 text-xl font-normal dark:text-white text-rose-600 text-center py-1.5 cursor-pointer {!is_Selected
                             ? 'border-b-rose-600 border-b-2  '
                             : ''}
                             "
@@ -96,10 +103,10 @@
                         }}"
                         on:keypress="{() => {}}"
                     >
-                        Profiles
+                        Profils
                     </div>
                     <div
-                        class=" w-5/12 text-xl  font-normal dark:text-white text-rose-600    text-center py-1.5  cursor-pointer  {is_Selected
+                        class=" w-5/12 text-xl font-normal dark:text-white text-rose-600 text-center py-1.5 cursor-pointer {is_Selected
                             ? 'border-b-rose-600 border-b-2   '
                             : ' '}
                            "
@@ -112,11 +119,11 @@
                     </div>
                 </div>
             {/if}
-            <div class="flex flex-col relative mt-4 ">
+            <div class="flex flex-col relative mt-4">
                 <SearchSection searchFunc="{searchFunc}" />
             </div>
             <div
-                class="flex flex-col mt-4  space-y-1.5 overflow-hidden h-[34rem] hover:pr-3 "
+                class="flex flex-col mt-4 space-y-1.5 overflow-hidden h-[34rem] hover:pr-3"
                 bind:clientHeight="{y}"
                 on:scroll="{(e) => {
                     yy = e.target['scrollHeight'];

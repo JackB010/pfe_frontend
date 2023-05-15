@@ -47,16 +47,16 @@
     });
 </script>
 
-<div class=" h-fit w-full flex flex-col  ">
+<div class=" h-fit w-full flex flex-col">
     <div class="{isopen ? '' : 'hidden'}   bg-slate-400">
         <div
-            class="h-[99%] w-[99%] rounded-lg bg-cover mx-auto bg-center -mt-0.5  absolute top-[0.3rem] left-[0.2rem]"
+            class="h-[99%] w-[99%] rounded-lg bg-cover mx-auto bg-center -mt-0.5 absolute top-[0.3rem] left-[0.2rem]"
             style="background-image: url({imageout})"
         >
             <span>
                 <span>
                     <svg
-                        class="h-6 w-6 bg-white rounded-full mx-auto   mr-4 mt-1 cursor-pointer"
+                        class="h-6 w-6 bg-white rounded-full mx-auto mr-4 mt-1 cursor-pointer"
                         xmlns="http://www.w3.org/2000/svg"
                         stroke="currentColor"
                         fill="green"
@@ -76,7 +76,7 @@
                 <span
                     ><svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class=" h-6 w-6 bg-white rounded-full   mx-auto mr-4 mt-2 cursor-pointer"
+                        class=" h-6 w-6 bg-white rounded-full mx-auto mr-4 mt-2 cursor-pointer"
                         fill="red"
                         viewBox="0 0 1792 1792"
                         on:click="{() => {
@@ -99,7 +99,7 @@
     <div
         class=" z-[100] {isopen
             ? 'bottom-2 absolute w-[90%]'
-            : ''} h-fit w-full flex flex-1 overflow-y-auto flex-row  space-x-1 justify-start  mx-auto"
+            : ''} h-fit w-full flex flex-1 overflow-y-auto flex-row space-x-1 justify-start mx-auto"
     >
         {#each outImages as image, index}
             <Image
@@ -111,19 +111,19 @@
             />
         {/each}
     </div>
-    <div class="flex  items-center  flex-1 mb-3 cursor-pointer w-fit">
+    <div class="flex items-center flex-1 mb-3 cursor-pointer w-fit">
         <input
             bind:files="{files}"
             bind:this="{fileInput}"
             type="file"
             id="multi-upload-input "
-            class=" w-full hidden "
+            class=" w-full hidden"
             accept="image/png, image/jpeg"
             multiple
         />
         <span>
             <svg
-                class="w-7 h-7 "
+                class="w-7 h-7"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -151,7 +151,7 @@
         <span
             class="text-gray-700 text-sm font-bold ml-4 dark:text-white"
             on:click="{() => fileInput.click()}"
-            on:keypress="{() => {}}"><span>Upload images</span></span
+            on:keypress="{() => {}}"><span>Importer des images</span></span
         >
     </div>
 </div>

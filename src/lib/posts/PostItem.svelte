@@ -11,12 +11,7 @@
 </script>
 
 <!-- dark:bg-slate-600 -->
-<div
-    class="felx flex-col pb-1 border my-3 rounded {is_delete
-        ? 'bg-red-600'
-        : 'bg-inherit'}"
-    id="{post['id']}"
->
+<div class="felx flex-col pb-1 border my-3 rounded" id="{post['id']}">
     <PostHeader
         profile="{post['profile']}"
         owner="{post['by_owner']}"
@@ -27,19 +22,21 @@
         bind:is_delete="{is_delete}"
         bind:num_total_saved="{num_total_saved}"
     />
-    <PostContent
-        content="{post['content']}"
-        tags="{post['tags']}"
-        images="{post['images']}"
-        id="{post['id']}"
-    />
+    <div class="{is_delete ? 'blur-sm' : 'blur-none'}">
+        <PostContent
+            content="{post['content']}"
+            tags="{post['tags']}"
+            images="{post['images']}"
+            id="{post['id']}"
+        />
 
-    <PostFooter
-        num_comments="{post['num_comments']}"
-        num_likes="{post['num_likes']}"
-        is_liked="{post['is_liked']}"
-        allow_comments="{post['allow_comments']}"
-        id="{post['id']}"
-        bind:num_total_likes="{num_total_likes}"
-    />
+        <PostFooter
+            num_comments="{post['num_comments']}"
+            num_likes="{post['num_likes']}"
+            is_liked="{post['is_liked']}"
+            allow_comments="{post['allow_comments']}"
+            id="{post['id']}"
+            bind:num_total_likes="{num_total_likes}"
+        />
+    </div>
 </div>
