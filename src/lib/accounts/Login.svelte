@@ -3,7 +3,7 @@
     import jwt_decode from 'jwt-decode';
     import { theme } from '../functions';
     import axios from 'axios';
-    import { setLogedIn, msg } from './../../stores/accounts/auth';
+    import { msg } from './../../stores/accounts/auth';
     import { link } from 'svelte-spa-router';
     import { baseurl } from '../functions';
     import Wapper from '../Wapper.svelte';
@@ -44,7 +44,6 @@
             .catch((err) => {
                 let error = document.querySelector('#login_error');
                 error.classList.remove('hidden');
-                console.log(err);
                 username = '';
                 password = '';
             });
@@ -64,6 +63,7 @@
             }, 5000);
         }
     }
+    document.title = 'Se connecter';
     export const params = {};
 </script>
 

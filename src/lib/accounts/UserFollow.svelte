@@ -27,11 +27,11 @@
 </script>
 
 <div
-    class="flex items-center relative my-1 border border-black/20 rounded-lg ml-1 "
+    class="flex items-center relative my-1 border border-black/20 rounded-lg ml-1"
     in:fly="{{ y: 40, duration: 2 * 200 }}"
 >
     <div
-        class="w-full px-4 py-2 dark:border-0 dark:shadow-lg border  rounded-lg flex items-start  cursor-pointer"
+        class="w-full px-4 py-2 dark:border-0 dark:shadow-lg border rounded-lg flex items-start cursor-pointer"
     >
         <a href="{`/${user.ftype}/${user.username}`}" use:link>
             <div
@@ -49,9 +49,9 @@
                     {user.username}
                 </a>
             </p>
-            <p class="text-xs text-gray-700  dark:text-gray-300 -mt-0.5">
+            <p class="text-xs text-gray-700 dark:text-gray-300 -mt-0.5">
                 <Number number="{user.count_followed_by}" />
-                Follower{#if user.count_followed_by !== 1}s{/if}
+                Abonnés{#if user.count_followed_by !== 1}s{/if}
             </p>
         </div>
     </div>
@@ -68,7 +68,7 @@
                         ? 'text-rose-600 ring-1 ring-rose-600 dark:text-white '
                         : 'bg-rose-600 text-white '}  cursor-pointer sm:mr-3
                                        px-4 h-fit w-fit py-1 rounded-md shadow-md justify-center"
-                    >{user.is_following ? 'Unfollow' : 'Follow'}</span
+                    >{user.is_following ? 'Se désabonner' : "S'abonner"}</span
                 >
             </div>
         {/if}

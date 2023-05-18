@@ -16,7 +16,7 @@
             })
             .catch((err) => {});
     };
-
+    document.title = 'Mot de passe oublié';
     export const params = {};
 </script>
 

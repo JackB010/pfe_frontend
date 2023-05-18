@@ -126,12 +126,12 @@
                                 );
                             }}"
                             on:keypress="{(e) => {}}"
-                            class="text-xs sm:text-sm text-gray-700 dark:text-white cursor-pointer"
-                            ><span class="font-bold"
+                            class="text-xs text-gray-700 dark:text-white cursor-pointer"
+                            ><span class="font-bold text-sm"
                                 ><Number
                                     number="{userdata['count_following']}"
                                 /></span
-                            > Following</span
+                            > Abonnement</span
                         >
                         <div class="w-0 h-4 border border-gray-300"></div>
                         <span
@@ -141,25 +141,25 @@
                                 );
                             }}"
                             on:keypress="{(e) => {}}"
-                            class="text-xs sm:text-sm text-gray-700 dark:text-white cursor-pointer"
-                            ><span class="font-bold"
+                            class="text-xs text-gray-700 dark:text-white cursor-pointer"
+                            ><span class="font-bold text-sm"
                                 ><Number
                                     number="{userdata['count_followed_by']}"
                                 /></span
-                            > Followers</span
+                            > Abonnés</span
                         >
                     </div>
 
                     <div
                         class="flex-1 {is_owner
-                            ? 'sm:space-x-6 space-x-2'
-                            : 'sm:space-x-12 space-x-4'} flex w-fit mx-auto items-center"
+                            ? 'space-x-2'
+                            : 'sm:space-x-6 space-x-3'} flex w-fit mx-auto items-center"
                     >
                         <span
                             on:click="{followUser}"
                             on:keypress="{() => {}}"
                             class="
-                              sm:px-4 px-3 h-fit w-fit py-1 rounded shadow font-medium justify-center
+                              sm:px-3 px-2 text-xs sm:text-sm h-fit w-fit py-1 rounded shadow font-medium justify-center
                                 {is_owner ||
                             !$isLoggin ||
                             (usersettings.followers_limit &&
@@ -168,11 +168,12 @@
                                 ? 'cursor-not-allowed bg-gray-200 text-black pointer-events-none'
                                 : 'cursor-pointer'}
                                 {userdata['is_following'] && !is_owner
-                                ? ' ring-2 ring-rose-600 text-rose-600'
+                                ? ' ring-2 ring-rose-600 '
                                 : 'bg-rose-600'} {!userdata['is_following']
                                 ? 'text-white'
                                 : ''}"
-                            >{#if userdata['is_following'] && !is_owner}Unfollow{:else}Follow{/if}</span
+                            >{#if userdata['is_following'] && !is_owner}Se
+                                désabonner{:else}S'abonner{/if}</span
                         >
                         <span
                             on:click="{() => {
@@ -180,7 +181,7 @@
                                     push(`/chat/${userdata['user'].username}`);
                             }}"
                             on:keypress="{(e) => {}}"
-                            class="sm:px-4 px-3 h-fit w-fit py-1 rounded shadow justify-center font-medium
+                            class="sm:px-3 px-2 text-xs sm:text-sm h-fit w-fit py-1 rounded shadow justify-center font-medium
                             cursor-not-allowed bg-gray-200 text-black pointer-events-none
                                 ">Message</span
                         >
@@ -220,7 +221,7 @@
             <div class=" pr-1 pl-4 mt-3">
                 <div class="text-gray-400 text-xs">
                     <span
-                        >joined <span>
+                        >Rejoint depuis <span>
                             {moment(userdata['user'].date_joined).fromNow()}
                         </span></span
                     >
@@ -243,15 +244,17 @@
                         {userdata['about']}
                     </p>
                 </div>
-                <div class=" my-2 font-light text-sm">
-                    <p>
-                        <span class="text-rose-600">bio:</span>
-                        {userdata['bio']}
-                    </p>
-                </div>
+                {#if userdata['bio']}
+                    <div class=" my-2 font-light text-sm">
+                        <p>
+                            <span class="text-rose-600">bio:</span>
+                            {userdata['bio']}
+                        </p>
+                    </div>
+                {/if}
                 <div class="">
                     <span class=" pt-2 text-xs sm:text-base w-fit"
-                        >Owners Profiles <span
+                        >Profils synchronisés <span
                             class="bg-rose-600 text-white px-2 py-0.5 rounded-full"
                             >{userdata['owners_list'].length}</span
                         >
@@ -364,7 +367,7 @@
                                 ></path>
                             </svg></span
                         >
-                        total likes {userdata['num_total_likes']}
+                        J'aime au total {userdata['num_total_likes']}
                     </div>
                     {#if is_owner || is_owner_profile}
                         <div
@@ -392,7 +395,9 @@
                                     ></path>
                                 </svg></span
                             >
-                            total saved {userdata['num_total_saved']}
+                            Nombre total de posts enregistrées {userdata[
+                                'num_total_saved'
+                            ]}
                         </div>
                     {/if}
                     <div>
@@ -430,7 +435,7 @@
                             ><Number
                                 number="{userdata['num_total_events']}"
                             /></span
-                        > Events
+                        > Événements
                     </div>
                 </div>
             </div>

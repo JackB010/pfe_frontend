@@ -270,8 +270,8 @@
                         UpdateProfile();
                     }}"
                     on:keypress="{() => {}}"
-                    class="float-right text-white bg-rose-600 mr-4 mb-2 rounded cursor-pointer shadow w-24 py-2"
-                    >Update</span
+                    class="float-right text-white bg-rose-600 mr-4 mb-4 rounded cursor-pointer shadow w-fit px-2 py-2"
+                    >Mise à jour</span
                 >
             </div>
         </div>

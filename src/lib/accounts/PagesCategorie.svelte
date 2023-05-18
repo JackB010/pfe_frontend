@@ -20,6 +20,8 @@
         recommended.set([]);
     });
     onMount(() => {
+        document.title = `catégories : ${categorie}`;
+
         axios(
             `${baseurl}/pages/search/categorie/?search=${categorie}`,
             config
@@ -51,27 +53,27 @@
 {#if is_loaded}
     <Wapper>
         <div
-            class=" border rounded mb-2  mt-3 mx-auto w-full min-h-[34rem] overflow-hidden px-2 dark:text-black  "
+            class=" border rounded mb-2 mt-3 mx-auto w-full min-h-[34rem] overflow-hidden px-2 dark:text-black"
         >
             <div class="flex flex-col items-center space-y-2 space-x-2">
                 <div
-                    class="flex items-center  mt-4 space-x-2 shadow rounded-lg p-2"
+                    class="flex items-center mt-4 space-x-2 shadow rounded-lg p-2"
                 >
-                    <div class="text-3xl  rounded-full   w-fit h-fit ">
-                        <span class="rounded px-2.5 dark:text-white "
+                    <div class="text-3xl rounded-full w-fit h-fit">
+                        <span class="rounded px-2.5 dark:text-white"
                             >Categorie:</span
                         >
                     </div>
-                    <div class="text-2xl text-rose-600 ">{categorie}</div>
+                    <div class="text-2xl text-rose-600">{categorie}</div>
                 </div>
                 <div
-                    class="text-lg shadow w-fit text-rose-600 mx-auto px-3 py-1  rounded-lg"
+                    class="text-lg shadow w-fit text-rose-600 mx-auto px-3 py-1 rounded-lg"
                 >
                     {count} Page{count === 1 ? '' : 's'}
                 </div>
             </div>
             <div
-                class="flex flex-col mt-4 my-2 w-full overflow-hidden h-[34rem] "
+                class="flex flex-col mt-4 my-2 w-full overflow-hidden h-[34rem]"
                 bind:clientHeight="{y}"
                 on:scroll="{(e) => {
                     yy = e.target['scrollHeight'];

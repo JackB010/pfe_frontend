@@ -101,19 +101,19 @@
     };
     const notificationFormat = (notification) => {
         if (notification['action'] === notificationChoices.comment_liked) {
-            return `Liked your comment: "${notification['comment'][0]}".`;
+            return `J'ai aimé votre commentaire "${notification['comment'][0]}".`;
         } else if (notification['action'] === notificationChoices.commented) {
-            return `Left a comment on your post: "${notification['post'][0]}".`;
+            return `a laissé un commentaire sur votre post: "${notification['post'][0]}".`;
         } else if (notification['action'] === notificationChoices.event) {
-            return `Start an event about: "${notification['event_made'][0]}".`;
+            return `Démarrer un événement sur : "${notification['event_made'][0]}".`;
         } else if (notification['action'] === notificationChoices.followed) {
-            return `Started following you .`;
+            return `a commencé à vous abonner .`;
         } else if (notification['action'] === notificationChoices.liked) {
-            return `Liked your post: "${notification['post'][0]}".`;
+            return `J'ai aimé votre post: "${notification['post'][0]}".`;
         } else if (notification['action'] === notificationChoices.replied) {
-            return `Replied on your comment: "${notification['comment'][0]}".`;
+            return `a répondu à votre commentaire: "${notification['comment'][0]}".`;
         } else if (notification['action'] === notificationChoices.reply_liked) {
-            return `Liked your reply: "${notification['reply'][0]}".`;
+            return `J'ai aimé votre post répondu: "${notification['reply'][0]}".`;
         }
     };
 
@@ -218,7 +218,7 @@
                 on:keypress="{() => {}}"
             >
                 <span class="w-full justify-center">
-                    make all notification as read
+                    Rendre toutes les notifications comme lues
                 </span>
             </div>
             {#if $notificationsList.length !== 0}

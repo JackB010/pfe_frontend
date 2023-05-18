@@ -51,7 +51,7 @@
                 is_active = res.data['is_active'];
                 last_name = res.data['last_name'];
                 username = res.data['username'];
-                error = false
+                error = false;
                 if (!is_active) setLogedOut();
                 if (username !== username_h) {
                     usershortinfo.update((data) => {
@@ -94,7 +94,7 @@
                     }}"
                     on:keypress="{() => {}}"
                 >
-                    <div class="flex-1">Change Password</div>
+                    <div class="flex-1">Changer le mot de passe</div>
                     <div class="">
                         <svg
                             class="w-5 h-5 transition-transform transform -rotate-90 hover:text-rose-600 hover:scale-105 hover:bg-white rounded-full"
@@ -218,11 +218,11 @@
                     </div>
                     <div class="text-center">
                         <span
-                            class="float-right bg-rose-600 text-white mr-4 mb-2 rounded cursor-pointer shadow w-24 py-2"
+                            class="float-right bg-rose-600 text-white mr-4 mb-2 rounded cursor-pointer shadow w-fit px-2 py-2"
                             on:click="{() => {
                                 UpdateUser();
                             }}"
-                            on:keypress="{() => {}}">Update</span
+                            on:keypress="{() => {}}">Mise à jour</span
                         >
                     </div>
                 </div>

@@ -133,7 +133,7 @@
                             }}"
                             on:keypress="{() => {}}"
                         >
-                            Events
+                            Événements
                         </div>
                     </div>
                 {/if}

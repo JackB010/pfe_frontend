@@ -46,7 +46,7 @@
             show_error('Passwords not matching.');
         }
     };
-
+    document.title = "S'inscrire en tant que profil";
     export const params = {};
 </script>
 

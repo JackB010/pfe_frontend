@@ -35,6 +35,7 @@
             code = code.slice(0, code.length - 1);
         }
     }
+    document.title = 'Code de confirmation';
     export const params = {};
 </script>
 

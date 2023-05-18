@@ -37,6 +37,7 @@
     const resendCode = () => {
         axios(`${baseurl}/accounts/conform/resend/${$username}/`);
     };
+    document.title = 'Confirmer le code';
     export const params = {};
 </script>
 

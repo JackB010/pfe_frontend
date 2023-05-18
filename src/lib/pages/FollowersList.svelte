@@ -10,22 +10,25 @@
     import UserFollow from '../accounts/UserFollow.svelte';
     import BackSection from '../ui/BackSection.svelte';
     import { onMount } from 'svelte';
-    import NoThing from '../ui/NoThing.svelte';
     let is_loaded = false,
         y = 0,
         yy = -1,
         is_Selected = false,
         count = 0;
     let suggestedUrl = '';
+
     $: {
         if ($location.includes('profile')) {
             if (params.followtpye == 'followers') {
                 suggestedUrl = `/accounts/follow/followers/${params.username}/user_user/`;
+                document.title = 'Abonnés';
             } else if (params.followtpye == 'following') {
                 if (!is_Selected) {
                     suggestedUrl = `/accounts/follow/following/${params.username}/user_user/`;
+                    document.title = 'Abonnement: Profils';
                 } else {
                     suggestedUrl = `/accounts/follow/following/${params.username}/user_page/`;
+                    document.title = 'Abonnement: Pages';
                 }
             }
         }
@@ -33,11 +36,14 @@
             if (params.followtpye == 'followers') {
                 if (!is_Selected) {
                     suggestedUrl = `/accounts/follow/followers/${params.username}/user_page/`;
+                    document.title = 'Abonnés: Profils';
                 } else {
                     suggestedUrl = `/accounts/follow/followers/${params.username}/page_page/`;
+                    document.title = 'Abonnés: Pages';
                 }
             } else if (params.followtpye == 'following') {
                 suggestedUrl = `/accounts/follow/following/${params.username}/page_page/`;
+                document.title = 'Abonnement';
             }
         }
     }
@@ -79,12 +85,12 @@
     />
     <Wapper>
         <div
-            class=" border  rounded mx-auto w-full h-screen mb-4 pt-3 overflow-hidden px-2 dark:text-black  "
+            class=" border rounded mx-auto w-full h-screen mb-4 pt-3 overflow-hidden px-2 dark:text-black"
         >
             {#if ($location.includes('profile') && params.followtpye == 'following') || ($location.includes('page') && params.followtpye == 'followers')}
-                <div class="flex flex-row items-center justify-evenly ">
+                <div class="flex flex-row items-center justify-evenly">
                     <div
-                        class=" w-5/12 text-xl font-normal  dark:text-white text-rose-600  text-center py-1.5    cursor-pointer {!is_Selected
+                        class=" w-5/12 text-xl font-normal dark:text-white text-rose-600 text-center py-1.5 cursor-pointer {!is_Selected
                             ? 'border-b-rose-600 border-b-2  '
                             : ''}
                             "
@@ -93,10 +99,10 @@
                         }}"
                         on:keypress="{() => {}}"
                     >
-                        Profiles
+                        Profils
                     </div>
                     <div
-                        class=" w-5/12 text-xl  font-normal dark:text-white text-rose-600    text-center py-1.5  cursor-pointer  {is_Selected
+                        class=" w-5/12 text-xl font-normal dark:text-white text-rose-600 text-center py-1.5 cursor-pointer {is_Selected
                             ? 'border-b-rose-600 border-b-2   '
                             : ' '}
                            "
@@ -110,7 +116,7 @@
                 </div>
             {/if}
             <div
-                class="flex flex-col mt-4  space-y-1.5 overflow-hidden h-[34rem] hover:pr-3 "
+                class="flex flex-col mt-4 space-y-1.5 overflow-hidden h-[34rem] hover:pr-3"
                 bind:clientHeight="{y}"
                 on:scroll="{(e) => {
                     yy = e.target['scrollHeight'];

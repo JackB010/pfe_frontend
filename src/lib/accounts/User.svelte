@@ -23,7 +23,7 @@
         </p>
         <p class="text-xs text-slate-400 -mt-0.5">
             <Number number="{count_followed_by}" />
-            Follower{#if count_followed_by !== 1}s{/if}
+            Abonnés{#if count_followed_by !== 1}s{/if}
         </p>
     </div>
 </div>

@@ -24,6 +24,7 @@ export const themeToggleBtn = () => {
     );
     let th;
     theme.subscribe(data => { th = data })
+
     if (th === 'light') theme.set('dark');
     else theme.set('light');
 

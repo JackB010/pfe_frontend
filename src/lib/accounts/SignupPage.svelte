@@ -79,7 +79,7 @@
             show_error('Passwords not matching.');
         }
     };
-
+    document.title = "S'inscrire en tant que page";
     export const params = {};
 </script>
 

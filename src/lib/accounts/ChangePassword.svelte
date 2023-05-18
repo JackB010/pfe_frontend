@@ -52,11 +52,12 @@
             show_error('Le mot de passe ne correspond pas.');
         }
     };
+    document.title = 'Changer le mot de passe';
     export let params = {};
 </script>
 
 {#if $isLoggin}
-    <BackSection name="{'Change Password'}" />
+    <BackSection name="{'Changer le mot de passe'}" />
 {/if}
 <Wapper>
     <div class="border sm:mx-2 mx-1 rounded shadow mt-28 mb-2">

@@ -9,7 +9,7 @@
 
 <!-- <Wapper> -->
 <div class=" mx-auto">
-    <BackSection name="Settings" />
+    <BackSection name="Paramètres" />
     <div><SettingsProfile /></div>
     {#if $usershortinfo.ftype === 'profile'}
         <div><Settings /></div>

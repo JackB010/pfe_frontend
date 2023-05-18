@@ -210,13 +210,15 @@
             <div class="flex flex-col">
                 <span
                     class="flex flex-row-reverse cursor-pointer text-gray-100 sm:text-lg text-sm text-center border-rose-600
-                  bg-rose-600 px-1 sm:px-3 py-2 sm:py-3 sm:mt-0 mt-0.5 rounded"
+                  bg-rose-600 px-2 sm:px-3 py-2 sm:py-2.5sm:mt-0 mt-0.5 rounded"
                     on:click="{() => {
                         active = true;
                     }}"
                     on:keypress="{() => {}}"
                 >
-                    <span class="text-white text-sm sm:text-base">Search</span>
+                    <span class="text-white text-sm sm:text-base"
+                        >Recherche</span
+                    >
                     <span>
                         <svg
                             class="w-4 h-4 stroke-white mx-auto mr-1 sm:mt-1"
@@ -247,17 +249,17 @@
                  w-full bg-rose-600
                 rounded"
                                 >
-                                    Sign Up
+                                    S'inscrire
                                 </div></a
                             >
                         {:else}
                             <a href="/" use:link
                                 ><div
-                                    class="px-2 sm:px-3 py-2 sm:py-2.5 text-white sm:text-lg text-sm text-center border-rose-600
+                                    class="px-2 sm:px-3 py-2 sm:py-2.5 text-white sm:text-md text-sm text-center border-rose-600
                  w-full bg-rose-600
                 rounded"
                                 >
-                                    Log In
+                                    Se connecter
                                 </div></a
                             >{/if}
                     </div>
@@ -323,7 +325,7 @@
                         >
                             <input
                                 bind:value="{search}"
-                                placeholder="Search Page"
+                                placeholder="rechercher une page"
                                 class="h-10 flex-1 text-base text-rose-700 w-full pointer-events-auto
                                      pl-4 outline-none focus:outline-none rounded dark:bg-inherit dark:text-white"
                             />
@@ -418,7 +420,7 @@
                                         d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                 </svg></span
                             >
-                            <span>close</span></span
+                            <span>Fermer</span></span
                         >
                     </div>
                 </Wapper>

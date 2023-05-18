@@ -81,7 +81,13 @@ export const clearData = async () => {
     await localStorage.removeItem("pid");
     await isLoggin.set(false);
     await userToken.set({ refresh: undefined, access: undefined });
-    await usershortinfo.set(null)
+    await usershortinfo.set({
+        id: null,
+        username: null,
+        photo_icon: null,
+        ftype: null,
+        count_followed_by: 0,
+    })
     await usersettingss.set({})
     userinfo.set(null)
     isLoggin.set(false)

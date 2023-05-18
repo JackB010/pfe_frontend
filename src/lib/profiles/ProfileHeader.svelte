@@ -77,12 +77,12 @@
                                 );
                             }}"
                             on:keypress="{(e) => {}}"
-                            class="text-xs sm:text-sm text-gray-700 dark:text-white cursor-pointer"
-                            ><span class="font-bold"
+                            class="text-xs text-gray-700 dark:text-white cursor-pointer"
+                            ><span class="font-bold text-sm"
                                 ><Number
                                     number="{userdata['count_following']}"
                                 /></span
-                            > Following</span
+                            > Abonnement</span
                         >
                         <div class="w-0 h-4 border border-gray-300"></div>
                         <span
@@ -92,19 +92,19 @@
                                 );
                             }}"
                             on:keypress="{(e) => {}}"
-                            class="text-xs sm:text-sm text-gray-700 dark:text-white cursor-pointer"
-                            ><span class="font-bold"
+                            class="text-xs text-gray-700 dark:text-white cursor-pointer"
+                            ><span class="font-bold text-sm"
                                 ><Number
                                     number="{userdata['count_followed_by']}"
                                 /></span
-                            > Followers</span
+                            > Abonnés</span
                         >
                     </div>
 
                     <div
                         class="flex-1 {is_owner
-                            ? 'sm:space-x-6 space-x-2'
-                            : 'sm:space-x-12 space-x-4'} flex w-fit mx-auto items-center"
+                            ? 'space-x-2'
+                            : 'sm:space-x-6 space-x-3'} flex w-fit mx-auto items-center"
                     >
                         <span
                             on:click="{followUser}"
@@ -115,11 +115,12 @@
                                 ? 'cursor-not-allowed bg-gray-200 text-black pointer-events-none'
                                 : 'cursor-pointer'} {userdata['is_following'] &&
                             !is_owner
-                                ? 'ring-2 ring-rose-600 text-rose-600'
+                                ? 'ring-2 ring-rose-600'
                                 : 'bg-rose-600'} {!userdata['is_following']
                                 ? 'text-white'
-                                : ''}  font-medium sm:px-4 px-3 h-fit w-fit py-1 rounded shadow justify-center"
-                            >{#if userdata['is_following'] && !is_owner}Unfollow{:else}Follow{/if}</span
+                                : ''}  font-medium sm:px-3 px-2 text-xs sm:text-sm h-fit w-fit py-1 rounded shadow justify-center"
+                            >{#if userdata['is_following'] && !is_owner}Se
+                                désabonner{:else}S'abonner{/if}</span
                         >
                         <span
                             on:click="{() => {
@@ -131,7 +132,7 @@
                             !$isLoggin ||
                             $usershortinfo.ftype === 'page'
                                 ? 'cursor-not-allowed bg-gray-200 text-black pointer-events-none'
-                                : 'cursor-pointer'} sm:px-4 px-3 h-fit w-fit py-1 rounded shadow justify-center bg-rose-600 font-medium text-white"
+                                : 'cursor-pointer'} sm:px-3 px-2 text-xs sm:text-sm h-fit w-fit py-1 rounded shadow justify-center bg-rose-600 font-medium text-white"
                             >Message</span
                         >
                         {#if is_owner}
@@ -171,7 +172,7 @@
             <div class=" pr-1 pl-4 mt-3">
                 <div class="text-gray-400 text-xs">
                     <span
-                        >joined <span>
+                        >Rejoint depuis <span>
                             {moment(userdata['user'].date_joined).fromNow()}
                         </span></span
                     >
@@ -188,15 +189,17 @@
                         </div>
                     {/if}
                 {/if}
-                <div class=" my-2 font-light text-sm">
-                    <p>
-                        <span class="text-rose-500">bio: </span>
-                        {userdata['bio']}
-                    </p>
-                </div>
+                {#if userdata['bio']}
+                    <div class=" my-2 font-light text-sm">
+                        <p>
+                            <span class="text-rose-500">bio: </span>
+                            {userdata['bio']}
+                        </p>
+                    </div>
+                {/if}
                 <div>
                     <span class=" pt-2 text-xs sm:text-base"
-                        >Owned pages <span
+                        >Pages synchronisés <span
                             class="bg-rose-600 text-white px-2 py-0.5 rounded-full"
                             >{userdata['num_total_pages']}</span
                         >
@@ -250,7 +253,7 @@
                                 ></path>
                             </svg></span
                         >
-                        total likes {userdata['num_total_likes']}
+                        J'aime au total {userdata['num_total_likes']}
                     </div>
                     {#if is_owner}
                         <div
@@ -278,14 +281,16 @@
                                     ></path>
                                 </svg></span
                             >
-                            total saved {userdata['num_total_saved']}
+                            Nombre total de posts enregistrées {userdata[
+                                'num_total_saved'
+                            ]}
                         </div>
                     {/if}
                 </div>
                 <div class="w-full mt-2 flex">
                     <div class="flex-[0.7]">
                         {#if (usersettings.show_birth_day === 'everyone' || is_owner || (usersettings.show_birth_day === 'followers' && userdata.is_following)) && usersettings.birth_day != null}
-                            <span class="text-rose-500">Born at:</span>
+                            <span class="text-rose-500">Né à:</span>
                             <span>{usersettings.birth_day}</span>
                         {/if}
                     </div>
