@@ -173,11 +173,11 @@
                 </div>
                 <div class="text-center">
                     <span
-                        class="float-right bg-rose-600 text-white mr-4 mb-2 rounded cursor-pointer shadow w-24 py-2"
+                        class="float-right text-white bg-rose-600 mr-4 mb-4 rounded cursor-pointer shadow w-fit px-2 py-2"
                         on:click="{() => {
                             UpdateSettings();
                         }}"
-                        on:keypress="{() => {}}">Update</span
+                        on:keypress="{() => {}}">Mise à jour</span
                     >
                 </div>
             </div>

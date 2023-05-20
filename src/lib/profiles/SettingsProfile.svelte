@@ -121,6 +121,9 @@
         let error = document.querySelector('#error');
         error.innerHTML = msg;
         error.classList.remove('hidden');
+        setTimeout(() => {
+            error.classList.add('hidden');
+        }, 2500);
     };
     const deleteCategorie = async (event) => {
         let list_categories = [],
@@ -174,7 +177,7 @@
                         </svg>
                     </div>
                 </div>
-                <div class="flex flex-col flex-1 ml-2">
+                <div class="flex flex-col flex-1">
                     <div class="flex-1">
                         <label
                             class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
@@ -184,7 +187,7 @@
                         </label>
                         <textarea
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight outline-none
-                            focus:outline-none border-rose-600 focus:border-rose-600 h-24"
+                            focus:outline-none border-rose-600 focus:border-rose-600 h-[6.6rem]"
                             id="bio"
                             placeholder="Write your bio ..."
                             autocomplete="bio"
@@ -258,7 +261,7 @@
                             {/each}
                         </div>
                         <p
-                            class="text-red-500 text-xs italic hidden mt-2"
+                            class="text-red-500 pt-1 text-sm italic hidden mt-2"
                             id="error"
                         ></p>
                     </div>

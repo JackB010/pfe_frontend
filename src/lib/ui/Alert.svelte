@@ -7,10 +7,10 @@
 
 <div
     in:fly="{{ y: 20, duration: 300 }}"
-    out:fade="{{ duration: 300 }}"
+    out:fade="{{ duration: 100 }}"
     class="w-full h-10 {error
         ? 'bg-red-400/60 dark:bg-red-400/40'
-        : 'bg-green-300/60 dark:bg-green-300/40'} text-center w-[96%] space-x-2 pl-2 rounded shadow mx-auto mb-5 text-lg flex items-center"
+        : 'bg-green-300/60 dark:bg-green-300/40'} text-center w-[96%] space-x-2 pl-2 rounded shadow mx-auto mb-5 text-sm sm:text-md flex items-center dark:text-white"
 >
     <span
         ><svg

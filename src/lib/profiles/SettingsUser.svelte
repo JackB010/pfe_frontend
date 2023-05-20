@@ -191,7 +191,7 @@
                 <div class=" flex items-center">
                     <div class="text-center flex-1">
                         <div
-                            class=" flex items-center text-white float-left space-x-2 bg-[#FF0000] mr-4 mb-2 rounded-lg cursor-pointer shadow-lg w-24 py-2"
+                            class=" flex items-center text-white space-x-1 float-left bg-[#FF0000] mb-2 text-xs sm:text-sm rounded-lg cursor-pointer shadow-lg px-1.5 w-fit py-2"
                             on:click="{() => {
                                 is_delete = !is_delete;
                             }}"
@@ -200,7 +200,7 @@
                             <div>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5 ml-1"
+                                    class="h-5 w-5"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -213,7 +213,7 @@
                                     ></path>
                                 </svg>
                             </div>
-                            <div>Delete</div>
+                            <div>Supprimer compte</div>
                         </div>
                     </div>
                     <div class="text-center">
@@ -234,7 +234,7 @@
                     class="bg-white w-8/12 z-50 items-center flex flex-col space-y-4 pb-4 pt-2 rounded-2xl absolute translate-x-1/4"
                 >
                     <div class="text-rose-600 font-bold">
-                        Do you want to delet your account?
+                        Voulez-vous supprimer votre compte ?
                     </div>
 
                     <div class="flex flex-1 w-full justify-center items-center">
@@ -248,7 +248,7 @@
                         >
                             <span
                                 class=" bg-green-600 text-white rounded-lg cursor-pointer shadow-lg w-24 py-2 px-5"
-                                >Conform</span
+                                >Conforme</span
                             >
                         </div>
 
@@ -261,7 +261,7 @@
                         >
                             <span
                                 class=" bg-[#FF0000] text-white rounded-lg cursor-pointer shadow-lg w-24 py-2 px-5"
-                                >Cansole</span
+                                >Annuler</span
                             >
                         </div>
                     </div>

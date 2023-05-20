@@ -217,7 +217,7 @@
                 on:click="{() => makeread(null)}"
                 on:keypress="{() => {}}"
             >
-                <span class="w-full justify-center">
+                <span class="w-full text-xs sm:text-sm justify-center">
                     Rendre toutes les notifications comme lues
                 </span>
             </div>

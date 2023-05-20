@@ -11,7 +11,7 @@
         class="flex items-center border rounded py-1 pl-1 transition duration-1000 float-right mb-3"
     >
         <div
-            class=" ml- cursor-pointer px-4 py-2 flex items-center transition duration-150 rounded-full bg-white  hover:bg-gray-100 text-rose-600 p-1 font-bold "
+            class=" ml-1 cursor-pointer px-3.5 py-1.5 flex items-center transition duration-150 rounded-full border shadow bg-white hover:bg-gray-100 text-rose-600 p-1 font-bold"
             on:click="{() => {
                 $backurls.pop();
                 let path = $backurls.pop();
@@ -38,7 +38,7 @@
         </div>
         <div class="flex-1">
             <h2
-                class="text-xl float-right mr-4 px-4 py-2 text-rose-600 rounded darktext-gray-100"
+                class="sm:text-lg text-md float-right sm:mr-4 px-4 py-2 text-rose-600 rounded dark:text-gray-100"
             >
                 {name}
             </h2>

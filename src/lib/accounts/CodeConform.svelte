@@ -10,12 +10,18 @@
         username,
         isLoggin,
     } from '../../stores/accounts/auth';
+    import Alert from '../ui/Alert.svelte';
 
-    let code;
+    let code,
+        sent = false,
+        error = false;
     const show_error = (msg) => {
         let error = document.querySelector('#error');
         error.innerHTML = msg;
         error.classList.remove('hidden');
+        setTimeout(() => {
+            error.classList.add('hidden');
+        }, 2500);
     };
     const conformFunc = () => {
         axios
@@ -35,7 +41,17 @@
             });
     };
     const resendCode = () => {
-        axios(`${baseurl}/accounts/conform/resend/${$username}/`);
+        axios(`${baseurl}/accounts/conform/resend/${$username}/`)
+            .then(() => {
+                sent = true;
+            })
+            .catch(() => {
+                error = true;
+            });
+        setTimeout(() => {
+            sent = false;
+            error = false;
+        }, 2000);
     };
     document.title = 'Confirmer le code';
     export const params = {};
@@ -43,6 +59,16 @@
 
 <Wapper>
     <div class="border sm:mx-2 mx-1 rounded shadow mt-36 mb-2">
+        {#if sent}
+            <div class="mt-2 -mb-4">
+                <Alert error="{false}" text="new code has been sent" />
+            </div>
+        {/if}
+        {#if error}
+            <div class="mt-2 -mb-4">
+                <Alert error="{error}" text="{$msg}" />
+            </div>
+        {/if}
         <div class="flex items-center text-center justify-between flex-col">
             <span
                 class="w-[5rem] h-[5rem] border-2 bg-rose-600/25 dark:bg-white/50 mt-4 rounded-full text-center"
@@ -102,7 +128,10 @@
                     placeholder="#######"
                     required
                 />
-                <p class="text-red-500 text-xs italic hidden" id="error"></p>
+                <p
+                    class="text-red-500 pt-1 text-sm italic hidden"
+                    id="error"
+                ></p>
             </div>
             <div class="flex items-center justify-between flex-col">
                 <div

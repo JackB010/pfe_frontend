@@ -8,4 +8,6 @@ export let recommended = writable([{}]);
 export let showEventList = writable(true);
 export let eventsLoaded = writable(true);
 export let eventList = writable([undefined]);
+export let eventListcount = writable(0);
+export let nexturlevents = writable("");
 export let nexturlNotifications = writable("");

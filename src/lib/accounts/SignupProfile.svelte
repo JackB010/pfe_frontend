@@ -10,10 +10,14 @@
         password = '',
         password1 = '',
         isShow = false;
+
     const show_error = (msg) => {
         let error = document.querySelector('#login_error');
         error.innerHTML = msg;
         error.classList.remove('hidden');
+        setTimeout(() => {
+            error.classList.add('hidden');
+        }, 2500);
     };
     const signupFunc = async () => {
         if (password === password1) {
@@ -283,7 +287,7 @@
                     placeholder="Confirmez le mot de passe"
                 />
                 <p
-                    class="text-red-500 text-xs italic hidden"
+                    class="text-red-500 pt-1 text-sm italic hidden"
                     id="login_error"
                 ></p>
             </div>

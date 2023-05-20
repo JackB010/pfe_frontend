@@ -75,6 +75,9 @@
         userdata['owners_list'].forEach((item) => {
             if (item.username === user.username) {
                 found = true;
+                selected = false;
+                done = false;
+                search = '';
             }
         });
         if (!found || deleted) {
@@ -183,7 +186,7 @@
                             on:keypress="{(e) => {}}"
                             class="sm:px-3 px-2 text-xs sm:text-sm h-fit w-fit py-1 rounded shadow justify-center font-medium
                             cursor-not-allowed bg-gray-200 text-black pointer-events-none
-                                ">Message</span
+                                ">Contact</span
                         >
                         {#if is_owner}
                             <span
@@ -240,14 +243,14 @@
                     class=" my-2 font-light text-sm text-gray-700 dark:text-gray-300"
                 >
                     <p>
-                        <span class="text-rose-600">about:</span>
+                        <span class="text-rose-600">À propos de la page:</span>
                         {userdata['about']}
                     </p>
                 </div>
                 {#if userdata['bio']}
                     <div class=" my-2 font-light text-sm">
                         <p>
-                            <span class="text-rose-600">bio:</span>
+                            <span class="text-rose-600">Bio:</span>
                             {userdata['bio']}
                         </p>
                     </div>
@@ -270,6 +273,7 @@
                                     stroke="currentColor"
                                     on:click="{() => {
                                         isActive = !isActive;
+                                        selected = false;
                                     }}"
                                     on:keypress="{() => {}}"
                                 >
@@ -287,6 +291,7 @@
                                 on:click="{() => {
                                     selected = !selected;
                                     search = '';
+                                    isActive = false;
                                     searchedUser = [];
                                 }}"
                                 on:keypress="{() => {}}"
@@ -310,9 +315,9 @@
                         {/if}
                     </span>
                     {#if isActive && userdata['owners_list'].length > 0}
-                        <div class="relative">
+                        <div class="relative z-[9999999]">
                             <div
-                                class=" absolute w-full py-1 mb-4 h-40 rounded shadow min-w-max ring-1 ring-black ring-opacity-25 dark:bg-dark focus:outline-none bg-white dark:bg-slate-900 dark:text-white overflow-y-scroll overflow-x-hidden"
+                                class="absolute w-full mx-auto h-[8.6rem] dark:bg-slate-800 bg-white overflow-y-scroll top-0 shadow-lg rounded-lg dark:border overflow-x-hidden mt-2"
                             >
                                 {#if usersettings.show_owners || is_owner}
                                     {#each userdata['owners_list'] as user}
@@ -447,7 +452,7 @@
     <!-- <div></div> -->
     <!-- <div class="relative "> -->
     <div
-        class=" absolute top-[60%] left-1/3 w-72 md:w-96 py-1 mb-4 h-52 z-[100000000000] rounded shadow min-w-max ring-1 ring-black ring-opacity-25 dark:bg-dark focus:outline-none bg-white dark:bg-slate-900 dark:text-white overflow-y-scroll"
+        class=" absolute top-[56%] -translate-x-1/2 left-1/2 w-96 py-1 mb-4 h-52 z-[100000000000] rounded shadow min-w-max ring-1 ring-black ring-opacity-25 dark:bg-dark focus:outline-none bg-white dark:bg-slate-900 dark:text-white overflow-y-scroll"
     >
         <span
             class="flex px-1 text-sm items-center transition-colors dark:text-light space-x-2 cursor-pointer"
@@ -460,6 +465,7 @@
                     class="h-10 flex-1 text-base text-rose-700
                                      pl-4 outline-none focus:outline-none"
                     bind:value="{search}"
+                    placeholder="Rechercher une profil"
                 />
                 <span class="border w-0 h-6 my-auto border-rose-600"></span>
                 <button

@@ -12,6 +12,8 @@
         showEventList,
         showRecommended,
         eventList,
+        eventListcount,
+        nexturlevents,
     } from '../stores/tools';
     import Wapper from './Wapper.svelte';
     import Posts from './posts/Posts.svelte';
@@ -28,6 +30,8 @@
             });
             axios(`${baseurl}/events/?done=true`, config).then((res) => {
                 eventList.set(res.data['results']);
+                eventListcount.set(res.data['count']);
+                nexturlevents.set(res.data['next']);
                 is_loaded = true;
             });
         }

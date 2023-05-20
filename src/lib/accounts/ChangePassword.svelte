@@ -18,6 +18,9 @@
         let error = document.querySelector('#error');
         error.innerHTML = msg;
         error.classList.remove('hidden');
+        setTimeout(() => {
+            error.classList.add('hidden');
+        }, 2500);
     };
     const loginFunc = async () => {
         let id = params['id'];
@@ -222,7 +225,10 @@
                     bind:value="{password_confirm}"
                     placeholder="Retapez le nouveau mot de passe"
                 />
-                <p class="text-red-500 text-xs italic hidden" id="error"></p>
+                <p
+                    class="text-red-500 pt-1 text-sm italic hidden"
+                    id="error"
+                ></p>
             </div>
             <div class="flex items-center justify-between flex-col">
                 <div

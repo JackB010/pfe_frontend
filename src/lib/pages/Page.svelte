@@ -112,7 +112,7 @@
                 {#if userdata['is_following']}
                     <div class="flex flex-row items-center justify-evenly">
                         <div
-                            class=" w-5/12 text-xl font-normal text-center py-1.5 transition-all duration-75 cursor-pointer {!is_Selected
+                            class=" w-5/12 sm:text-md text-sm font-normal text-center py-1.5 transition-all duration-75 cursor-pointer {!is_Selected
                                 ? 'border-b-rose-600 border-b-2 dark:text-white  text-rose-600 '
                                 : ''}
                             "
@@ -124,7 +124,7 @@
                             Posts
                         </div>
                         <div
-                            class=" w-5/12 text-xl font-normal transition-all duration-75 text-center py-1.5 cursor-pointer {is_Selected
+                            class=" w-5/12 sm:text-md text-sm font-normal transition-all duration-75 text-center py-1.5 cursor-pointer {is_Selected
                                 ? 'border-b-rose-600 border-b-2 dark:text-white  text-rose-600'
                                 : ' '}
                            "

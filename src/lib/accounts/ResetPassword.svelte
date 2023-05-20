@@ -4,24 +4,59 @@
     import { baseurl } from '../functions';
     import Wapper from '../Wapper.svelte';
     import { msg, username } from '../../stores/accounts/auth';
+    import Alert from '../ui/Alert.svelte';
 
     let username_email = '';
-
+    let error = false;
+    let sending = false;
     const resetPassword = async () => {
+        sending = true;
+        msg.set('The code being send');
         await axios
             .post(`${baseurl}/accounts/reset_password/`, { username_email })
             .then((res) => {
-                username.set(username_email);
-                push('/reset/code/');
+                sending = false;
+                if (res['data']['status'] === 406) {
+                    error = true;
+                    msg.set(res['data']['error']['non_field_errors']);
+                } else {
+                    username.set(username_email);
+                    push('/reset/code/');
+                }
             })
-            .catch((err) => {});
+            .catch((err) => {
+                sending = false;
+                setTimeout(() => {
+                    error = true;
+                    msg.set('Code could not be sent');
+                }, 1000);
+            });
     };
+    $: {
+        if ($msg.length != 0) {
+            setTimeout(() => {
+                msg.set('');
+                error = false;
+            }, 5000);
+        }
+    }
     document.title = 'Mot de passe oublié';
     export const params = {};
 </script>
 
 <Wapper>
     <div class="border sm:mx-2 mx-1 rounded shadow mt-36 mb-2">
+        {#if sending}
+            <div class="mt-2 -mb-4">
+                <Alert error="{false}" text="{$msg}" />
+            </div>
+        {/if}
+        {#if error}
+            <div class="mt-2 -mb-4">
+                <Alert error="{error}" text="{$msg}" />
+            </div>
+        {/if}
+
         <div class="flex items-center justify-between flex-col">
             <span
                 class="w-[5rem] h-[5rem] border-2 bg-rose-600/25 dark:bg-white/50 mt-4 rounded-full text-center"
@@ -83,7 +118,7 @@
                     </svg>
                 </div>
                 <input
-                    class="shadow appearance-none border rounded w-full py-2 pl-10 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    class="shadow appearance-none border rounded w-full py-2 pl-10 text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder:text-xs sm:placeholder:text-sm"
                     id="username_email"
                     type="text"
                     bind:value="{username_email}"

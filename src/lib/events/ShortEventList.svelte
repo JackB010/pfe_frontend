@@ -1,21 +1,47 @@
 <script>
     import Wapper from '../Wapper.svelte';
-    import { showEventList, eventList } from '../../stores/tools';
+    import {
+        showEventList,
+        eventList,
+        eventListcount,
+        nexturlevents,
+    } from '../../stores/tools';
     import EventList from './EventList.svelte';
     import { push } from 'svelte-spa-router';
     import {
+        config,
         num_total_pages,
         userinfo,
         usershortinfo,
     } from '../../stores/accounts/auth';
+    import axios from 'axios';
     $: isActive = false;
     export let is_loaded;
+    let y = 0,
+        yy = 2;
+
+    $: {
+        if (yy - 50 === y - 50) {
+            if ($nexturlevents) {
+                axios($nexturlevents, config).then(async (res) => {
+                    let data = [];
+                    eventList.subscribe((events) => {
+                        data = events;
+                    });
+                    data = [...data, ...res.data['results']];
+                    await eventList.set(data);
+                    nexturlevents.set(res.data['next']);
+                });
+                yy = yy - 40;
+            }
+        }
+    }
 </script>
 
 {#if is_loaded}
     <Wapper>
         <span
-            class="flex items-center p-2 mb-2 w-full border border-600 dark:text-white transition-colors rounded dark:text-light  text-rose-600  dark:bg-rose-600"
+            class="flex items-center p-2 mb-2 w-full border border-600 dark:text-white transition-colors rounded dark:text-light text-rose-600 dark:bg-rose-600"
         >
             <span>
                 {#if $usershortinfo.ftype === 'page' || $num_total_pages !== 0}
@@ -52,17 +78,17 @@
                 {/if}
             </span>
 
-            <span class="ml-2 text-sm"> Events </span>
+            <span class="ml-2 text-sm font-bold"> Événements </span>
 
-            <div class="flex-1  justify-end">
+            <div class="flex-1 justify-end">
                 <div
                     class="float-right mr-2 bg-rose-600 font-semibold dark:bg-white rounded-full h-fit w-fit text-white dark:text-rose-600 px-2"
                 >
-                    {$eventList.length}
+                    {$eventListcount}
                 </div>
             </div>
             {#if $eventList.length !== 0}
-                <span class="ml-auto ">
+                <span class="ml-auto">
                     <svg
                         class="w-4 h-4 cursor-pointer transition-transform transform {isActive
                             ? ''
@@ -87,14 +113,19 @@
             <div
                 class="h-96 w-full border rounded mb-3 overflow-hidden"
                 id="homeevents"
+                bind:clientHeight="{y}"
+                on:scroll="{(e) => {
+                    yy = e.target['scrollHeight'];
+                    y = e.target['scrollTop'] + e.target['clientHeight'];
+                }}"
             >
                 <div
                     class="flex flex-row items-center mt-2 mb-5 w-11/12 mx-auto"
                 >
                     <div
-                        class="font-bold text-xl flex-1   dark:text-white text-gray-900"
+                        class="font-bold text-xl flex-1 dark:text-white text-gray-900"
                     >
-                        Event List
+                        Liste des événements
                     </div>
                     <div class=" cursor-pointer float-right">
                         <svg

@@ -50,7 +50,7 @@
           py-3 pb-2"
     >
         <div
-            class="ml-3 flex items-center flex-[0.1] cursor-pointer"
+            class="sm:ml-3 flex items-center flex-[0.1] cursor-pointer"
             on:click="{() => {
                 push('/');
             }}"
@@ -59,8 +59,8 @@
             <svg
                 xmlns:xlink="http://www.w3.org/1999/xlink"
                 xmlns="http://www.w3.org/2000/svg"
-                width="58px"
-                height="58px"
+                width="56px"
+                height="56px"
                 class="sm:-my-4 -my-2"
                 viewBox="0 0 52 52"
                 version="1.1"
@@ -204,24 +204,24 @@
                     </g>
                 </g>
             </svg>
-            <div class="font-semibold text-lg">USTHB</div>
+            <div class="font-semibold -ml-2 sm:ml-0 text-md sm:text-lg">
+                USTHB
+            </div>
         </div>
         <div class="flex space-x-2">
             <div class="flex flex-col">
                 <span
                     class="flex flex-row-reverse cursor-pointer text-gray-100 sm:text-lg text-sm text-center border-rose-600
-                  bg-rose-600 px-2 sm:px-3 py-2 sm:py-2.5sm:mt-0 mt-0.5 rounded"
+                  bg-rose-600 px-1 sm:px-3 py-2 sm:py-2.5 sm:mt-0.5 mt-1 rounded"
                     on:click="{() => {
                         active = true;
                     }}"
                     on:keypress="{() => {}}"
                 >
-                    <span class="text-white text-sm sm:text-base"
-                        >Recherche</span
-                    >
+                    <span class="text-white text-xs sm:text-md">Recherche</span>
                     <span>
                         <svg
-                            class="w-4 h-4 stroke-white mx-auto mr-1 sm:mt-1"
+                            class="w-4 h-4 stroke-white mx-auto mr-1 sm:mt-0"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -245,7 +245,7 @@
                         {#if $location === '/'}
                             <a href="/signup" use:link
                                 ><div
-                                    class="px-2 sm:px-3 py-2 sm:py-2.5 text-white sm:text-md text-sm text-center border-rose-600
+                                    class="px-1.5 sm:px-3 py-2 sm:py-2.5 text-white sm:text-md text-xs text-center border-rose-600
                  w-full bg-rose-600
                 rounded"
                                 >
@@ -255,7 +255,7 @@
                         {:else}
                             <a href="/" use:link
                                 ><div
-                                    class="px-2 sm:px-3 py-2 sm:py-2.5 text-white sm:text-md text-sm text-center border-rose-600
+                                    class="px-1.5 sm:px-3 py-2 sm:py-2.5 text-white sm:text-md text-xs text-center border-rose-600
                  w-full bg-rose-600
                 rounded"
                                 >
@@ -325,7 +325,7 @@
                         >
                             <input
                                 bind:value="{search}"
-                                placeholder="rechercher une page"
+                                placeholder="Rechercher une page"
                                 class="h-10 flex-1 text-base text-rose-700 w-full pointer-events-auto
                                      pl-4 outline-none focus:outline-none rounded dark:bg-inherit dark:text-white"
                             />

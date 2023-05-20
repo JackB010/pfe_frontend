@@ -46,6 +46,9 @@
         let error = document.querySelector('#error');
         error.innerHTML = msg;
         error.classList.remove('hidden');
+        setTimeout(() => {
+            error.classList.add('hidden');
+        }, 2500);
     };
     const signupFunc = async () => {
         if (password === password1) {
@@ -310,10 +313,6 @@
                     bind:value="{password1}"
                     placeholder="Confirmez le mot de passe"
                 />
-                <p
-                    class="text-red-500 text-xs italic hidden"
-                    id="login_error"
-                ></p>
             </div>
             <div class="mb-4 relative">
                 <label
@@ -438,7 +437,7 @@
                     </div>
                 </div>
                 <p
-                    class="text-red-500 text-xs italic hidden mt-2"
+                    class="text-red-500 pt-1 text-sm italic hidden mt-2"
                     id="error"
                 ></p>
             </div>

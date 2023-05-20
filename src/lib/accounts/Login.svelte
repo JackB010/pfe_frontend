@@ -44,6 +44,10 @@
             .catch((err) => {
                 let error = document.querySelector('#login_error');
                 error.classList.remove('hidden');
+                setTimeout(() => {
+                    error.classList.add('hidden');
+                }, 2500);
+
                 username = '';
                 password = '';
             });
@@ -388,7 +392,10 @@
                     </div>
                 {/if}
 
-                <p class="text-red-500 text-xs italic hidden" id="login_error">
+                <p
+                    class="text-red-500 pt-1 text-sm italic hidden"
+                    id="login_error"
+                >
                     Uncorrect username or password.
                 </p>
             </div>

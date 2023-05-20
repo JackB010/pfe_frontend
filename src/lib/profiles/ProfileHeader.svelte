@@ -56,6 +56,46 @@
                         (userdata['is_following'] ? 1 : -1);
                 });
     };
+    const syncFunc = () => {
+        axios
+            .post(
+                `${baseurl}/pages/owners/`,
+                { username: userdata['user']['username'] },
+                config
+            )
+            .then((res) => {
+                userdata['is_sync'] = !userdata['is_sync'];
+                let user;
+                usershortinfo.subscribe((data) => {
+                    user = data;
+                    user = user;
+                });
+                if (userdata['is_sync']) {
+                    pages = [...pages, user];
+                    pages = pages;
+                    userdata['num_total_pages'] =
+                        userdata['num_total_pages'] + 1;
+                } else {
+                    pages = pages.filter(
+                        (data) => data['username'] != user['username']
+                    );
+                    pages = pages;
+                    userdata['num_total_pages'] =
+                        userdata['num_total_pages'] - 1;
+                }
+            });
+    };
+    const oneFunc = ()=>{
+        let user = {};
+        usershortinfo.subscribe((data) => {
+                    user = data;
+                    user = user;
+                });
+        if(user['ftype']=='page') 
+                syncFunc();
+        else
+        followUser();
+    }
 </script>
 
 <Wapper>
@@ -107,20 +147,22 @@
                             : 'sm:space-x-6 space-x-3'} flex w-fit mx-auto items-center"
                     >
                         <span
-                            on:click="{followUser}"
+                            on:click="{oneFunc}"
                             on:keypress="{() => {}}"
-                            class="{is_owner ||
-                            !$isLoggin ||
-                            $usershortinfo.ftype === 'page'
+                            class="{is_owner || !$isLoggin
                                 ? 'cursor-not-allowed bg-gray-200 text-black pointer-events-none'
-                                : 'cursor-pointer'} {userdata['is_following'] &&
-                            !is_owner
+                                : 'cursor-pointer'} {(userdata[
+                                'is_following'
+                            ] &&
+                                !is_owner) ||
+                            userdata['is_sync']
                                 ? 'ring-2 ring-rose-600'
-                                : 'bg-rose-600'} {!userdata['is_following']
-                                ? 'text-white'
-                                : ''}  font-medium sm:px-3 px-2 text-xs sm:text-sm h-fit w-fit py-1 rounded shadow justify-center"
-                            >{#if userdata['is_following'] && !is_owner}Se
-                                désabonner{:else}S'abonner{/if}</span
+                                : 'bg-rose-600 text-white'}   font-medium sm:px-3 px-2 text-xs sm:text-sm h-fit w-fit py-1 rounded shadow justify-center"
+                            >{#if $usershortinfo['ftype'] === 'page'}
+                                {#if userdata['is_sync']}désynchroniser{:else}synchroniser{/if}
+                            {:else}
+                                {#if userdata['is_following'] && !is_owner}Se
+                                    désabonner{:else}S'abonner{/if}{/if}</span
                         >
                         <span
                             on:click="{() => {
@@ -133,7 +175,7 @@
                             $usershortinfo.ftype === 'page'
                                 ? 'cursor-not-allowed bg-gray-200 text-black pointer-events-none'
                                 : 'cursor-pointer'} sm:px-3 px-2 text-xs sm:text-sm h-fit w-fit py-1 rounded shadow justify-center bg-rose-600 font-medium text-white"
-                            >Message</span
+                            >{#if $usershortinfo['ftype'] === 'page'}Contact{:else}Message{/if}</span
                         >
                         {#if is_owner}
                             <span
@@ -226,14 +268,15 @@
                         </span></span
                     >
                     {#if isActive && pages.length > 0}
-                        <div
-                            class="{isActive
-                                ? 'shadow-lg dark:border rounded-lg  mt-2 p-1'
-                                : ''}"
-                        >
-                            {#each pages as page}
-                                <UserFollow user="{page}" />
-                            {/each}
+                        <div class="relative">
+                            <div
+                                class="
+                                    absolute w-full mx-auto h-[8.6rem] dark:bg-slate-800 bg-white overflow-y-scroll top-0 shadow-lg rounded-lg dark:border overflow-x-hidden mt-2"
+                            >
+                                {#each pages as page}
+                                    <UserFollow user="{page}" />
+                                {/each}
+                            </div>
                         </div>
                     {/if}
                     <div class="mt-2 text-xs sm:text-base">

@@ -14,6 +14,9 @@
     $: {
         backurls.update((data) => [...data, $location]);
     }
+    // window.addEventListener('click', () => {
+    //     isActive = false;
+    // });
 </script>
 
 <div

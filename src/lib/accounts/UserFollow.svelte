@@ -66,8 +66,8 @@
                     on:keypress="{() => {}}"
                     class="  {user.is_following
                         ? 'text-rose-600 ring-1 ring-rose-600 dark:text-white '
-                        : 'bg-rose-600 text-white '}  cursor-pointer sm:mr-3
-                                       px-4 h-fit w-fit py-1 rounded-md shadow-md justify-center"
+                        : 'bg-rose-600 text-white '}  cursor-pointer text-xs sm:text-sm sm:mr-3
+                                       px-3 h-fit w-fit py-1 rounded-md shadow-md justify-center"
                     >{user.is_following ? 'Se désabonner' : "S'abonner"}</span
                 >
             </div>

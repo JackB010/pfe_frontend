@@ -36,6 +36,7 @@
             )
             .then((res) => {
                 let elm = document.getElementById(username);
+                // let elm2 = document.getElementById(`${username}_Abonnés`);
                 elm.classList.toggle('bg-rose-600');
                 elm.classList.toggle('text-white');
                 elm.classList.toggle('text-rose-600');
@@ -43,11 +44,14 @@
                 elm.classList.toggle('ring-rose-600');
                 elm.classList.toggle('dark:text-white');
 
-                if (elm.innerText === 'Follow') {
-                    elm.innerText = 'Unfollow';
+                if (elm.innerText === 'Abonner') {
+                    // count_followed_by = count_followed_by + 1;
+                    elm.innerText = 'Désabonner';
                 } else {
-                    elm.innerText = 'Follow';
+                    // count_followed_by = count_followed_by - 1;
+                    elm.innerText = 'Abonner';
                 }
+                // elm2.innerText = `${count_followed_by} Abonnés`;
             });
     };
 </script>
@@ -109,22 +113,32 @@
                             class="text-xs text-center text-gray-700 dark:text-gray-300 mb-2"
                         >
                             <Number number="{user.count_followed_by}" /><span
-                                class="ml-1">Followers</span
+                                class="ml-1">Abonnés</span
                             >
                         </div>
                         <div
-                            class="relative mx-auto w-full h-10 mb-3 flex flex-col items-center m-2 px-8"
+                            class="relative mx-auto w-full h-10 mb-3 flex flex-col items-center m-2 px-9"
                         >
                             <span
                                 id="{user.username}"
                                 on:click="{() => {
                                     followUser(user.username, user.ftype);
+                                    let elm = document.getElementById(
+                                        user.username
+                                    );
+                                    if (elm.innerText !== 'Désabonner') {
+                                        user.count_followed_by =
+                                            user.count_followed_by + 1;
+                                    } else {
+                                        user.count_followed_by =
+                                            user.count_followed_by - 1;
+                                    }
                                 }}"
                                 on:keypress="{() => {}}"
                                 class="cursor-pointer
                                      bg-rose-600 text-white absolute mx-auto
                                        px-4 h-fit w-fit py-1 rounded shadow justify-center"
-                                >Follow</span
+                                >Abonner</span
                             >
                         </div>
                     </div>

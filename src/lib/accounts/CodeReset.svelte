@@ -3,17 +3,23 @@
     import { push, location } from 'svelte-spa-router';
     import { baseurl } from '../functions';
     import Wapper from '../Wapper.svelte';
-    import { username } from '../../stores/accounts/auth';
-    import { onMount } from 'svelte';
+    import { msg, username } from '../../stores/accounts/auth';
+    import { onMount, setContext } from 'svelte';
+    import Alert from '../ui/Alert.svelte';
     onMount(() => {
         if ($username === '' && $location.includes('/reset/code'))
             push('/reset');
     });
-    let code;
+    let code,
+        sent = false,
+        error = false;
     const show_error = (msg) => {
         let error = document.querySelector('#error');
         error.innerHTML = msg;
         error.classList.remove('hidden');
+        setTimeout(() => {
+            error.classList.add('hidden');
+        }, 2500);
     };
     const reset_password = async () => {
         await axios
@@ -26,7 +32,17 @@
             });
     };
     const resendCode = () => {
-        axios(`${baseurl}/accounts/reset_password/resend/${$username}/`);
+        axios(`${baseurl}/accounts/reset_password/resend/${$username}/`)
+            .then(() => {
+                sent = true;
+            })
+            .catch(() => {
+                error = true;
+            });
+        setTimeout(() => {
+            sent = false;
+            error = false;
+        }, 2000);
     };
 
     $: {
@@ -41,6 +57,16 @@
 
 <Wapper>
     <div class="border sm:mx-2 mx-1 rounded shadow mt-36 mb-2">
+        {#if sent}
+            <div class="mt-2 -mb-4">
+                <Alert error="{false}" text="new code has been sent" />
+            </div>
+        {/if}
+        {#if error}
+            <div class="mt-2 -mb-4">
+                <Alert error="{error}" text="{$msg}" />
+            </div>
+        {/if}
         <div class="flex text-center items-center justify-between flex-col">
             <span
                 class="w-[5rem] h-[5rem] border-2 bg-rose-600/25 dark:bg-white/50 mt-4 rounded-full text-center"
@@ -100,7 +126,10 @@
                     placeholder="#######"
                     required
                 />
-                <p class="text-red-500 text-xs italic hidden" id="error"></p>
+                <p
+                    class="text-red-500 pt-1 text-sm italic hidden"
+                    id="error"
+                ></p>
             </div>
             <div class="flex items-center justify-between flex-col">
                 <div

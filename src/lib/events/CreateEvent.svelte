@@ -18,6 +18,9 @@
         let error = document.querySelector('#error');
         error.innerHTML = msg;
         error.classList.remove('hidden');
+        setTimeout(() => {
+            error.classList.add('hidden');
+        }, 2500);
     };
     let user = {
         id: '',
@@ -29,6 +32,8 @@
     let content = '',
         action_date;
     onMount(() => {
+        document.title = `${params.id ? 'Mise à jour' : 'Créer'} évènement`;
+
         if (
             $usershortinfo.ftype === 'profile' &&
             userinfo['num_total_pages'] === 0
@@ -51,7 +56,17 @@
             show_error('this field most be selected !');
             return;
         }
+        // if(action_date<=)
+        if (moment(Date.now()).format('YYYY-MM-DDThh:mm') > action_date) {
+            let error = document.querySelector('#error_date');
+            error.innerHTML = 'invalid date';
+            error.classList.remove('hidden');
+            setTimeout(() => {
+                error.classList.add('hidden');
+            }, 2500);
 
+            return;
+        }
         let data = {
             user: $usershortinfo.id === user.id ? '' : user.id,
             content,
@@ -64,6 +79,16 @@
         });
     };
     const updateEvent = () => {
+        if (moment(Date.now()).format('YYYY-MM-DDThh:mm') > action_date) {
+            let error = document.querySelector('#error_date');
+            error.innerHTML = 'invalid date';
+            error.classList.remove('hidden');
+            setTimeout(() => {
+                error.classList.add('hidden');
+            }, 2500);
+
+            return;
+        }
         let data = {
             user: $usershortinfo.id === user.id ? '' : user.id,
             content,
@@ -82,11 +107,11 @@
                 push('/');
             });
     };
-    document.title = 'Créer un évènement';
+
     export let params = {};
 </script>
 
-<BackSection name="Créer un évènement" />
+<BackSection name="{params.id ? 'Mise à jour' : 'Créer'} évènement" />
 <Wapper>
     <div class="border rounded shadow">
         <div class=" mx-auto mt-4 flex-auto w-full">
@@ -105,13 +130,13 @@
                             class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                             for="content"
                         >
-                            Content
+                            Contenu
                         </label>
                         <textarea
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight outline-none
                             focus:outline-none border-rose-600 focus:border-rose-600"
                             id="content"
-                            placeholder="Write what your event about ..."
+                            placeholder="Écrivez sur quoi porte votre événement..."
                             autocomplete="content"
                             bind:value="{content}"
                             required></textarea>
@@ -121,23 +146,27 @@
                             class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                             for="content"
                         >
-                            Date
+                            Date de l'évènement
                         </label>
                         <input
                             type="datetime-local"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight outline-none
                             focus:outline-none border-rose-600 focus:border-rose-600"
                             id="content"
-                            placeholder="Write what your event about ..."
+                            placeholder="Date de l'évènement"
                             autocomplete="content"
                             bind:value="{action_date}"
                             required
                         />
+                        <p
+                            class="text-red-500 pt-3 text-sm italic hidden mb-2 -mt-2"
+                            id="error_date"
+                        ></p>
                     </div>
                     {#if $usershortinfo.ftype === 'profile'}
                         <AddByOwner bind:user="{user}" add_user="{false}" />
                         <p
-                            class="text-red-500 text-xs italic hidden mb-2 -mt-2"
+                            class="text-red-500 pt-1 text-sm italic hidden mb-2 -mt-2"
                             id="error"
                         ></p>
                     {/if}
@@ -145,7 +174,9 @@
                     <div class="bg-rose-600 object-cover rounded-lg mb-6">
                         <input
                             type="submit"
-                            value="Créer"
+                            value="{params.id
+                                ? 'Mise à jour'
+                                : 'Créer'} évènement"
                             class="text-white w-full px-2 h-10 rounded shadow bg-rose-600 dark:border-rose-600
      outline-none focus:outline-none cursor-pointer"
                         />

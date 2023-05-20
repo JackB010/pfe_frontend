@@ -54,21 +54,21 @@
         </div>
     {/if}
 {:else}
-    <div class="text-rose-600 dark:text-white font-semibold text-lg mb-2 ">
+    <div class="text-rose-600 dark:text-white font-semibold text-lg mb-2">
         {moment(event.action_date).format('DD MMMM YYYY')}
     </div>
 {/if}
 {#if !is_delete}
     <div
         in:fly="{{ y: 50, duration: (i % 10) * 200 }}"
-        class=" w-full  rounded-md border-black/5 border shadow-sm  
+        class=" w-full rounded-md border-black/5 border shadow-sm
         
             {!event.done
             ? 'dark:bg-green-500 bg-green-100'
-            : ' bg-red-100 dark:bg-red-500'} my-1 "
+            : ' bg-red-100 dark:bg-red-500'} my-1"
     >
-        <div class="flex flex-1 items-center pl-3 pr-1 py-2 w-full ">
-            <div class="self-start  -ml-2">
+        <div class="flex flex-1 items-center pl-3 pr-1 py-2 w-full">
+            <div class="self-start -ml-2">
                 <a href="{`/${ftype}/${username}`}" use:link>
                     <div class="text-center flex flex-col items-center">
                         <div
@@ -81,10 +81,10 @@
                 </a>
             </div>
 
-            <div class="self-start sm:flex-[0.3]   flex-1">
+            <div class="self-start sm:flex-[0.3] flex-1">
                 <div class="flex flex-col items-start justify-between">
                     <span
-                        class="text-lg  cursor-pointer font-semibold text-gray-900 dark:text-white -mt-1"
+                        class="text-lg cursor-pointer font-semibold text-gray-900 dark:text-white -mt-1"
                     >
                         <a href="{`/${ftype}/${username}`}" use:link>
                             {username}</a
@@ -93,7 +93,7 @@
                                 >{#if changed} to {:else} by{/if}
                             </span>
                             <span
-                                class="text-rose-500 dark:text-rose-600 cursor-pointer w-fit  -ml-1 text-[0.93rem]"
+                                class="text-rose-500 dark:text-rose-600 cursor-pointer w-fit -ml-1 text-[0.93rem]"
                                 on:click="{infoChange}"
                                 on:keypress="{() => {}}"
                             >
@@ -105,18 +105,17 @@
                     >
 
                     <div>
-                        <small
-                            class="text-xs text-gray-700  dark:text-slate-200 "
+                        <small class="text-xs text-gray-700 dark:text-slate-200"
                             >{moment(event.created_at).fromNow()}</small
                         >
                     </div>
                 </div>
             </div>
             <div
-                class="flex-1 hidden sm:flex shadow-sm dark:shadow-lg p-2 rounded-lg border border-black/5  py-1  pl-2 mr-4"
+                class="flex-1 hidden sm:flex shadow-sm dark:shadow-lg p-2 rounded-lg border border-black/5 py-1 pl-2 mr-4"
             >
                 <div
-                    class=" border-[2px] my-1 text-xs sm:text-base border-rose-600  mr-2 w-0 rounded-xl"
+                    class=" border-[2px] my-1 text-xs sm:text-base border-rose-600 mr-2 w-0 rounded-xl"
                 ></div>
                 <div class="p-1 dark:text-white">
                     {event.content}
@@ -124,13 +123,13 @@
             </div>
 
             <div
-                class="self-start  py-1 px-2 mr-1 shadow-lg bg-rose-600 rounded-lg"
+                class="self-start py-1 px-2 mr-1 shadow-lg bg-rose-600 rounded-lg"
             >
                 <div
-                    class="float-right flex flex-col justify-center items-center "
+                    class="float-right flex flex-col justify-center items-center"
                 >
                     <div
-                        class="font-semibold text-gray-300 text-sm sm:text-base "
+                        class="font-semibold text-gray-300 text-sm sm:text-base"
                     >
                         {moment(event.action_date).format('DD MMM')}
                     </div>
@@ -143,7 +142,7 @@
             </div>
             {#if $usershortinfo['username'] === event.page.username || $usershortinfo['username'] === event.by_owner['username']}
                 <div
-                    class=" self-start  cursor-pointer"
+                    class=" self-start cursor-pointer"
                     on:click="{() => (isActive = !isActive)}"
                     on:keypress="{() => {}}"
                 >
@@ -166,7 +165,7 @@
                         }}"
                     >
                         <div
-                            class=" absolute top-6 right-2 z-50 w-56 py-1 mb-4 h-fit rounded-md shadow-lg min-w-max  ring-1 ring-black ring-opacity-25 dark:bg-dark  focus:outline-none bg-white dark:bg-slate-900 dark:text-white"
+                            class=" absolute top-6 right-2 z-50 w-56 py-1 mb-4 h-fit rounded-md shadow-lg min-w-max ring-1 ring-black ring-opacity-25 dark:bg-dark focus:outline-none bg-white dark:bg-slate-900 dark:text-white"
                         >
                             <span
                                 on:click="{() => {
@@ -174,7 +173,7 @@
                                     push(`/event/${event['id']}/edit`);
                                 }}"
                                 on:keypress="{() => {}}"
-                                class="flex px-4 py-2 text-sm  transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 space-x-2 cursor-pointer"
+                                class="flex px-4 py-2 text-sm transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 space-x-2 cursor-pointer"
                             >
                                 <div>
                                     <svg
@@ -182,7 +181,7 @@
                                         width="16"
                                         height="16"
                                         fill="currentColor"
-                                        class="bi bi-pencil-square "
+                                        class="bi bi-pencil-square"
                                         viewBox="0 0 16 16"
                                     >
                                         <path
@@ -194,7 +193,7 @@
                                         ></path>
                                     </svg>
                                 </div>
-                                <span>Edit</span>
+                                <span>Modifier</span>
                             </span>
 
                             <span
@@ -205,12 +204,12 @@
                                 on:keypress="{() => {}}"
                             >
                                 <span
-                                    class="flex px-4 py-2 text-sm  transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 space-x-2 cursor-pointer"
+                                    class="flex px-4 py-2 text-sm transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-rose-600 space-x-2 cursor-pointer"
                                 >
                                     <span
                                         ><svg
                                             xmlns="http://www.w3.org/2000/svg"
-                                            class="h-5 w-5 "
+                                            class="h-5 w-5"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -223,7 +222,7 @@
                                             ></path>
                                         </svg></span
                                     >
-                                    <span>Delete</span>
+                                    <span>Supprimer</span>
                                 </span>
                             </span>
                         </div>
@@ -232,10 +231,10 @@
             {/if}
         </div>
         <div
-            class="flex-1 mb-2 flex sm:hidden shadow-sm dark:shadow-lg p-2 rounded-lg border border-black/5  py-1  pl-2 mr-4"
+            class="flex-1 mb-2 flex sm:hidden shadow-sm dark:shadow-lg p-2 rounded-lg border border-black/5 py-1 pl-2 mr-4"
         >
             <div
-                class=" border-[2px] my-1 text-xs sm:text-base border-rose-600  mr-2 w-0 rounded-xl"
+                class=" border-[2px] my-1 text-xs sm:text-base border-rose-600 mr-2 w-0 rounded-xl"
             ></div>
             <div class="p-1 dark:text-white">
                 {event.content}
@@ -246,15 +245,15 @@
     <div class="h-[10rem] flex flex-row items-center">
         <div
             in:fly="{{ y: 100, duration: 1000 }}"
-            class="bg-white w-8/12  z-50 items-center flex flex-col space-y-4 pb-4 pt-2 rounded-2xl absolute  translate-x-1/4 "
+            class="bg-white w-8/12 z-50 items-center flex flex-col space-y-4 pb-4 pt-2 rounded-2xl absolute translate-x-1/4"
         >
             <div class="text-rose-600 font-bold">
                 Do you want to delet your account?
             </div>
 
-            <div class="flex flex-1 w-full justify-center items-center ">
+            <div class="flex flex-1 w-full justify-center items-center">
                 <div
-                    class="text-center flex-1  "
+                    class="text-center flex-1"
                     on:click="{() => {
                         is_active = false;
                         deleteevent();
@@ -268,14 +267,14 @@
                 </div>
 
                 <div
-                    class="text-center flex-1 "
+                    class="text-center flex-1"
                     on:click="{() => {
                         is_delete = !is_delete;
                     }}"
                     on:keypress="{() => {}}"
                 >
                     <span
-                        class=" bg-[#FF0000] text-white  rounded-lg cursor-pointer shadow-lg w-24 py-2 px-5"
+                        class=" bg-[#FF0000] text-white rounded-lg cursor-pointer shadow-lg w-24 py-2 px-5"
                         >Cansole</span
                     >
                 </div>
