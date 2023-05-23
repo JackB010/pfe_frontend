@@ -31,13 +31,12 @@
                 if (!$isLoggin) msg.set('Profil créé avec succès');
                 username.set('');
                 if (!$isLoggin)
-                    msg.set('votre compte a été confirmé avec succès.');
+                    msg.set('Votre compte a été confirmé avec succès.');
 
                 push(`/`);
             })
             .catch((err) => {
-                show_error('unmatched code !');
-                console.log(err);
+                show_error('Code inégalé !');
             });
     };
     const resendCode = () => {

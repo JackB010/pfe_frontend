@@ -1,8 +1,7 @@
 <script>
-    import Text from '../ui/Text.svelte';
     import axios from 'axios';
-    import { push, link } from 'svelte-spa-router';
-    import { baseurl, dynamicSort } from '../functions';
+    import { push } from 'svelte-spa-router';
+    import { baseurl } from '../functions';
     import Wapper from '../Wapper.svelte';
     import { username } from '../../stores/accounts/auth';
     let username_ = '',
@@ -53,7 +52,9 @@
     const signupFunc = async () => {
         if (password === password1) {
             if (password.length < 8) {
-                show_error('Password most have at least 8 caracters.');
+                show_error(
+                    'La plupart des mots de passe comportent au moins 8 caractères.'
+                );
                 return;
             }
 
@@ -79,7 +80,7 @@
                         show_error(err.response['data']['non_field_errors'][0]);
                 });
         } else {
-            show_error('Passwords not matching.');
+            show_error('Les mots de passe ne correspondent pas.');
         }
     };
     document.title = "S'inscrire en tant que page";

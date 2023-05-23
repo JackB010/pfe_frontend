@@ -247,7 +247,7 @@
                         >
                         <span class="ml-auto">
                             <svg
-                                class="w-4 h-4 inline transition-transform transform {isActive
+                                class="w-4 h-4 cursor-pointer inline transition-transform transform {isActive
                                     ? ''
                                     : 'rotate-180'}"
                                 xmlns="http://www.w3.org/2000/svg"

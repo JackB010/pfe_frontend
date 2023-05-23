@@ -1,5 +1,5 @@
 <script>
-    // import 'emoji-picker-element';
+    import 'emoji-picker-element';
     import Image from '../posts/Image.svelte';
     import { images_chat } from '../../stores/chats/chat';
     import { isLoggin } from '../../stores/accounts/auth';

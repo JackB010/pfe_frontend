@@ -138,6 +138,13 @@
 {#if is_loaded}
     <Wapper>
         <div class="mb-2 border rounded pt-3">
+            <div
+                class="flex items-center text-center h-10 mb-3 dark:bg-gray-600 bg-gray-300 w-[98%] rounded shadow border mx-auto"
+            >
+                <div class="ml-2 flex-1 text-center sm:text-lg text-base">
+                    Informations publiques
+                </div>
+            </div>
             {#if updated}
                 <Alert error="{error}" />
             {/if}
@@ -161,7 +168,7 @@
                             accept="image/png, image/jpeg"
                         />
                         <svg
-                            class="w-8 h-8 absolute -top-[2.2rem] rounded-full cursor-pointer bg-white left-[5.8rem] text-rose-600"
+                            class="w-8 h-8 absolute -top-[2.2rem] ring-2 ring-rose-600 shadow rounded-full cursor-pointer bg-white left-[5.8rem] text-rose-600"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"

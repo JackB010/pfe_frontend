@@ -5,6 +5,11 @@
     import { usershortinfo } from '../../stores/accounts/auth';
     import BackSection from '../ui/BackSection.svelte';
     import PageSettings from '../pages/PageSettings.svelte';
+
+    $: {
+        if ($usershortinfo['username'])
+            document.title = `Paramètres: ${$usershortinfo['username']}`;
+    }
 </script>
 
 <!-- <Wapper> -->

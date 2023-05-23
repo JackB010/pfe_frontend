@@ -264,7 +264,7 @@
                         {#if $isLoggin}
                             <span class="ml-auto">
                                 <svg
-                                    class="w-4 h-4 text-rose-600 inline transition-transform transform {isActive
+                                    class="w-4 h-4 cursor-pointer text-rose-600 inline transition-transform transform {isActive
                                         ? ''
                                         : 'rotate-180'}"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -327,28 +327,30 @@
                                             <div class="flex-1">
                                                 <UserFollow user="{user}" />
                                             </div>
-                                            <div
-                                                class="cursor-pointer"
-                                                on:click="{() => {
-                                                    makeOwner(user, true);
-                                                }}"
-                                                on:keypress="{() => {}}"
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    class="h-6 w-6 rotate-45 bg-red-600 text-white rounded-full mx-1"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
+                                            {#if is_owner}
+                                                <div
+                                                    class="cursor-pointer"
+                                                    on:click="{() => {
+                                                        makeOwner(user, true);
+                                                    }}"
+                                                    on:keypress="{() => {}}"
                                                 >
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2.5"
-                                                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                                                    ></path>
-                                                </svg>
-                                            </div>
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        class="h-6 w-6 rotate-45 bg-red-600 text-white rounded-full mx-1"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        stroke="currentColor"
+                                                    >
+                                                        <path
+                                                            stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            stroke-width="2.5"
+                                                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                                        ></path>
+                                                    </svg>
+                                                </div>
+                                            {/if}
                                         </div>
                                     {/each}
                                 {/if}
@@ -512,7 +514,7 @@
             {:else if done}
                 <span
                     class="w-full text-center text-gray-700 dark:text-gray-300 py-4 text-lg"
-                    >No user found !!</span
+                    >Aucun utilisateur trouvé</span
                 >
             {/if}
         </span>

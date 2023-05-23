@@ -11,7 +11,7 @@
     let sending = false;
     const resetPassword = async () => {
         sending = true;
-        msg.set('The code being send');
+        msg.set('Le code étant envoyé.');
         await axios
             .post(`${baseurl}/accounts/reset_password/`, { username_email })
             .then((res) => {
@@ -28,7 +28,7 @@
                 sending = false;
                 setTimeout(() => {
                     error = true;
-                    msg.set('Code could not be sent');
+                    msg.set("Le code n'a pas pu être envoyé.");
                 }, 1000);
             });
     };

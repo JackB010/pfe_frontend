@@ -28,7 +28,7 @@
                 push(`/reset/change/${res.data.rid}`);
             })
             .catch((err) => {
-                show_error('unmatched code !');
+                show_error('Code inégalé !');
             });
     };
     const resendCode = () => {

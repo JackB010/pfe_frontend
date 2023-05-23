@@ -77,14 +77,22 @@
 
 <Wapper>
     <div class="mb-2 border rounded pt-3">
+        <div
+            class="flex items-center h-10 mb-3 dark:bg-gray-600 bg-gray-300 w-[98%] rounded shadow border mx-auto"
+        >
+            <div class="ml-2 flex-1 text-center sm:text-lg text-base">
+                Paramètres généraux
+            </div>
+        </div>
         {#if updated}
             <Alert error="{error}" />
         {/if}
+
         <div class="mx-2">
             <div>
                 <div class="mb-4 flex w-full">
                     <div class="flex w-full flex-col">
-                        <label for="birth_day"> jour de naissance </label>
+                        <label for="birth_day"> Date de naissance </label>
                         <input
                             name="birth_day"
                             type="date"
@@ -98,7 +106,7 @@
                     <div class="mb-4 flex w-full">
                         <div class="flex w-full flex-col">
                             <label for="show_birth_day">
-                                montrer l'anniversaire à
+                                Montrer l'anniversaire à
                             </label>
                             <select
                                 bind:value="{data.show_birth_day}"
@@ -123,7 +131,7 @@
                     <div class="mb-4 flex w-full">
                         <div class="flex w-full flex-col">
                             <label for="show_full_name">
-                                montrer le nom complet à
+                                Montrer le nom complet à
                             </label>
                             <select
                                 name="show_full_name"
@@ -148,7 +156,7 @@
                     <div class="mb-4 flex w-full">
                         <div class="flex w-full flex-col">
                             <label for="show_pages_owned">
-                                afficher les pages appartenant à
+                                Afficher les pages synchronisées à
                             </label>
                             <select
                                 name="show_pages_owned"
@@ -172,7 +180,7 @@
                 <div>
                     <div class="mb-4 flex w-full">
                         <div class="flex w-full flex-col">
-                            <label for="show_gender"> montrer le sexe à </label>
+                            <label for="show_gender"> Montrer le sexe à </label>
                             <select
                                 name="show_gender"
                                 bind:value="{data.show_gender}"
@@ -195,7 +203,7 @@
                 <div>
                     <div class="mb-4 flex w-full">
                         <div class="flex w-full flex-col">
-                            <label for="gender"> genre </label>
+                            <label for="gender"> Genre </label>
                             <select
                                 name="gender"
                                 bind:value="{data.gender}"
@@ -218,30 +226,34 @@
                 <div>
                     <div class="mb-4 flex w-full">
                         <span>
-                            <span class="text-lg">Thème</span>
-                            <div class="flex w-full flex-col ml-6">
-                                <label>
-                                    <input
-                                        type="radio"
-                                        bind:group="{data.theme}"
-                                        name="themes"
-                                        value="dark"
-                                        class="outline-none cursor-pointer focus:ring-0 active:ring-0 focus:outline-none
+                            <div class="flex w-full space-x-4">
+                                <div class="text-lg">Thème</div>
+                                <div
+                                    class="flex w-full space-x-6 justify-around flex-row items-center"
+                                >
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            bind:group="{data.theme}"
+                                            name="themes"
+                                            value="dark"
+                                            class="outline-none cursor-pointer focus:ring-0 active:ring-0 focus:outline-none
                                    focus:border-none w-5 h-5 rounded-full text-rose-600"
-                                    />
-                                    Dark
-                                </label>
-                                <label>
-                                    <input
-                                        type="radio"
-                                        bind:group="{data.theme}"
-                                        name="themes"
-                                        value="light"
-                                        class="outline-none cursor-pointer focus:ring-0 active:ring-0 focus:outline-none
+                                        />
+                                        Dark
+                                    </label>
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            bind:group="{data.theme}"
+                                            name="themes"
+                                            value="light"
+                                            class="outline-none cursor-pointer focus:ring-0 active:ring-0 focus:outline-none
                                    focus:border-none w-5 h-5 rounded-full text-rose-600"
-                                    />
-                                    Light
-                                </label>
+                                        />
+                                        Light
+                                    </label>
+                                </div>
                             </div>
                         </span>
                     </div>

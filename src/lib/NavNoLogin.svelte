@@ -391,7 +391,7 @@
                                 {:else if search !== ''}
                                     <span
                                         class="w-full text-center text-gray-700 dark:text-gray-300 py-4 text-lg"
-                                        >No user found !!</span
+                                        >Aucun utilisateur trouvé</span
                                     >{/if}
                             </div>
                         {/if}

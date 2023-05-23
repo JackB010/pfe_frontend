@@ -80,6 +80,13 @@
 
 <Wapper>
     <div class="mb-2 border rounded pt-3">
+        <div
+            class="flex items-center h-10 mb-3 dark:bg-gray-600 bg-gray-300 w-[98%] rounded shadow border mx-auto"
+        >
+            <div class="ml-2 flex-1 text-center sm:text-lg text-base">
+                Paramètres personnels
+            </div>
+        </div>
         {#if updated}
             <Alert error="{error}" />
         {/if}
@@ -136,7 +143,7 @@
                             class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                             for="email"
                         >
-                            email
+                            Email
                         </label>
                         <input
                             class="shadow appearance-none border pl-4 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-rose-600 focus:border-rose-600"
@@ -247,7 +254,7 @@
                             on:keypress="{() => {}}"
                         >
                             <span
-                                class=" bg-green-600 text-white rounded-lg cursor-pointer shadow-lg w-24 py-2 px-5"
+                                class="bg-gray-700 pointer-events-auto text-white rounded cursor-pointer shadow-lg w-24 py-2 px-5"
                                 >Conforme</span
                             >
                         </div>
@@ -260,7 +267,7 @@
                             on:keypress="{() => {}}"
                         >
                             <span
-                                class=" bg-[#FF0000] text-white rounded-lg cursor-pointer shadow-lg w-24 py-2 px-5"
+                                class=" bg-[#FF0000] pointer-events-auto text-white rounded cursor-pointer shadow-lg w-24 py-2 px-5"
                                 >Annuler</span
                             >
                         </div>
@@ -270,3 +277,11 @@
         {/if}
     </div>
 </Wapper>
+{#if is_delete}
+    <style>
+        body {
+            overflow: hidden;
+            pointer-events: none;
+        }
+    </style>
+{/if}

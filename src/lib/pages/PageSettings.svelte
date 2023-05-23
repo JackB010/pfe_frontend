@@ -52,10 +52,17 @@
 
 <Wapper>
     <div class="mb-2 border rounded pt-3">
+        <div
+            class="flex items-center h-10 mb-3 dark:bg-gray-600 bg-gray-300 w-[98%] rounded shadow border mx-auto"
+        >
+            <div class="ml-2 flex-1 text-center sm:text-lg text-base">
+                Paramètres généraux
+            </div>
+        </div>
         {#if updated}
             <Alert error="{error}" />
         {/if}
-        <div class="mx-2">
+        <div class="mx-2 mt-4">
             <div>
                 <div>
                     <div class="mb-4 flex w-full">
@@ -70,9 +77,18 @@
                             />
 
                             <label
-                                class=" text-gray-700 text-sm font-bold ml-4 dark:text-white"
+                                class=" text-gray-700 w-full rounded border mt-3 py-1 px-3 font-bold ml-4 dark:text-white"
                                 for="show_owners"
-                                ><span>show owners</span>
+                            >
+                                <div class="text-sm sm:text-md">
+                                    Afficher les profils synchronisés
+                                </div>
+                                <div
+                                    class="text-xs dark:text-gray-300 text-gray-700"
+                                >
+                                    Cette option inclut les profils déjà
+                                    synchronisés
+                                </div>
                             </label>
                         </div>
                     </div>
@@ -91,9 +107,18 @@
                             />
 
                             <label
-                                class=" text-gray-700 text-sm font-bold ml-4 dark:text-white"
-                                for="hide_content"
-                                ><span>hide content</span>
+                                class=" text-gray-700 w-full rounded border mt-3 py-1 px-3 font-bold ml-4 dark:text-white"
+                                for="show_owners"
+                            >
+                                <div class="text-sm sm:text-md">
+                                    Masquer le contenu
+                                </div>
+                                <div
+                                    class="text-xs dark:text-gray-300 text-gray-700"
+                                >
+                                    Cette option vous permet de masquer le
+                                    contenu de votre page
+                                </div>
                             </label>
                         </div>
                     </div>
@@ -112,9 +137,18 @@
                             />
 
                             <label
-                                class=" text-gray-700 text-sm font-bold ml-4 dark:text-white"
-                                for="hide_content"
-                                ><span>limit followers</span>
+                                class=" text-gray-700 w-full rounded border mt-3 py-1 px-3 font-bold ml-4 dark:text-white"
+                                for="show_owners"
+                            >
+                                <div class="text-sm sm:text-md">
+                                    Limiter les abonnés
+                                </div>
+                                <div
+                                    class="text-xs dark:text-gray-300 text-gray-700"
+                                >
+                                    Cette option vous permet de limiter le
+                                    nombre d'abonnés sur votre page
+                                </div>
                             </label>
                         </div>
                     </div>
@@ -126,7 +160,7 @@
                                 <label
                                     class=" text-gray-700 text-sm font-bold dark:text-white"
                                     for="hide_content"
-                                    ><span>muber limit followers</span>
+                                    ><span>Nombre limite d'abonnés</span>
                                 </label>
                                 <input
                                     bind:value="{data.followers_limit_num}"
@@ -143,30 +177,34 @@
                 <div>
                     <div class="mb-4 flex w-full">
                         <span>
-                            <span class="text-lg">Thème</span>
-                            <div class="flex w-full flex-col ml-6">
-                                <label>
-                                    <input
-                                        type="radio"
-                                        bind:group="{data.theme}"
-                                        name="themes"
-                                        value="dark"
-                                        class="outline-none cursor-pointer focus:ring-0 active:ring-0 focus:outline-none
+                            <div class="flex w-full space-x-4">
+                                <div class="text-lg">Thème</div>
+                                <div
+                                    class="flex w-full space-x-6 justify-around flex-row items-center"
+                                >
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            bind:group="{data.theme}"
+                                            name="themes"
+                                            value="dark"
+                                            class="outline-none cursor-pointer focus:ring-0 active:ring-0 focus:outline-none
                                    focus:border-none w-5 h-5 rounded-full text-rose-600"
-                                    />
-                                    Dark
-                                </label>
-                                <label>
-                                    <input
-                                        type="radio"
-                                        bind:group="{data.theme}"
-                                        name="themes"
-                                        value="light"
-                                        class="outline-none cursor-pointer focus:ring-0 active:ring-0 focus:outline-none
+                                        />
+                                        Dark
+                                    </label>
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            bind:group="{data.theme}"
+                                            name="themes"
+                                            value="light"
+                                            class="outline-none cursor-pointer focus:ring-0 active:ring-0 focus:outline-none
                                    focus:border-none w-5 h-5 rounded-full text-rose-600"
-                                    />
-                                    Light
-                                </label>
+                                        />
+                                        Light
+                                    </label>
+                                </div>
                             </div>
                         </span>
                     </div>

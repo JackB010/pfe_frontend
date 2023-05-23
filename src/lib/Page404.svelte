@@ -62,7 +62,7 @@
                 cx="649.24878"
                 cy="51"
                 r="51"
-                class="fill-current "></circle><path
+                class="fill-current"></circle><path
                 d="M911.21851,176.29639c-24.7168-3.34094-52.93512,10.01868-59.34131,34.12353a21.59653,21.59653,0,0,0-41.09351,2.10871l2.82972,2.02667a372.27461,372.27461,0,0,0,160.65881-.72638C957.07935,195.76,935.93537,179.63727,911.21851,176.29639Z"
                 transform="translate(-169.93432 -164.42601)"
                 class="fill-[#f0f0f0] dark:fill-gray-500"></path><path
@@ -157,7 +157,7 @@
             <p
                 class="md:text-md text-xs lg:text-xl text-gray-600 dark:text-white mt-8"
             >
-                Sorry, the page you are looking for could not be found.
+                Désolé, la page que vous recherchez est introuvable.
             </p>
             <a
                 href="/"
@@ -177,7 +177,7 @@
                         clip-rule="evenodd"></path>
                 </svg>
                 <span
-                    >Return {#if !isLoggin}Home{:else}Login{/if}</span
+                    >Retour {#if !isLoggin}Accueil{:else}Se connecter{/if}</span
                 >
             </a>
         </div>
